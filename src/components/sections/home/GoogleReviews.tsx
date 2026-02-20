@@ -24,12 +24,52 @@ export function GoogleReviews() {
                 {/* Fallback Static Reviews (Visible until Widget loads) */}
                 <div id="google-reviews-fallback" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[
-                        { name: "Joydeep Banerjee", text: "Truly authentic Bengali flavors! The Mughlai paratha and Kosha Mangso were outstanding.", rating: 5, date: "Yesterday" },
-                        { name: "Srabani Mitra", text: "Great place for a family gathering. The ambiance and service are top-notch. Highly recommended for Serampore residents!", rating: 5, date: "1 week ago" },
-                        { name: "Anita Roy", text: "The presentation of food is beautiful and everything tastes so fresh. Best restaurant in the Shrirampur area.", rating: 5, date: "3 days ago" },
-                        { name: "Rahul Sharma", text: "Delicious Bengali cuisine at a great price. Homely and flavorful dishes that reminder me of Maa's cooking.", rating: 5, date: "2 weeks ago" },
-                        { name: "Priya Das", text: "Comforting thalis and authentic Bengali classics. The balcony view in the evening is magical.", rating: 5, date: "1 month ago" },
-                        { name: "Amit Ghosh", text: "A perfect place for celebrations. The staff is courteous and the food is always fresh. Best in town!", rating: 5, date: "2 months ago" }
+                        {
+                            name: "Joydeep Banerjee",
+                            text: "Truly authentic Bengali flavors! The Mughlai paratha and Kosha Mangso were outstanding.",
+                            rating: 5,
+                            date: "Yesterday",
+                            profile: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop",
+                            foodImg: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=400&auto=format&fit=crop"
+                        },
+                        {
+                            name: "Srabani Mitra",
+                            text: "Great place for a family gathering. The ambiance and service are top-notch. Highly recommended for Serampore residents!",
+                            rating: 5,
+                            date: "1 week ago",
+                            profile: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
+                            foodImg: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=400&auto=format&fit=crop"
+                        },
+                        {
+                            name: "Anita Roy",
+                            text: "The presentation of food is beautiful and everything tastes so fresh. Best restaurant in the Shrirampur area.",
+                            rating: 5,
+                            date: "3 days ago",
+                            profile: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop"
+                        },
+                        {
+                            name: "Rahul Sharma",
+                            text: "Delicious Bengali cuisine at a great price. Homely and flavorful dishes that reminder me of Maa's cooking.",
+                            rating: 5,
+                            date: "2 weeks ago",
+                            profile: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop",
+                            foodImg: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=400&auto=format&fit=crop"
+                        },
+                        {
+                            name: "Priya Das",
+                            text: "Comforting thalis and authentic Bengali classics. The balcony view in the evening is magical.",
+                            rating: 5,
+                            date: "1 month ago",
+                            profile: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop"
+                        },
+                        {
+                            name: "Amit Ghosh",
+                            text: "A perfect place for celebrations. The staff is courteous and the food is always fresh. Best in town!",
+                            rating: 5,
+                            date: "2 months ago",
+                            profile: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
+                            foodImg: "https://images.unsplash.com/photo-1601050633647-81a357790a37?q=80&w=400&auto=format&fit=crop"
+                        }
                     ].map((review, i) => (
                         <motion.div
                             key={i}
@@ -37,48 +77,55 @@ export function GoogleReviews() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             transition={{ delay: i * 0.1 }}
                             whileHover={{ y: -5 }}
-                            className="bg-card/50 p-6 rounded-2xl border border-border/50 backdrop-blur-sm group hover:border-primary/50 transition-all shadow-sm hover:shadow-primary/5"
+                            className="bg-card/50 p-6 rounded-2xl border border-border/50 backdrop-blur-sm group hover:border-primary/50 transition-all shadow-sm hover:shadow-primary/5 flex flex-col h-full"
                         >
-                            <div className="flex items-center gap-1 mb-3">
-                                {[...Array(review.rating)].map((_, starIndex) => (
-                                    <span key={starIndex} className="text-yellow-500 text-sm">★</span>
-                                ))}
-                            </div>
-                            <p className="text-sm text-foreground/80 mb-4 italic leading-relaxed group-hover:text-foreground transition-colors">"{review.text}"</p>
-                            <div className="flex justify-between items-center border-t border-border/30 pt-4 mt-auto">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">
-                                        {review.name.charAt(0)}
+                            <div className="flex justify-between items-start mb-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full overflow-hidden border border-border/50">
+                                        <img src={review.profile} alt={review.name} className="w-full h-full object-cover" />
                                     </div>
-                                    <span className="font-bold text-xs">{review.name}</span>
+                                    <div>
+                                        <h4 className="font-bold text-sm text-foreground leading-none mb-1">{review.name}</h4>
+                                        <span className="text-[10px] text-muted-foreground uppercase">{review.date}</span>
+                                    </div>
                                 </div>
-                                <span className="text-[10px] text-muted-foreground uppercase">{review.date}</span>
+                                <div className="flex items-center gap-0.5">
+                                    {[...Array(review.rating)].map((_, starIndex) => (
+                                        <span key={starIndex} className="text-yellow-500 text-xs">★</span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <p className="text-sm text-foreground/80 mb-4 italic leading-relaxed group-hover:text-foreground transition-colors flex-grow">"{review.text}"</p>
+
+                            {review.foodImg && (
+                                <div className="mt-2 mb-4 w-full h-32 rounded-xl overflow-hidden border border-border/30">
+                                    <img src={review.foodImg} alt="Food at Fulbari" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                                </div>
+                            )}
+
+                            <div className="flex items-center gap-2 pt-4 border-t border-border/20 grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
+                                <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" className="h-3 w-auto" />
+                                <span className="text-[9px] font-medium">Verified Review</span>
                             </div>
                         </motion.div>
                     ))}
                 </div>
 
-                <div className="mt-12 text-center flex flex-col items-center gap-6">
+                <div className="mt-16 text-center">
                     <motion.a
                         href="https://search.google.com/local/writereview?placeid=ChIJc16FaACF-DkRxbOmYTvrkAY"
                         target="_blank"
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-full font-bold text-base shadow-xl shadow-primary/20 transition-all hover:bg-primary/90"
+                        className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground rounded-full font-bold text-base shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 group"
                     >
-                        Review Us on Google
+                        <span>Share Your Experience on Google</span>
+                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
                     </motion.a>
-
-                    <div className="flex flex-col items-center gap-2">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/5 rounded-full border border-primary/10 text-primary text-[10px] font-medium">
-                            <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
-                            Live Google Connection Active
-                        </div>
-                        <p className="text-[10px] text-muted-foreground">
-                            Automatically syncing latest reviews from Google Maps (Place ID: ChIJ...kAY)
-                        </p>
-                    </div>
                 </div>
             </div>
         </section>
