@@ -22,7 +22,7 @@ const specialItems = [
         description: "Spicy and tangy chicken stir-fry with peppers.",
         price: "₹280",
         rating: 5,
-        image: "/dragon-chicken-recipe.jpg",
+        image: "/food/dragon-chicken-recipe.jpg",
     },
     {
         id: 3,
