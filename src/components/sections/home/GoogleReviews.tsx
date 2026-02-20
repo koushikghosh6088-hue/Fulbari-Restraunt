@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const REVIEWS_PER_PAGE = 6;
+const REVIEWS_PER_PAGE = 5;
 
 const CATEGORIES = ["All", "Food", "Service", "Atmosphere"];
 const SORT_OPTIONS = [
@@ -75,7 +75,7 @@ const ALL_REVIEWS = [
     {
         id: 7,
         name: "Sandeep Mukherjee",
-        text: "Best Biryani in Serampore! The meat was tender and the rice was perfectly fragrant.",
+        text: "Best Biryani in Serampore! The meat was tender and the rice was perfectly fragrant. The spices are just right.",
         rating: 5,
         date: new Date("2026-02-15"),
         dateLabel: "5 days ago",
@@ -85,8 +85,7 @@ const ALL_REVIEWS = [
     {
         id: 8,
         name: "Mousumi Halder",
-        parentReviewId: 7,
-        text: "The service here is exceptionally fast. We didn't have to wait even during the weekend rush.",
+        text: "The service here is exceptionally fast. We didn't have to wait even during the weekend rush. Staff is very humble.",
         rating: 4,
         date: new Date("2026-02-10"),
         dateLabel: "10 days ago",
@@ -95,7 +94,7 @@ const ALL_REVIEWS = [
     {
         id: 9,
         name: "Bikram Singh",
-        text: "Loved the vintage Bengali decor. It creates a very warm and welcoming vibe for dinner.",
+        text: "Loved the vintage Bengali decor. It creates a very warm and welcoming vibe for dinner. Will visit again with friends.",
         rating: 5,
         date: new Date("2026-01-25"),
         dateLabel: "3 weeks ago",
@@ -105,7 +104,7 @@ const ALL_REVIEWS = [
     {
         id: 10,
         name: "Debolina Chatterjee",
-        text: "Their Fish Kabiraji is a must-try. Crunchy on the outside and juicy inside. Perfect evening snack.",
+        text: "Their Fish Kabiraji is a must-try. Crunchy on the outside and juicy inside. Perfect evening snack with tea.",
         rating: 5,
         date: new Date("2026-02-18"),
         dateLabel: "2 days ago",
@@ -115,7 +114,7 @@ const ALL_REVIEWS = [
     {
         id: 11,
         name: "Arjun Gupta",
-        text: "Cleanest kitchen I've seen in the area. You can tell they care about hygiene as much as taste.",
+        text: "Cleanest kitchen I've seen in the area. You can tell they care about hygiene as much as taste. Professional staff.",
         rating: 5,
         date: new Date("2026-02-01"),
         dateLabel: "3 weeks ago",
@@ -124,16 +123,17 @@ const ALL_REVIEWS = [
     {
         id: 12,
         name: "Tania Sen",
-        text: "Great music and lighting. Not too loud, just perfect for a romantic dinner date.",
+        text: "Great music and lighting. Not too loud, just perfect for a romantic dinner date. Elegant and peaceful.",
         rating: 4,
         date: new Date("2026-01-10"),
         dateLabel: "1 month ago",
-        category: "Atmosphere"
+        category: "Atmosphere",
+        foodImg: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=400&auto=format&fit=crop"
     },
     {
         id: 13,
         name: "Rajesh Kar",
-        text: "The Luchi and Cholar Dal reminded me of my childhood sundays. Excellent quality ingredients used.",
+        text: "The Luchi and Cholar Dal reminded me of my childhood Sundays. Excellent quality ingredients used by the team.",
         rating: 5,
         date: new Date("2026-02-20"),
         dateLabel: "Today",
@@ -143,7 +143,7 @@ const ALL_REVIEWS = [
     {
         id: 14,
         name: "Megha Dutta",
-        text: "Staff suggested the specialties and they were spot on. Extremely polite and attentive service.",
+        text: "Staff suggested the specialties and they were spot on. Extremely polite and attentive service even during late hours.",
         rating: 5,
         date: new Date("2026-01-05"),
         dateLabel: "1.5 months ago",
@@ -152,7 +152,7 @@ const ALL_REVIEWS = [
     {
         id: 15,
         name: "Pratik Bose",
-        text: "The outdoor seating area is beautiful in winter. We had a great time with snacks and tea.",
+        text: "The outdoor seating area is beautiful in winter. We had a great time with snacks and tea. Very cozy place.",
         rating: 5,
         date: new Date("2025-12-15"),
         dateLabel: "2 months ago",
@@ -162,16 +162,17 @@ const ALL_REVIEWS = [
     {
         id: 16,
         name: "Sneha Mallick",
-        text: "The Misti Doi is the best I've had in a restaurant. Not too sweet, just the right creamy texture.",
+        text: "The Misti Doi is the best I've had in a restaurant. Not too sweet, just the right creamy texture. Must try!",
         rating: 5,
         date: new Date("2026-02-12"),
         dateLabel: "1 week ago",
-        category: "Food"
+        category: "Food",
+        foodImg: "https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=400&auto=format&fit=crop"
     },
     {
         id: 17,
         name: "Vikram Batra",
-        text: "Parking was easy and the entrance is wheelchair accessible. Very thoughtful design.",
+        text: "Parking was easy and the entrance is wheelchair accessible. Very thoughtful design for all types of guests.",
         rating: 4,
         date: new Date("2026-01-30"),
         dateLabel: "3 weeks ago",
@@ -180,7 +181,7 @@ const ALL_REVIEWS = [
     {
         id: 18,
         name: "Subham Paul",
-        text: "Best place in Serampore for a quick lunch thali. Very affordable and filling.",
+        text: "Best place in Serampore for a quick lunch thali. Very affordable and filling lunch options available.",
         rating: 5,
         date: new Date("2026-02-14"),
         dateLabel: "1 week ago",
@@ -193,6 +194,7 @@ export function GoogleReviews() {
     const [filter, setFilter] = useState("All");
     const [sortBy, setSortBy] = useState("newest");
     const [currentPage, setCurrentPage] = useState(1);
+    const sectionRef = useRef<HTMLElement>(null);
 
     const filteredAndSortedReviews = useMemo(() => {
         let result = [...ALL_REVIEWS];
@@ -224,8 +226,20 @@ export function GoogleReviews() {
         setCurrentPage(1);
     };
 
+    // Scroll to top of section when page changes
+    useEffect(() => {
+        if (currentPage > 1 || filter !== "All") {
+            const yOffset = -100; // Offset for navbar
+            const element = sectionRef.current;
+            if (element) {
+                const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+        }
+    }, [currentPage, filter]);
+
     return (
-        <section className="py-24 bg-background overflow-hidden">
+        <section ref={sectionRef} id="reviews" className="py-24 bg-background overflow-hidden scroll-mt-20">
             <div className="container mx-auto px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -248,8 +262,8 @@ export function GoogleReviews() {
                                 key={cat}
                                 onClick={() => handleFilterChange(cat)}
                                 className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${filter === cat
-                                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30 scale-105"
-                                        : "bg-background/50 text-muted-foreground hover:bg-background hover:text-foreground border border-border/50"
+                                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30 scale-105"
+                                    : "bg-background/50 text-muted-foreground hover:bg-background hover:text-foreground border border-border/50"
                                     }`}
                             >
                                 {cat}
@@ -272,7 +286,7 @@ export function GoogleReviews() {
                 </div>
 
                 {/* Reviews Grid */}
-                <div className="min-h-[800px]">
+                <div className="min-h-[600px]">
                     <motion.div
                         layout
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -367,8 +381,8 @@ export function GoogleReviews() {
                                     key={i}
                                     onClick={() => setCurrentPage(i + 1)}
                                     className={`w-12 h-12 rounded-full text-sm font-extrabold transition-all border ${currentPage === i + 1
-                                            ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/30 scale-110"
-                                            : "bg-background/50 text-muted-foreground border-border/50 hover:border-primary/50 hover:text-foreground"
+                                        ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/30 scale-110"
+                                        : "bg-background/50 text-muted-foreground border-border/50 hover:border-primary/50 hover:text-foreground"
                                         }`}
                                 >
                                     {i + 1}
