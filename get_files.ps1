@@ -1,0 +1,1 @@
+(Get-ChildItem -Path c:\Users\Koushik\Downloads | Where-Object { $_.LastWriteTime -gt (Get-Date).AddMinutes(-120) } | Select-Object -ExpandProperty Name) -join "`n" | Out-File "c:\Users\Koushik\Downloads\Fulbari Restraunt\recent_files_plain.txt" -Encoding utf8
