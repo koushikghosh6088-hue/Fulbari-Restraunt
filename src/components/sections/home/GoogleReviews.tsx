@@ -29,7 +29,6 @@ export function GoogleReviews() {
                             text: "Truly authentic Bengali flavors! The Mughlai paratha and Kosha Mangso were outstanding.",
                             rating: 5,
                             date: "Yesterday",
-                            profile: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop",
                             foodImg: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=400&auto=format&fit=crop"
                         },
                         {
@@ -37,7 +36,6 @@ export function GoogleReviews() {
                             text: "Great place for a family gathering. The ambiance and service are top-notch. Highly recommended for Serampore residents!",
                             rating: 5,
                             date: "1 week ago",
-                            profile: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
                             foodImg: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=400&auto=format&fit=crop"
                         },
                         {
@@ -45,30 +43,27 @@ export function GoogleReviews() {
                             text: "The presentation of food is beautiful and everything tastes so fresh. Best restaurant in the Shrirampur area.",
                             rating: 5,
                             date: "3 days ago",
-                            profile: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop"
+                            foodImg: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=400&auto=format&fit=crop"
                         },
                         {
                             name: "Rahul Sharma",
                             text: "Delicious Bengali cuisine at a great price. Homely and flavorful dishes that reminder me of Maa's cooking.",
                             rating: 5,
                             date: "2 weeks ago",
-                            profile: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop",
                             foodImg: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=400&auto=format&fit=crop"
                         },
                         {
                             name: "Priya Das",
                             text: "Comforting thalis and authentic Bengali classics. The balcony view in the evening is magical.",
                             rating: 5,
-                            date: "1 month ago",
-                            profile: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop"
+                            date: "1 month ago"
                         },
                         {
                             name: "Amit Ghosh",
                             text: "A perfect place for celebrations. The staff is courteous and the food is always fresh. Best in town!",
                             rating: 5,
                             date: "2 months ago",
-                            profile: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
-                            foodImg: "https://images.unsplash.com/photo-1601050633647-81a357790a37?q=80&w=400&auto=format&fit=crop"
+                            foodImg: "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=400&auto=format&fit=crop"
                         }
                     ].map((review, i) => (
                         <motion.div
@@ -81,8 +76,8 @@ export function GoogleReviews() {
                         >
                             <div className="flex justify-between items-start mb-4">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full overflow-hidden border border-border/50">
-                                        <img src={review.profile} alt={review.name} className="w-full h-full object-cover" />
+                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold border border-primary/20">
+                                        {review.name.charAt(0)}
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-sm text-foreground leading-none mb-1">{review.name}</h4>
@@ -99,8 +94,16 @@ export function GoogleReviews() {
                             <p className="text-sm text-foreground/80 mb-4 italic leading-relaxed group-hover:text-foreground transition-colors flex-grow">"{review.text}"</p>
 
                             {review.foodImg && (
-                                <div className="mt-2 mb-4 w-full h-32 rounded-xl overflow-hidden border border-border/30">
-                                    <img src={review.foodImg} alt="Food at Fulbari" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                                <div className="mt-2 mb-4 w-full h-40 rounded-xl overflow-hidden border border-border/30">
+                                    <img
+                                        src={review.foodImg}
+                                        alt={`Food review by ${review.name}`}
+                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                                        onError={(e) => {
+                                            const img = e.target as HTMLImageElement;
+                                            img.src = "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=400&auto=format&fit=crop";
+                                        }}
+                                    />
                                 </div>
                             )}
 
