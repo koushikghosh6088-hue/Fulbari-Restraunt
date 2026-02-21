@@ -46,11 +46,6 @@ export function Hero() {
                                     View Menu
                                 </Button>
                             </Link>
-                            <Link href="/reservation">
-                                <Button variant="outline" size="lg" className="min-w-[150px] text-sm backdrop-blur-sm bg-background/30 border-foreground/30 text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary">
-                                    Book a Table
-                                </Button>
-                            </Link>
                         </div>
                     </motion.div>
                 </div>
@@ -89,11 +84,6 @@ export function Hero() {
                         <Link href="/menu">
                             <Button size="lg" className="min-w-[130px] text-sm">
                                 View Menu
-                            </Button>
-                        </Link>
-                        <Link href="/reservation">
-                            <Button variant="outline" size="lg" className="min-w-[130px] text-sm backdrop-blur-sm bg-background/30 border-foreground/30 text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary">
-                                Book a Table
                             </Button>
                         </Link>
                     </div>

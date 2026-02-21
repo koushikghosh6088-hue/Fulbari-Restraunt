@@ -239,29 +239,29 @@ export function GoogleReviews() {
     }, [currentPage, filter]);
 
     return (
-        <section ref={sectionRef} id="reviews" className="py-24 bg-background overflow-hidden scroll-mt-20">
+        <section ref={sectionRef} id="reviews" className="py-12 md:py-16 bg-background overflow-hidden scroll-mt-20">
             <div className="container mx-auto px-4">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-16"
+                    className="text-center mb-10"
                 >
-                    <span className="text-primary font-heading italic text-lg mb-2 block tracking-wide">Customer Feedback</span>
-                    <h2 className="text-4xl md:text-6xl font-bold font-heading mb-6 tracking-tight">Voices of Fulbari</h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+                    <span className="text-primary font-heading italic text-base mb-2 block tracking-wide">Customer Feedback</span>
+                    <h2 className="text-3xl md:text-5xl font-bold font-heading mb-4 tracking-tight">Voices of Fulbari</h2>
+                    <p className="text-muted-foreground max-w-2xl mx-auto text-base">
                         Browse real experiences from our guests. Filter by food, service, or atmosphere to see what people are saying.
                     </p>
                 </motion.div>
 
                 {/* Filters & Sorting Toolbar */}
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12 bg-card/20 p-6 rounded-3xl border border-border/50 backdrop-blur-sm shadow-xl shadow-primary/5">
-                    <div className="flex flex-wrap items-center justify-center gap-3">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 bg-card/20 p-4 rounded-3xl border border-border/50 backdrop-blur-sm shadow-xl shadow-primary/5">
+                    <div className="flex flex-wrap items-center justify-center gap-2">
                         {CATEGORIES.map((cat) => (
                             <button
                                 key={cat}
                                 onClick={() => handleFilterChange(cat)}
-                                className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${filter === cat
+                                className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${filter === cat
                                     ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30 scale-105"
                                     : "bg-background/50 text-muted-foreground hover:bg-background hover:text-foreground border border-border/50"
                                     }`}
@@ -271,12 +271,12 @@ export function GoogleReviews() {
                         ))}
                     </div>
 
-                    <div className="flex items-center gap-4">
-                        <span className="text-sm font-bold text-muted-foreground whitespace-nowrap">Sort by:</span>
+                    <div className="flex items-center gap-3">
+                        <span className="text-xs font-bold text-muted-foreground whitespace-nowrap">Sort by:</span>
                         <select
                             value={sortBy}
                             onChange={(e) => setSortBy(e.target.value)}
-                            className="bg-background/50 text-foreground text-sm font-bold px-4 py-2.5 rounded-xl border border-border/50 focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer shadow-sm transition-all"
+                            className="bg-background/50 text-foreground text-xs font-bold px-3 py-2 rounded-xl border border-border/50 focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer shadow-sm transition-all"
                         >
                             {SORT_OPTIONS.map(opt => (
                                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -286,10 +286,10 @@ export function GoogleReviews() {
                 </div>
 
                 {/* Reviews Grid */}
-                <div className="min-h-[600px]">
+                <div className="min-h-[400px]">
                     <motion.div
                         layout
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                     >
                         <AnimatePresence mode="popLayout">
                             {paginatedReviews.map((review) => (
@@ -300,36 +300,36 @@ export function GoogleReviews() {
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.9 }}
                                     transition={{ duration: 0.4 }}
-                                    whileHover={{ y: -8 }}
-                                    className="bg-card/40 p-8 rounded-3xl border border-border/50 backdrop-blur-md group hover:border-primary/40 transition-all shadow-lg hover:shadow-2xl hover:shadow-primary/5 flex flex-col h-full relative overflow-hidden"
+                                    whileHover={{ y: -5 }}
+                                    className="bg-card/40 p-6 rounded-2xl border border-border/50 backdrop-blur-md group hover:border-primary/40 transition-all shadow-lg hover:shadow-2xl hover:shadow-primary/5 flex flex-col h-full relative overflow-hidden"
                                 >
-                                    <div className="flex justify-between items-start mb-6">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-extrabold border-2 border-primary/20 shadow-inner">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-sm font-extrabold border-2 border-primary/20">
                                                 {review.name.charAt(0)}
                                             </div>
                                             <div>
-                                                <h4 className="font-bold text-base text-foreground mb-1 leading-none">{review.name}</h4>
+                                                <h4 className="font-bold text-sm text-foreground mb-1 leading-none">{review.name}</h4>
                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-[11px] text-muted-foreground font-bold tracking-wider uppercase">{review.dateLabel}</span>
+                                                    <span className="text-[10px] text-muted-foreground font-bold tracking-wider uppercase">{review.dateLabel}</span>
                                                     <span className="w-1 h-1 rounded-full bg-border"></span>
-                                                    <span className="text-[10px] px-2 py-0.5 bg-primary/5 rounded-md text-primary font-bold uppercase tracking-tighter">{review.category}</span>
+                                                    <span className="text-[9px] px-1.5 py-0.5 bg-primary/5 rounded text-primary font-bold uppercase tracking-tighter">{review.category}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-0.5">
                                             {[...Array(review.rating)].map((_, starIndex) => (
-                                                <span key={starIndex} className="text-yellow-500 text-sm">★</span>
+                                                <span key={starIndex} className="text-yellow-500 text-xs">★</span>
                                             ))}
                                         </div>
                                     </div>
 
-                                    <p className="text-base text-foreground/90 mb-6 italic leading-relaxed group-hover:text-foreground transition-colors flex-grow">
+                                    <p className="text-sm text-foreground/90 mb-4 italic leading-relaxed group-hover:text-foreground transition-colors flex-grow">
                                         "{review.text}"
                                     </p>
 
                                     {review.foodImg && (
-                                        <div className="mt-2 mb-6 w-full h-48 rounded-2xl overflow-hidden border border-border/30 shadow-inner group-hover:border-primary/30 transition-colors">
+                                        <div className="mt-1 mb-4 w-full h-40 rounded-xl overflow-hidden border border-border/30 shadow-inner group-hover:border-primary/30 transition-colors">
                                             <img
                                                 src={review.foodImg}
                                                 alt={`Review by ${review.name}`}
@@ -342,12 +342,11 @@ export function GoogleReviews() {
                                         </div>
                                     )}
 
-                                    <div className="flex items-center gap-2 pt-6 border-t border-border/20 group-hover:border-primary/20 transition-colors grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-500">
-                                        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" className="h-4 w-auto" />
-                                        <span className="text-[10px] font-bold tracking-wider">VERIFIED LOCAL GUIDE REVIEW</span>
+                                    <div className="flex items-center gap-2 pt-4 border-t border-border/20 group-hover:border-primary/20 transition-colors grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-500">
+                                        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" className="h-3 w-auto" />
+                                        <span className="text-[9px] font-bold tracking-wider">VERIFIED REVIEW</span>
                                     </div>
 
-                                    {/* Glass reflection effect */}
                                     <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white/10 opacity-40 group-hover:animate-shine pointer-events-none" />
                                 </motion.div>
                             ))}
@@ -356,21 +355,21 @@ export function GoogleReviews() {
 
                     {/* No Results Fallback */}
                     {paginatedReviews.length === 0 && (
-                        <div className="text-center py-20 bg-card/20 rounded-3xl border border-dashed border-border/50">
-                            <p className="text-muted-foreground text-lg italic">No reviews found for this category.</p>
+                        <div className="text-center py-12 bg-card/20 rounded-2xl border border-dashed border-border/50">
+                            <p className="text-muted-foreground text-base italic">No reviews found for this category.</p>
                         </div>
                     )}
                 </div>
 
                 {/* Pagination Controls */}
                 {totalPages > 1 && (
-                    <div className="mt-16 flex items-center justify-center gap-4">
+                    <div className="mt-10 flex items-center justify-center gap-3">
                         <button
                             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                             disabled={currentPage === 1}
-                            className="w-12 h-12 rounded-full border border-border/50 flex items-center justify-center hover:bg-card hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+                            className="w-10 h-10 rounded-full border border-border/50 flex items-center justify-center hover:bg-card hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                         >
-                            <svg className="w-5 h-5 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-4 h-4 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
@@ -380,7 +379,7 @@ export function GoogleReviews() {
                                 <button
                                     key={i}
                                     onClick={() => setCurrentPage(i + 1)}
-                                    className={`w-12 h-12 rounded-full text-sm font-extrabold transition-all border ${currentPage === i + 1
+                                    className={`w-10 h-10 rounded-full text-xs font-extrabold transition-all border ${currentPage === i + 1
                                         ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/30 scale-110"
                                         : "bg-background/50 text-muted-foreground border-border/50 hover:border-primary/50 hover:text-foreground"
                                         }`}
@@ -393,9 +392,9 @@ export function GoogleReviews() {
                         <button
                             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                             disabled={currentPage === totalPages}
-                            className="w-12 h-12 rounded-full border border-border/50 flex items-center justify-center hover:bg-card hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm"
+                            className="w-10 h-10 rounded-full border border-border/50 flex items-center justify-center hover:bg-card hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                         >
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                         </button>
@@ -403,23 +402,23 @@ export function GoogleReviews() {
                 )}
 
                 {/* Final Call to Action */}
-                <div className="mt-24 text-center">
+                <div className="mt-16 text-center">
                     <motion.a
                         href="https://search.google.com/local/writereview?placeid=ChIJc16FaACF-DkRxbOmYTvrkAY"
                         target="_blank"
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="inline-flex items-center gap-4 px-10 py-5 bg-foreground text-background rounded-full font-bold text-lg shadow-2xl hover:bg-primary hover:text-primary-foreground transition-all duration-500 group"
+                        className="inline-flex items-center gap-3 px-8 py-4 bg-foreground text-background rounded-full font-bold text-base shadow-xl hover:bg-primary hover:text-primary-foreground transition-all duration-500 group"
                     >
-                        <span>Give Us Your Feedback on Google</span>
-                        <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-black/10 transition-colors">
-                            <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <span>Review Us on Google</span>
+                        <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-black/10 transition-colors">
+                            <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         </div>
                     </motion.a>
-                    <p className="mt-6 text-sm text-muted-foreground italic tracking-tight">
+                    <p className="mt-4 text-xs text-muted-foreground italic tracking-tight">
                         Your honest reviews help us grow and serve you better every day.
                     </p>
                 </div>

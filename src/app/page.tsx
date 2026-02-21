@@ -5,7 +5,6 @@ import { TopFlavours } from "@/components/sections/home/TopFlavours";
 import { About } from "@/components/sections/home/About";
 import { Specialties } from "@/components/sections/home/Specialties";
 import { GoogleReviews } from "@/components/sections/home/GoogleReviews";
-import { ReservationCTA } from "@/components/sections/home/ReservationSection";
 
 export default function Home() {
   return (
@@ -17,7 +16,6 @@ export default function Home() {
         <About />
         <Specialties />
         <GoogleReviews />
-        <ReservationCTA />
       </main>
       <Footer />
     </div>

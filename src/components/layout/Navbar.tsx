@@ -11,7 +11,6 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
     { name: "Home", href: "/" },
     { name: "Menu", href: "/menu" },
-    { name: "Reservation", href: "/reservation" },
     { name: "Gallery", href: "/gallery" },
     { name: "Contact", href: "/contact" },
 ];
@@ -60,9 +59,6 @@ export function Navbar() {
                             {link.name}
                         </Link>
                     ))}
-                    <Link href="/reservation">
-                        <Button size="sm">Book a Table</Button>
-                    </Link>
                 </nav>
 
                 {/* Mobile Toggle */}
@@ -93,9 +89,6 @@ export function Navbar() {
                                 {link.name}
                             </Link>
                         ))}
-                        <Link href="/reservation" onClick={() => setIsOpen(false)}>
-                            <Button className="w-48">Book Now</Button>
-                        </Link>
 
                         <div className="flex flex-col items-center gap-2 mt-4 text-muted-foreground text-sm">
                             <div className="flex items-center gap-2">
