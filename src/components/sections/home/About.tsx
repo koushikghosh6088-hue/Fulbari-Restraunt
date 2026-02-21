@@ -12,10 +12,10 @@ const venues = {
         icon: Utensils,
         label: "Restaurant",
         tagline: "প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা",
-        taglineClassName: "font-bengali text-lg md:text-xl text-primary font-medium tracking-wide",
+        taglineClassName: "font-bengali text-base md:text-lg text-primary font-bold tracking-wide",
         description:
             "আমাদের সবুজ ঘেরা ওপেন-এয়ার গার্ডেন ডাইনিং আপনাকে দেবে এক অসাধারণ অভিজ্ঞতা। খোলা আকাশের নিচে ঝকঝকে আলোকসজ্জার মাঝে প্রিয়জনের সাথে কাটানো সময় হবে সত্যিই স্মরণীয়।",
-        descriptionClassName: "font-bengali text-base md:text-lg leading-relaxed text-muted-foreground",
+        descriptionClassName: "font-bengali text-sm md:text-base leading-relaxed font-semibold text-muted-foreground",
         highlights: ["Open-Air Garden Dining", "Live Band ('Nostalgic')", "Signature Reshmi Butter Masala", "Traditional Bengali Thalis"],
         capacity: "120+ Guests",
         timing: "11:00 AM - 10:30 PM",
@@ -118,7 +118,7 @@ export function About() {
                         <div className="absolute -top-3 left-6 px-3 py-1 bg-background border border-primary/20 rounded-full text-[10px] md:text-xs font-bold text-primary uppercase tracking-widest">
                             Our Atmosphere
                         </div>
-                        <p className="text-foreground font-bengali italic text-base md:text-lg leading-relaxed md:leading-loose text-center">
+                        <p className="text-foreground font-bengali italic text-sm md:text-base leading-relaxed md:leading-loose text-center font-semibold">
                             ব্যস্ত জীবনের ক্লান্তি ভুলে যদি প্রকৃতির স্নিগ্ধ ছোঁয়ায় সুস্বাদু খাবারের স্বাদ নিতে চান, তবে ফুলবাড়ি রেস্তোরাঁ আপনার জন্য এক আদর্শ গন্তব্য। শ্রীবামপুর ওল্ড দিল্লি রোডের ওপর রাজ্যাধরপুরে অবস্থিত আমাদের এই রেস্তোরাঁটি কেবল খাবারের জায়গাই নয়, বরং এটি এক প্রশান্তির নীড়।
                         </p>
                     </div>
@@ -262,7 +262,7 @@ export function About() {
                         আমাদের লক্ষ্য (Our Mission)
                         <span className="w-8 h-[1px] bg-primary/30"></span>
                     </h3>
-                    <p className="text-lg md:text-2xl font-bengali italic text-foreground max-w-4xl mx-auto leading-relaxed md:leading-loose px-4">
+                    <p className="text-base md:text-xl font-bengali font-bold italic text-foreground max-w-4xl mx-auto leading-relaxed md:leading-loose px-4">
                         "ফুলবাড়ি রেস্তোরাঁতে আমরা কেবল খাবার পরিবেশন করি না, আমরা স্মৃতি তৈরি করি। আমাদের আন্তরিক আতিথেয়তা এবং মানসম্পন্ন খাবার আপনাকে বারবার ফিরে আসতে বাধ্য করবে।"
                     </p>
                     <div className="mt-8 flex justify-center">

@@ -22,7 +22,7 @@ export function Footer() {
                         <p className="text-muted-foreground mb-3 max-w-xs text-sm">
                             Experience the best of Bengali, Indian, and Chinese cuisine in a premium ambiance. Flavors inspired by tradition.
                         </p>
-                        <p className="text-primary font-bengali italic text-base mb-8 border-b border-primary/20 pb-2 inline-block">
+                        <p className="text-primary font-bengali font-bold italic text-sm mb-8 border-b border-primary/20 pb-2 inline-block">
                             প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা
                         </p>
                         <div className="flex items-center gap-4">
@@ -61,7 +61,7 @@ export function Footer() {
                                 <MapPin className="shrink-0 text-primary mt-1" size={18} />
                                 <div className="flex flex-col gap-1.5">
                                     <span className="text-sm">Old Delhi Road, Rajyadharpur,<br />Serampore, Hooghly, West Bengal</span>
-                                    <span className="text-primary/70 font-bengali text-sm tracking-wide">ওল্ড দিল্লি রোড, রাজ্যাধরপুর, শ্রীরামপুর, পশ্চিমবঙ্গ</span>
+                                    <span className="text-primary/70 font-bengali text-[13px] font-semibold tracking-wide">ওল্ড দিল্লি রোড, রাজ্যাধরপুর, শ্রীরামপুর, পশ্চিমবঙ্গ</span>
                                 </div>
                             </li>
                             <li className="flex flex-col gap-3 text-muted-foreground">
@@ -70,7 +70,7 @@ export function Footer() {
                                     <span className="text-sm">+91 98765 43210</span>
                                 </div>
                                 <div className="ml-7 p-2.5 rounded-lg bg-primary/5 border border-primary/10">
-                                    <span className="text-primary/90 font-bengali italic text-xs tracking-wide">টেবিল বুকিংয়ের জন্য কল করুন: +91 98765 43210</span>
+                                    <span className="text-primary/90 font-bengali font-bold italic text-[11px] tracking-wide">টেবিল বুকিংয়ের জন্য কল করুন: +91 98765 43210</span>
                                 </div>
                             </li>
                             <li className="flex items-center gap-3 text-muted-foreground">

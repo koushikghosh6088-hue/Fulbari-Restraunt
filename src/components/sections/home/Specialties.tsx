@@ -64,7 +64,7 @@ export function Specialties() {
 
                             <div className="space-y-6 mb-8">
                                 <div className="p-5 rounded-2xl bg-primary/5 border-l-4 border-primary/40 backdrop-blur-sm">
-                                    <p className="text-primary font-bengali text-lg md:text-xl leading-relaxed italic">
+                                    <p className="text-primary font-bengali text-base md:text-lg leading-relaxed font-bold italic">
                                         চাইনিজ, তন্দুরি থেকে শুরু করে ইন্ডিয়ান—প্রতিটি পদ আমাদের অভিজ্ঞ শেফদের নিপুণ হাতের ছোঁয়ায় তৈরি। আমাদের বিশেষ চিকেন রেশমি বাটার মাসালা এবং জিভে জল আনা তন্দুরি আইটেমগুলো চেখে দেখতে ভুলবেন না।
                                     </p>
                                 </div>
@@ -76,7 +76,7 @@ export function Specialties() {
 
                                     <div className="flex items-start gap-3 p-4 rounded-xl border border-primary/10 bg-card/50">
                                         <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
-                                        <p className="text-primary/90 font-bengali italic text-sm md:text-base leading-relaxed">
+                                        <p className="text-primary/90 font-bengali font-bold italic text-xs md:text-sm leading-relaxed">
                                             জিভে জল আনা স্বাদ: আমাদের অভিজ্ঞ শেফরা ইন্ডিয়ান, চাইনিজ এবং তন্দুরি খাবারের এক বিশাল সমাহার পরিবেশন করেন। আমাদের সিগনেচার চিকেন রেশমি বাটার মাসালা এবং ধোঁয়া ওঠা তন্দুরি কাবাব প্রতিবারই গ্রাহকদের মন জয় করে নেয়।
                                         </p>
                                     </div>

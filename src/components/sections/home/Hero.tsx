@@ -37,7 +37,7 @@ export function Hero() {
                             Experience <span className="text-primary">Authentic</span> <br />
                             Flavors & Ambiance
                         </h1>
-                        <p className="text-primary font-bengali italic text-xl lg:text-2xl mb-6 tracking-wide drop-shadow-sm">
+                        <p className="text-primary font-bengali font-bold italic text-lg lg:text-xl mb-6 tracking-wide drop-shadow-sm">
                             ফুলবাড়ি রেস্তোরাঁ: প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা
                         </p>
                         <p className="text-muted-foreground text-base lg:text-lg mb-8 font-light max-w-lg">
@@ -80,7 +80,7 @@ export function Hero() {
                         Experience <span className="text-primary">Authentic</span> <br />
                         Flavors & Ambiance
                     </h1>
-                    <p className="text-primary font-bengali italic text-base mb-4 drop-shadow-sm">
+                    <p className="text-primary font-bengali font-bold italic text-sm mb-4 drop-shadow-sm">
                         ফুলবাড়ি রেস্তোরাঁ: প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা
                     </p>
                     <p className="text-muted-foreground text-xs mb-5 font-light max-w-md">
