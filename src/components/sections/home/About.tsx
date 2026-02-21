@@ -1,9 +1,7 @@
-"use client";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Utensils, Coffee, Building2, PartyPopper, Users, Clock, MapPin, Star } from "lucide-react";
+import { Utensils, Coffee, Building2, PartyPopper, Users, Clock, MapPin, Star, ChevronLeft, ChevronRight } from "lucide-react";
 
 type VenueKey = "restaurant" | "cafe" | "community" | "banquet";
 
@@ -85,6 +83,78 @@ const venues = {
     },
 };
 
+function VenueImageSlider({ images, label }: { images: string[], label: string }) {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const nextSlide = () => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    };
+
+    return (
+        <div className="relative group overflow-hidden rounded-2xl shadow-2xl h-[300px] md:h-[500px]">
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={currentIndex}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="relative w-full h-full"
+                >
+                    <Image
+                        src={images[currentIndex]}
+                        alt={`${label} photo ${currentIndex + 1}`}
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent" />
+                </motion.div>
+            </AnimatePresence>
+
+            {/* Navigation Arrows */}
+            <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                    onClick={prevSlide}
+                    className="p-2 rounded-full bg-black/30 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-colors"
+                    aria-label="Previous slide"
+                >
+                    <ChevronLeft size={24} />
+                </button>
+                <button
+                    onClick={nextSlide}
+                    className="p-2 rounded-full bg-black/30 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-colors"
+                    aria-label="Next slide"
+                >
+                    <ChevronRight size={24} />
+                </button>
+            </div>
+
+            {/* Slide Indicators */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+                {images.map((_, idx) => (
+                    <button
+                        key={idx}
+                        onClick={() => setCurrentIndex(idx)}
+                        className={`w-2 md:w-2.5 h-2 md:h-2.5 rounded-full transition-all ${idx === currentIndex ? "bg-primary w-6 md:w-8" : "bg-white/40 hover:bg-white/60"
+                            }`}
+                        aria-label={`Go to slide ${idx + 1}`}
+                    />
+                ))}
+            </div>
+
+            {/* Image Counter Badge */}
+            <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-medium border border-white/10">
+                {currentIndex + 1} / {images.length}
+            </div>
+        </div>
+    );
+}
+
 export function About() {
     const [activeVenue, setActiveVenue] = useState<VenueKey>("restaurant");
     const current = venues[activeVenue];
@@ -148,7 +218,7 @@ export function About() {
                     </div>
                 </div>
 
-                {/* Active Venue Content */}
+                {/* Active Venue Content - Standardized with Slider */}
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={activeVenue}
@@ -157,91 +227,58 @@ export function About() {
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.4 }}
                     >
-                        {/* Info + Featured Image */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 mb-10 md:mb-14">
-                            {/* Featured Image */}
-                            <div className="relative h-[280px] md:h-[420px] rounded-2xl overflow-hidden shadow-2xl group">
-                                <Image
-                                    src={current.images[0]}
-                                    alt={current.label}
-                                    fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                                <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6">
-                                    <div className={`flex items-center gap-2 bg-primary/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-primary-foreground text-sm font-medium ${current.taglineClassName || ''}`}>
-                                        <IconComponent size={16} className="shrink-0" />
-                                        {current.tagline}
-                                    </div>
-                                </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
+                            {/* Interactive Slider - Left Column */}
+                            <div className="lg:col-span-7">
+                                <VenueImageSlider images={current.images} label={current.label} />
                             </div>
 
-                            {/* Venue Info */}
-                            <div className="flex flex-col justify-center">
-                                <h3 className="text-xl md:text-3xl font-bold font-heading mb-3 md:mb-4">
+                            {/* Venue Info - Right Column */}
+                            <div className="lg:col-span-5 flex flex-col justify-center">
+                                <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                                    <IconComponent size={16} className="text-primary" />
+                                    <span className={`text-sm md:text-base font-bold ${current.taglineClassName || ''}`}>
+                                        {current.tagline}
+                                    </span>
+                                </div>
+
+                                <h3 className="text-2xl md:text-4xl font-bold font-heading mb-4 leading-tight">
                                     {current.label}
                                 </h3>
-                                <p className={`text-sm md:text-base mb-5 leading-relaxed ${current.descriptionClassName || 'text-muted-foreground'}`}>
+                                <p className={`text-sm md:text-base mb-8 leading-relaxed ${current.descriptionClassName || 'text-muted-foreground'}`}>
                                     {current.description}
                                 </p>
 
                                 {/* Highlights Grid */}
-                                <div className="grid grid-cols-2 gap-3 mb-6">
+                                <div className="grid grid-cols-2 gap-4 mb-8">
                                     {current.highlights.map((item) => (
                                         <div
                                             key={item}
-                                            className="flex items-center gap-2 text-sm md:text-base"
+                                            className="flex items-center gap-2.5"
                                         >
-                                            <Star className="text-primary shrink-0" size={16} fill="currentColor" />
-                                            <span className="text-foreground font-medium">{item}</span>
+                                            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                                <Star className="text-primary" size={12} fill="currentColor" />
+                                            </div>
+                                            <span className="text-foreground text-sm md:text-base font-medium leading-tight">{item}</span>
                                         </div>
                                     ))}
                                 </div>
 
                                 {/* Quick Info Badges */}
-                                <div className="flex flex-wrap gap-3">
-                                    <div className="flex items-center gap-2 bg-card px-4 py-2 rounded-xl border border-border">
+                                <div className="flex flex-wrap gap-3 pt-6 border-t border-border/50">
+                                    <div className="flex items-center gap-2 bg-card px-4 py-2.5 rounded-xl border border-border/60 shadow-sm">
                                         <Users className="text-primary" size={16} />
-                                        <span className="text-sm font-medium">{current.capacity}</span>
+                                        <span className="text-xs md:text-sm font-bold tracking-tight">{current.capacity}</span>
                                     </div>
-                                    <div className="flex items-center gap-2 bg-card px-4 py-2 rounded-xl border border-border">
+                                    <div className="flex items-center gap-2 bg-card px-4 py-2.5 rounded-xl border border-border/60 shadow-sm">
                                         <Clock className="text-primary" size={16} />
-                                        <span className="text-sm font-medium">{current.timing}</span>
+                                        <span className="text-xs md:text-sm font-bold tracking-tight">{current.timing}</span>
                                     </div>
-                                    <div className="flex items-center gap-2 bg-card px-4 py-2 rounded-xl border border-border">
+                                    <div className="flex items-center gap-2 bg-card px-4 py-2.5 rounded-xl border border-border/60 shadow-sm">
                                         <MapPin className="text-primary" size={16} />
-                                        <span className="text-sm font-medium">Serampore</span>
+                                        <span className="text-xs md:text-sm font-bold tracking-tight uppercase">Serampore</span>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        {/* Gallery Grid */}
-                        <div>
-                            <h4 className="text-base md:text-lg font-bold font-heading mb-4 md:mb-5 flex items-center gap-2">
-                                <span className="w-8 h-[2px] bg-primary inline-block"></span>
-                                {current.label} Gallery
-                            </h4>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                                {current.images.map((img, idx) => (
-                                    <motion.div
-                                        key={img}
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: idx * 0.1 }}
-                                        className="relative h-[140px] md:h-[200px] rounded-xl overflow-hidden group cursor-pointer"
-                                    >
-                                        <Image
-                                            src={img}
-                                            alt={`${current.label} ${idx + 1}`}
-                                            fill
-                                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                                        />
-                                        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                            <span className="text-white text-sm font-medium">{current.label}</span>
-                                        </div>
-                                    </motion.div>
-                                ))}
                             </div>
                         </div>
                     </motion.div>
