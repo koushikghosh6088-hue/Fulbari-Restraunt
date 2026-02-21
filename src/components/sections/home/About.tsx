@@ -87,6 +87,7 @@ const venues = {
 
 function VenueImageSlider({ images, label }: { images: string[], label: string }) {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
 
     const nextSlide = () => {
         setCurrentIndex((prev) => (prev + 1) % images.length);
@@ -96,8 +97,18 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
         setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
     };
 
+    useEffect(() => {
+        if (isPaused) return;
+        const interval = setInterval(nextSlide, 5000);
+        return () => clearInterval(interval);
+    }, [isPaused, images.length]);
+
     return (
-        <div className="relative group overflow-hidden rounded-2xl shadow-2xl h-[300px] md:h-[500px]">
+        <div
+            className="relative group overflow-hidden rounded-2xl shadow-2xl h-[300px] md:h-[500px]"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+        >
             <AnimatePresence mode="wait">
                 <motion.div
                     key={currentIndex}
@@ -118,18 +129,18 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
                 </motion.div>
             </AnimatePresence>
 
-            {/* Navigation Arrows */}
-            <div className="absolute inset-0 flex items-center justify-between p-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            {/* Navigation Arrows - Permanently Visible */}
+            <div className="absolute inset-0 flex items-center justify-between p-2 md:p-4 transition-opacity">
                 <button
-                    onClick={prevSlide}
-                    className="p-2 rounded-full bg-black/30 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-colors"
+                    onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+                    className="p-2 md:p-3 rounded-full bg-black/40 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-all active:scale-95 z-20"
                     aria-label="Previous slide"
                 >
                     <ChevronLeft size={24} />
                 </button>
                 <button
-                    onClick={nextSlide}
-                    className="p-2 rounded-full bg-black/30 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-colors"
+                    onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+                    className="p-2 md:p-3 rounded-full bg-black/40 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-all active:scale-95 z-20"
                     aria-label="Next slide"
                 >
                     <ChevronRight size={24} />
@@ -137,11 +148,11 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
             </div>
 
             {/* Slide Indicators */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
                 {images.map((_, idx) => (
                     <button
                         key={idx}
-                        onClick={() => setCurrentIndex(idx)}
+                        onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
                         className={`w-2 md:w-2.5 h-2 md:h-2.5 rounded-full transition-all ${idx === currentIndex ? "bg-primary w-6 md:w-8" : "bg-white/40 hover:bg-white/60"
                             }`}
                         aria-label={`Go to slide ${idx + 1}`}
@@ -150,7 +161,7 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
             </div>
 
             {/* Image Counter Badge */}
-            <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-medium border border-white/10">
+            <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] md:text-xs font-medium border border-white/10 z-20">
                 {currentIndex + 1} / {images.length}
             </div>
         </div>
@@ -180,7 +191,7 @@ export function About() {
                         About Us
                     </span>
                     <h2 className="text-2xl md:text-4xl font-bold font-heading mb-3 leading-tight">
-                        A <span className="text-primary">Proshantir Neer</span> in Serampore (Sliding Gallery)
+                        A <span className="text-primary">Proshantir Neer</span> in Serampore
                     </h2>
                     <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto mb-8">
                         Fulbari is a complete destination — dine, sip, celebrate, and connect under one roof
