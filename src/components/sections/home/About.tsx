@@ -101,12 +101,19 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
         if (isPaused) return;
         const interval = setInterval(nextSlide, 5000);
         return () => clearInterval(interval);
-    }, [isPaused, images.length]);
+    }, [isPaused, currentIndex, images.length]); // Added currentIndex to dep array for reliability
+
+    const handleMouseEnter = () => {
+        // Only pause on hover for devices that actually support hovering (desktops)
+        if (window.matchMedia('(hover: hover)').matches) {
+            setIsPaused(true);
+        }
+    };
 
     return (
         <div
-            className="relative group overflow-hidden rounded-2xl shadow-2xl h-[300px] md:h-[500px]"
-            onMouseEnter={() => setIsPaused(true)}
+            className="relative group overflow-hidden rounded-2xl shadow-2xl h-[300px] md:h-[500px] touch-pan-y"
+            onMouseEnter={handleMouseEnter}
             onMouseLeave={() => setIsPaused(false)}
         >
             <AnimatePresence mode="wait">
@@ -125,35 +132,35 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
                         className="object-cover"
                         priority
                     />
-                    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent" />
                 </motion.div>
             </AnimatePresence>
 
-            {/* Navigation Arrows - Permanently Visible */}
-            <div className="absolute inset-0 flex items-center justify-between p-2 md:p-4 transition-opacity">
+            {/* Navigation Arrows - High Visibility */}
+            <div className="absolute inset-0 flex items-center justify-between p-3 md:p-6 pointer-events-none">
                 <button
                     onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-                    className="p-2 md:p-3 rounded-full bg-black/40 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-all active:scale-95 z-20"
+                    className="p-3 md:p-4 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/30 hover:bg-primary transition-all active:scale-90 pointer-events-auto z-30 shadow-xl"
                     aria-label="Previous slide"
                 >
-                    <ChevronLeft size={24} />
+                    <ChevronLeft size={28} className="md:w-8 md:h-8" />
                 </button>
                 <button
                     onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-                    className="p-2 md:p-3 rounded-full bg-black/40 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-all active:scale-95 z-20"
+                    className="p-3 md:p-4 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/30 hover:bg-primary transition-all active:scale-90 pointer-events-auto z-30 shadow-xl"
                     aria-label="Next slide"
                 >
-                    <ChevronRight size={24} />
+                    <ChevronRight size={28} className="md:w-8 md:h-8" />
                 </button>
             </div>
 
             {/* Slide Indicators */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2.5 z-30">
                 {images.map((_, idx) => (
                     <button
                         key={idx}
                         onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
-                        className={`w-2 md:w-2.5 h-2 md:h-2.5 rounded-full transition-all ${idx === currentIndex ? "bg-primary w-6 md:w-8" : "bg-white/40 hover:bg-white/60"
+                        className={`w-2.5 h-2.5 rounded-full transition-all shadow-sm ${idx === currentIndex ? "bg-primary w-8" : "bg-white/50 hover:bg-white/80"
                             }`}
                         aria-label={`Go to slide ${idx + 1}`}
                     />
@@ -161,7 +168,7 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
             </div>
 
             {/* Image Counter Badge */}
-            <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] md:text-xs font-medium border border-white/10 z-20">
+            <div className="absolute top-6 right-6 bg-black/60 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-[11px] md:text-xs font-bold border border-white/20 z-30 shadow-lg tracking-wider">
                 {currentIndex + 1} / {images.length}
             </div>
         </div>
