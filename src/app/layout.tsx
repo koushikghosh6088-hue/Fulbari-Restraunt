@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Poppins, Galada } from "next/font/google";
+import { Playfair_Display, Poppins, Hind_Siliguri } from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -14,10 +14,10 @@ const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-const galada = Galada({
+const hindSiliguri = Hind_Siliguri({
   variable: "--font-bengali",
   subsets: ["bengali", "latin"],
-  weight: ["400"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${playfair.variable} ${poppins.variable} ${galada.variable} antialiased bg-background text-foreground font-body`}
+        className={`${playfair.variable} ${poppins.variable} ${hindSiliguri.variable} antialiased bg-background text-foreground font-body`}
       >
         {children}
       </body>
