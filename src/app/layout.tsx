@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Poppins, Hind_Siliguri } from "next/font/google";
+import { Playfair_Display, Poppins, Hind_Siliguri, Galada } from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -20,6 +20,12 @@ const hindSiliguri = Hind_Siliguri({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+const galada = Galada({
+  variable: "--font-bengali-logo",
+  subsets: ["bengali", "latin"],
+  weight: ["400"],
+});
+
 export const metadata: Metadata = {
   title: "Fulbari Restaurant | Exquisite Dining in Serampore",
   description: "Experience the rich flavors of tradition at Fulbari Restaurant. Serving authentic Bengali, Indian, and Chinese cuisine in a premium ambiance.",
@@ -33,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${playfair.variable} ${poppins.variable} ${hindSiliguri.variable} antialiased bg-background text-foreground font-body`}
+        className={`${playfair.variable} ${poppins.variable} ${hindSiliguri.variable} ${galada.variable} antialiased bg-background text-foreground font-body`}
       >
         {children}
       </body>

@@ -64,7 +64,7 @@ export default function MenuPage() {
                     </div>
                     <h3 className="text-xl md:text-2xl font-bold font-heading mb-6 text-primary flex items-center justify-center gap-3">
                         <span className="w-8 h-[1px] bg-primary/30"></span>
-                        আমাদের লক্ষ্য (Our Mission)
+                        <span className="font-bengali-logo">আমাদের লক্ষ্য (Our Mission)</span>
                         <span className="w-8 h-[1px] bg-primary/30"></span>
                     </h3>
                     <p className="text-base md:text-xl font-bengali font-bold italic text-foreground max-w-4xl mx-auto leading-relaxed md:leading-loose px-4">

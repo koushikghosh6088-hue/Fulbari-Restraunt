@@ -22,7 +22,7 @@ export function Footer() {
                         <p className="text-muted-foreground mb-3 max-w-xs text-sm">
                             Experience the best of Bengali, Indian, and Chinese cuisine in a premium ambiance. Flavors inspired by tradition.
                         </p>
-                        <p className="text-primary font-bengali font-bold italic text-sm mb-8 border-b border-primary/20 pb-2 inline-block">
+                        <p className="text-primary font-bengali-logo font-bold italic text-sm mb-8 border-b border-primary/20 pb-2 inline-block">
                             প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা
                         </p>
                         <div className="flex items-center gap-4">

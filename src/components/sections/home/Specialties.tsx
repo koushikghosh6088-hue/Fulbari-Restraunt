@@ -64,7 +64,7 @@ export function Specialties() {
 
                             <div className="space-y-6 mb-8">
                                 <div className="p-5 rounded-2xl bg-primary/5 border-l-4 border-primary/40 backdrop-blur-sm">
-                                    <p className="text-primary font-bengali text-base md:text-lg leading-relaxed font-bold italic">
+                                    <p className="text-primary font-bengali-logo text-base md:text-lg leading-relaxed font-bold italic">
                                         চাইনিজ, তন্দুরি থেকে শুরু করে ইন্ডিয়ান—প্রতিটি পদ আমাদের অভিজ্ঞ শেফদের নিপুণ হাতের ছোঁয়ায় তৈরি। আমাদের বিশেষ চিকেন রেশমি বাটার মাসালা এবং জিভে জল আনা তন্দুরি আইটেমগুলো চেখে দেখতে ভুলবেন না।
                                     </p>
                                 </div>

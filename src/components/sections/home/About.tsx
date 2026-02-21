@@ -12,7 +12,7 @@ const venues = {
         icon: Utensils,
         label: "Restaurant",
         tagline: "প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা",
-        taglineClassName: "font-bengali text-base md:text-lg text-primary font-bold tracking-wide",
+        taglineClassName: "font-bengali-logo text-base md:text-lg text-primary font-bold tracking-wide",
         description:
             "আমাদের সবুজ ঘেরা ওপেন-এয়ার গার্ডেন ডাইনিং আপনাকে দেবে এক অসাধারণ অভিজ্ঞতা। খোলা আকাশের নিচে ঝকঝকে আলোকসজ্জার মাঝে প্রিয়জনের সাথে কাটানো সময় হবে সত্যিই স্মরণীয়।",
         descriptionClassName: "font-bengali text-sm md:text-base leading-relaxed font-semibold text-muted-foreground",
