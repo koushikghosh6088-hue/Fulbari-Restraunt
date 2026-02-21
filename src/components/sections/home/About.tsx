@@ -180,7 +180,7 @@ export function About() {
                         About Us
                     </span>
                     <h2 className="text-2xl md:text-4xl font-bold font-heading mb-3 leading-tight">
-                        A <span className="text-primary">Proshantir Neer</span> in Serampore
+                        A <span className="text-primary">Proshantir Neer</span> in Serampore (Sliding Gallery)
                     </h2>
                     <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto mb-8">
                         Fulbari is a complete destination — dine, sip, celebrate, and connect under one roof
