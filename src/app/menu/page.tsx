@@ -7,7 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { menuItems, Category } from "@/data/menu";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Leaf } from "lucide-react";
+import { Search, Leaf, Utensils } from "lucide-react";
 
 export default function MenuPage() {
     const [activeCategory, setActiveCategory] = useState<Category>("All");
@@ -50,6 +50,31 @@ export default function MenuPage() {
                     </p>
                 </motion.div>
             </section>
+
+            {/* Our Mission Block */}
+            <div className="container mx-auto px-4 -mt-8 mb-12 relative z-20">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className="p-8 md:p-12 rounded-3xl bg-primary/5 border border-primary/20 text-center relative overflow-hidden backdrop-blur-sm"
+                >
+                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                        <Utensils size={120} className="text-primary" />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold font-heading mb-6 text-primary flex items-center justify-center gap-3">
+                        <span className="w-8 h-[1px] bg-primary/30"></span>
+                        আমাদের লক্ষ্য (Our Mission)
+                        <span className="w-8 h-[1px] bg-primary/30"></span>
+                    </h3>
+                    <p className="text-base md:text-xl font-bengali font-bold italic text-foreground max-w-4xl mx-auto leading-relaxed md:leading-loose px-4">
+                        "ফুলবাড়ি রেস্তোরাঁতে আমরা কেবল খাবার পরিবেশন করি না, আমরা স্মৃতি তৈরি করি। আমাদের আন্তরিক আতিথেয়তা এবং মানসম্পন্ন খাবার আপনাকে বারবার ফিরে আসতে বাধ্য করবে।"
+                    </p>
+                    <div className="mt-8 flex justify-center">
+                        <div className="w-12 h-1 bg-primary/20 rounded-full"></div>
+                    </div>
+                </motion.div>
+            </div>
 
             {/* Controls Section */}
             <section className="sticky top-[56px] md:top-[72px] z-40 bg-background/95 backdrop-blur-md py-4 border-b border-border">
