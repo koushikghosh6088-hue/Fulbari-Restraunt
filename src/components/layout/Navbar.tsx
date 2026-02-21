@@ -95,7 +95,7 @@ export function Navbar() {
                                 <Phone size={14} /> <span>+91 98765 43210</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <MapPin size={14} /> <span>Serampore, Hooghly</span>
+                                <MapPin size={14} /> <span>Rajyadharpur, Serampore</span>
                             </div>
                         </div>
                     </motion.div>

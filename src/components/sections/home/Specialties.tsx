@@ -62,7 +62,7 @@ export function Specialties() {
                             <span className="text-primary font-heading italic text-lg mb-2 block">Our Categories</span>
                             <h2 className="text-3xl md:text-4xl font-bold font-heading mb-5">Explore Our Cuisine</h2>
                             <p className="text-muted-foreground text-base mb-7 leading-relaxed">
-                                From hearty breakfasts to elegant dinners, we offer a wide range of culinary delights. Our specialties include authentic Bengali dishes, spicy Chinese stir-frys, and rich Indian curries.
+                                Experience a "Proshantir Neer" (Tranquility's Home) with our culinary delights. Don't miss our signature <span className="text-primary font-bold">Chicken Reshmi Butter Masala</span> and our mouth-watering Tandoori specialties, crafted by experienced chefs.
                             </p>
 
                             {/* Category Image */}

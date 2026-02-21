@@ -11,10 +11,10 @@ const venues = {
     restaurant: {
         icon: Utensils,
         label: "Restaurant",
-        tagline: "Fine Dining Experience",
+        tagline: "প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা",
         description:
-            "Our signature restaurant offers a curated menu of authentic Bengali, Indian, and Chinese cuisines. With a scenic balcony view and warm interiors, every meal becomes a memorable occasion.",
-        highlights: ["Multi-Cuisine Menu", "Balcony Seating", "Family Dining", "Live Kitchen"],
+            "Experience the magic of open-air garden dining under the sparkling night sky. Our signature restaurant offers a blend of authentic Bengali, Indian, and Chinese cuisines in a serene, nature-filled environment.",
+        highlights: ["Open-Air Garden Dining", "Live Band ('Nostalgic')", "Signature Reshmi Butter Masala", "Traditional Bengali Thalis"],
         capacity: "120+ Guests",
         timing: "11:00 AM - 10:30 PM",
         images: [
@@ -49,7 +49,7 @@ const venues = {
             "Our spacious community hall is ideal for cultural events, meetings, seminars, and social gatherings. Equipped with modern amenities and flexible seating arrangements.",
         highlights: ["Projector & Sound", "Flexible Layout", "AC Hall", "Stage Available"],
         capacity: "300+ Guests",
-        timing: "By Reservation",
+        timing: "Contact for Inquiry",
         images: [
             "/community/community4.jpeg",
             "/community/community2.jpeg",
@@ -66,7 +66,7 @@ const venues = {
             "From grand weddings to birthday celebrations, our food provide an elegant setting with premium catering, décor support, and dedicated event coordination.",
         highlights: ["Wedding Packages", "Custom Décor", "Premium Catering", "Event Manager"],
         capacity: "500+ Guests",
-        timing: "By Reservation",
+        timing: "Contact for Inquiry",
         images: [
             "/food/food3.jpeg",
             "/food/food2.jpeg",
@@ -100,7 +100,7 @@ export function About() {
                         About Us
                     </span>
                     <h2 className="text-2xl md:text-4xl font-bold font-heading mb-3 leading-tight">
-                        More Than Just a <span className="text-primary">Restaurant</span>
+                        A <span className="text-primary">Proshantir Neer</span> in Serampore
                     </h2>
                     <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">
                         Fulbari is a complete destination — dine, sip, celebrate, and connect under one roof

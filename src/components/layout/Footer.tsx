@@ -19,8 +19,11 @@ export function Footer() {
                                 />
                             </div>
                         </Link>
-                        <p className="text-muted-foreground mb-6 max-w-xs">
+                        <p className="text-muted-foreground mb-2 max-w-xs">
                             Experience the best of Bengali, Indian, and Chinese cuisine in a premium ambiance. Flavors inspired by tradition.
+                        </p>
+                        <p className="text-primary font-heading italic text-sm mb-6">
+                            প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা
                         </p>
                         <div className="flex items-center gap-4">
                             <Link href="#" className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all">
@@ -39,7 +42,7 @@ export function Footer() {
                     <div>
                         <h3 className="font-heading text-lg font-bold text-foreground mb-5">Quick Links</h3>
                         <ul className="space-y-3">
-                            {["Home", "Menu", "Reservation", "Gallery", "Contact"].map((item) => (
+                            {["Home", "Menu", "Gallery", "Contact"].map((item) => (
                                 <li key={item}>
                                     <Link href={`/${item.toLowerCase() === 'home' ? '' : item.toLowerCase()}`} className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
                                         <span className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -56,7 +59,7 @@ export function Footer() {
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3 text-muted-foreground">
                                 <MapPin className="shrink-0 text-primary mt-1" size={18} />
-                                <span>123 Station Road, Serampore,<br />Hooghly, West Bengal 712201</span>
+                                <span>Old Delhi Road, Rajyadharpur,<br />Serampore, Hooghly, West Bengal</span>
                             </li>
                             <li className="flex items-center gap-3 text-muted-foreground">
                                 <Phone className="shrink-0 text-primary" size={18} />
