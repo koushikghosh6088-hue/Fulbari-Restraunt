@@ -19,10 +19,10 @@ export function Footer() {
                                 />
                             </div>
                         </Link>
-                        <p className="text-muted-foreground mb-2 max-w-xs">
+                        <p className="text-muted-foreground mb-3 max-w-xs text-sm">
                             Experience the best of Bengali, Indian, and Chinese cuisine in a premium ambiance. Flavors inspired by tradition.
                         </p>
-                        <p className="text-primary font-heading italic text-sm mb-6">
+                        <p className="text-primary font-bengali italic text-base mb-8 border-b border-primary/20 pb-2 inline-block">
                             প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা
                         </p>
                         <div className="flex items-center gap-4">
@@ -59,17 +59,19 @@ export function Footer() {
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3 text-muted-foreground">
                                 <MapPin className="shrink-0 text-primary mt-1" size={18} />
-                                <div className="flex flex-col gap-1">
-                                    <span>Old Delhi Road, Rajyadharpur,<br />Serampore, Hooghly, West Bengal</span>
-                                    <span className="text-primary/80 text-xs font-heading">ওল্ড দিল্লি রোড, রাজ্যাধরপুর, শ্রীরামপুর, পশ্চিমবঙ্গ</span>
+                                <div className="flex flex-col gap-1.5">
+                                    <span className="text-sm">Old Delhi Road, Rajyadharpur,<br />Serampore, Hooghly, West Bengal</span>
+                                    <span className="text-primary/70 font-bengali text-sm tracking-wide">ওল্ড দিল্লি রোড, রাজ্যাধরপুর, শ্রীরামপুর, পশ্চিমবঙ্গ</span>
                                 </div>
                             </li>
-                            <li className="flex flex-col gap-2 text-muted-foreground">
+                            <li className="flex flex-col gap-3 text-muted-foreground">
                                 <div className="flex items-center gap-3">
                                     <Phone className="shrink-0 text-primary" size={18} />
-                                    <span>+91 98765 43210</span>
+                                    <span className="text-sm">+91 98765 43210</span>
                                 </div>
-                                <span className="text-primary/90 text-xs font-heading italic ml-7">টেবিল বুকিংয়ের জন্য কল করুন: +91 98765 43210</span>
+                                <div className="ml-7 p-2.5 rounded-lg bg-primary/5 border border-primary/10">
+                                    <span className="text-primary/90 font-bengali italic text-xs tracking-wide">টেবিল বুকিংয়ের জন্য কল করুন: +91 98765 43210</span>
+                                </div>
                             </li>
                             <li className="flex items-center gap-3 text-muted-foreground">
                                 <Mail className="shrink-0 text-primary" size={18} />

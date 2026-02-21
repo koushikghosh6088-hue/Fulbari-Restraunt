@@ -12,8 +12,10 @@ const venues = {
         icon: Utensils,
         label: "Restaurant",
         tagline: "প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা",
+        taglineClassName: "font-bengali text-lg md:text-xl text-primary font-medium tracking-wide",
         description:
             "আমাদের সবুজ ঘেরা ওপেন-এয়ার গার্ডেন ডাইনিং আপনাকে দেবে এক অসাধারণ অভিজ্ঞতা। খোলা আকাশের নিচে ঝকঝকে আলোকসজ্জার মাঝে প্রিয়জনের সাথে কাটানো সময় হবে সত্যিই স্মরণীয়।",
+        descriptionClassName: "font-bengali text-base md:text-lg leading-relaxed text-muted-foreground",
         highlights: ["Open-Air Garden Dining", "Live Band ('Nostalgic')", "Signature Reshmi Butter Masala", "Traditional Bengali Thalis"],
         capacity: "120+ Guests",
         timing: "11:00 AM - 10:30 PM",
@@ -34,6 +36,8 @@ const venues = {
         highlights: ["Specialty Coffee", "Fresh Pastries", "Free Wi-Fi", "Cozy Ambience"],
         capacity: "40+ Guests",
         timing: "8:00 AM - 9:00 PM",
+        taglineClassName: "text-primary font-medium",
+        descriptionClassName: "text-muted-foreground",
         images: [
             "/cafe/cafe1.jpeg",
             "/cafe/cafe2.jpeg",
@@ -50,6 +54,8 @@ const venues = {
         highlights: ["Projector & Sound", "Flexible Layout", "AC Hall", "Stage Available"],
         capacity: "300+ Guests",
         timing: "Contact for Inquiry",
+        taglineClassName: "text-primary font-medium",
+        descriptionClassName: "text-muted-foreground",
         images: [
             "/community/community4.jpeg",
             "/community/community2.jpeg",
@@ -67,6 +73,8 @@ const venues = {
         highlights: ["Wedding Packages", "Custom Décor", "Premium Catering", "Event Manager"],
         capacity: "500+ Guests",
         timing: "Contact for Inquiry",
+        taglineClassName: "text-primary font-medium",
+        descriptionClassName: "text-muted-foreground",
         images: [
             "/food/food3.jpeg",
             "/food/food2.jpeg",
@@ -102,13 +110,18 @@ export function About() {
                     <h2 className="text-2xl md:text-4xl font-bold font-heading mb-3 leading-tight">
                         A <span className="text-primary">Proshantir Neer</span> in Serampore
                     </h2>
-                    <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto mb-4">
+                    <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto mb-8">
                         Fulbari is a complete destination — dine, sip, celebrate, and connect under one roof
                         in the heart of Serampore.
                     </p>
-                    <p className="text-primary font-heading italic text-sm md:text-base max-w-3xl mx-auto leading-relaxed">
-                        ব্যস্ত জীবনের ক্লান্তি ভুলে যদি প্রকৃতির স্নিগ্ধ ছোঁয়ায় সুস্বাদু খাবারের স্বাদ নিতে চান, তবে ফুলবাড়ি রেস্তোরাঁ আপনার জন্য এক আদর্শ গন্তব্য। শ্রীবামপুর ওল্ড দিল্লি রোডের ওপর রাজ্যাধরপুরে অবস্থিত আমাদের এই রেস্তোরাঁটি কেবল খাবারের জায়গাই নয়, বরং এটি এক প্রশান্তির নীড়।
-                    </p>
+                    <div className="relative max-w-4xl mx-auto p-6 md:p-8 rounded-2xl bg-primary/5 border border-primary/10 backdrop-blur-sm">
+                        <div className="absolute -top-3 left-6 px-3 py-1 bg-background border border-primary/20 rounded-full text-[10px] md:text-xs font-bold text-primary uppercase tracking-widest">
+                            Our Atmosphere
+                        </div>
+                        <p className="text-foreground font-bengali italic text-base md:text-lg leading-relaxed md:leading-loose text-center">
+                            ব্যস্ত জীবনের ক্লান্তি ভুলে যদি প্রকৃতির স্নিগ্ধ ছোঁয়ায় সুস্বাদু খাবারের স্বাদ নিতে চান, তবে ফুলবাড়ি রেস্তোরাঁ আপনার জন্য এক আদর্শ গন্তব্য। শ্রীবামপুর ওল্ড দিল্লি রোডের ওপর রাজ্যাধরপুরে অবস্থিত আমাদের এই রেস্তোরাঁটি কেবল খাবারের জায়গাই নয়, বরং এটি এক প্রশান্তির নীড়।
+                        </p>
+                    </div>
                 </motion.div>
 
                 {/* Venue Tabs */}
@@ -156,8 +169,8 @@ export function About() {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                                 <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6">
-                                    <div className="flex items-center gap-2 bg-primary/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-primary-foreground text-sm font-medium">
-                                        <IconComponent size={16} />
+                                    <div className={`flex items-center gap-2 bg-primary/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-primary-foreground text-sm font-medium ${current.taglineClassName || ''}`}>
+                                        <IconComponent size={16} className="shrink-0" />
                                         {current.tagline}
                                     </div>
                                 </div>
@@ -168,7 +181,7 @@ export function About() {
                                 <h3 className="text-xl md:text-3xl font-bold font-heading mb-3 md:mb-4">
                                     {current.label}
                                 </h3>
-                                <p className="text-muted-foreground text-sm md:text-base mb-5 leading-relaxed">
+                                <p className={`text-sm md:text-base mb-5 leading-relaxed ${current.descriptionClassName || 'text-muted-foreground'}`}>
                                     {current.description}
                                 </p>
 
@@ -244,10 +257,17 @@ export function About() {
                     <div className="absolute top-0 right-0 p-4 opacity-10">
                         <Utensils size={120} className="text-primary" />
                     </div>
-                    <h3 className="text-xl md:text-2xl font-bold font-heading mb-4 text-primary">আমাদের লক্ষ্য (Our Mission)</h3>
-                    <p className="text-base md:text-xl font-heading italic text-foreground max-w-4xl mx-auto leading-relaxed">
+                    <h3 className="text-xl md:text-2xl font-bold font-heading mb-6 text-primary flex items-center justify-center gap-3">
+                        <span className="w-8 h-[1px] bg-primary/30"></span>
+                        আমাদের লক্ষ্য (Our Mission)
+                        <span className="w-8 h-[1px] bg-primary/30"></span>
+                    </h3>
+                    <p className="text-lg md:text-2xl font-bengali italic text-foreground max-w-4xl mx-auto leading-relaxed md:leading-loose px-4">
                         "ফুলবাড়ি রেস্তোরাঁতে আমরা কেবল খাবার পরিবেশন করি না, আমরা স্মৃতি তৈরি করি। আমাদের আন্তরিক আতিথেয়তা এবং মানসম্পন্ন খাবার আপনাকে বারবার ফিরে আসতে বাধ্য করবে।"
                     </p>
+                    <div className="mt-8 flex justify-center">
+                        <div className="w-12 h-1 bg-primary/20 rounded-full"></div>
+                    </div>
                 </motion.div>
             </div>
         </section>
