@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-heading: var(--font-playfair);
-  --font-body: var(--font-poppins);
+  --font-heading: var(--font-playfair), var(--font-bengali);
+  --font-body: var(--font-poppins), var(--font-bengali);
   --font-bengali: var(--font-bengali);
   --font-bengali-logo: var(--font-bengali);
 
