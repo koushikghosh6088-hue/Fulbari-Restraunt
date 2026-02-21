@@ -37,6 +37,9 @@ export function Hero() {
                             Experience <span className="text-primary">Authentic</span> <br />
                             Flavors & Ambiance
                         </h1>
+                        <p className="text-primary font-heading italic text-lg mb-4">
+                            ফুলবাড়ি রেস্তোরাঁ: প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা
+                        </p>
                         <p className="text-muted-foreground text-base lg:text-lg mb-8 font-light max-w-lg">
                             A perfect blend of traditional Bengali cuisine and modern dining in the heart of Serampore.
                         </p>
@@ -77,6 +80,9 @@ export function Hero() {
                         Experience <span className="text-primary">Authentic</span> <br />
                         Flavors & Ambiance
                     </h1>
+                    <p className="text-primary font-heading italic text-sm mb-3">
+                        ফুলবাড়ি রেস্তোরাঁ: প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা
+                    </p>
                     <p className="text-muted-foreground text-xs mb-5 font-light max-w-md">
                         A perfect blend of traditional Bengali cuisine and modern dining in the heart of Serampore.
                     </p>

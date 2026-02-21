@@ -59,11 +59,17 @@ export function Footer() {
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3 text-muted-foreground">
                                 <MapPin className="shrink-0 text-primary mt-1" size={18} />
-                                <span>Old Delhi Road, Rajyadharpur,<br />Serampore, Hooghly, West Bengal</span>
+                                <div className="flex flex-col gap-1">
+                                    <span>Old Delhi Road, Rajyadharpur,<br />Serampore, Hooghly, West Bengal</span>
+                                    <span className="text-primary/80 text-xs font-heading">ওল্ড দিল্লি রোড, রাজ্যাধরপুর, শ্রীরামপুর, পশ্চিমবঙ্গ</span>
+                                </div>
                             </li>
-                            <li className="flex items-center gap-3 text-muted-foreground">
-                                <Phone className="shrink-0 text-primary" size={18} />
-                                <span>+91 98765 43210</span>
+                            <li className="flex flex-col gap-2 text-muted-foreground">
+                                <div className="flex items-center gap-3">
+                                    <Phone className="shrink-0 text-primary" size={18} />
+                                    <span>+91 98765 43210</span>
+                                </div>
+                                <span className="text-primary/90 text-xs font-heading italic ml-7">টেবিল বুকিংয়ের জন্য কল করুন: +91 98765 43210</span>
                             </li>
                             <li className="flex items-center gap-3 text-muted-foreground">
                                 <Mail className="shrink-0 text-primary" size={18} />

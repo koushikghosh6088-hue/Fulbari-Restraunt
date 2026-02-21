@@ -13,7 +13,7 @@ const venues = {
         label: "Restaurant",
         tagline: "প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা",
         description:
-            "Experience the magic of open-air garden dining under the sparkling night sky. Our signature restaurant offers a blend of authentic Bengali, Indian, and Chinese cuisines in a serene, nature-filled environment.",
+            "আমাদের সবুজ ঘেরা ওপেন-এয়ার গার্ডেন ডাইনিং আপনাকে দেবে এক অসাধারণ অভিজ্ঞতা। খোলা আকাশের নিচে ঝকঝকে আলোকসজ্জার মাঝে প্রিয়জনের সাথে কাটানো সময় হবে সত্যিই স্মরণীয়।",
         highlights: ["Open-Air Garden Dining", "Live Band ('Nostalgic')", "Signature Reshmi Butter Masala", "Traditional Bengali Thalis"],
         capacity: "120+ Guests",
         timing: "11:00 AM - 10:30 PM",
@@ -102,9 +102,12 @@ export function About() {
                     <h2 className="text-2xl md:text-4xl font-bold font-heading mb-3 leading-tight">
                         A <span className="text-primary">Proshantir Neer</span> in Serampore
                     </h2>
-                    <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">
+                    <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto mb-4">
                         Fulbari is a complete destination — dine, sip, celebrate, and connect under one roof
                         in the heart of Serampore.
+                    </p>
+                    <p className="text-primary font-heading italic text-sm md:text-base max-w-3xl mx-auto leading-relaxed">
+                        ব্যস্ত জীবনের ক্লান্তি ভুলে যদি প্রকৃতির স্নিগ্ধ ছোঁয়ায় সুস্বাদু খাবারের স্বাদ নিতে চান, তবে ফুলবাড়ি রেস্তোরাঁ আপনার জন্য এক আদর্শ গন্তব্য। শ্রীবামপুর ওল্ড দিল্লি রোডের ওপর রাজ্যাধরপুরে অবস্থিত আমাদের এই রেস্তোরাঁটি কেবল খাবারের জায়গাই নয়, বরং এটি এক প্রশান্তির নীড়।
                     </p>
                 </motion.div>
 
@@ -230,6 +233,22 @@ export function About() {
                         </div>
                     </motion.div>
                 </AnimatePresence>
+
+                {/* Our Mission Block */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className="mt-20 p-8 md:p-12 rounded-3xl bg-primary/5 border border-primary/20 text-center relative overflow-hidden"
+                >
+                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                        <Utensils size={120} className="text-primary" />
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold font-heading mb-4 text-primary">আমাদের লক্ষ্য (Our Mission)</h3>
+                    <p className="text-base md:text-xl font-heading italic text-foreground max-w-4xl mx-auto leading-relaxed">
+                        "ফুলবাড়ি রেস্তোরাঁতে আমরা কেবল খাবার পরিবেশন করি না, আমরা স্মৃতি তৈরি করি। আমাদের আন্তরিক আতিথেয়তা এবং মানসম্পন্ন খাবার আপনাকে বারবার ফিরে আসতে বাধ্য করবে।"
+                    </p>
+                </motion.div>
             </div>
         </section>
     );
