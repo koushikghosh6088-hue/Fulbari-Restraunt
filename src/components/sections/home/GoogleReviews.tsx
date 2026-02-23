@@ -328,19 +328,6 @@ export function GoogleReviews() {
                                         "{review.text}"
                                     </p>
 
-                                    {review.foodImg && (
-                                        <div className="mt-1 mb-4 w-full h-40 rounded-xl overflow-hidden border border-border/30 shadow-inner group-hover:border-primary/30 transition-colors">
-                                            <img
-                                                src={review.foodImg}
-                                                alt={`Review by ${review.name}`}
-                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                                onError={(e) => {
-                                                    const img = e.target as HTMLImageElement;
-                                                    img.src = "https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=400&auto=format&fit=crop";
-                                                }}
-                                            />
-                                        </div>
-                                    )}
 
                                     <div className="flex items-center gap-2 pt-4 border-t border-border/20 group-hover:border-primary/20 transition-colors grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-500">
                                         <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" className="h-3 w-auto" />
