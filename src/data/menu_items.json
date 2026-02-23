@@ -15,9 +15,10 @@
     "description": "Aromatic clear chicken broth with tender chicken strips.",
     "price": 160,
     "category": "Soups",
-    "image": "https://images.unsplash.com/photo-1626500155552-446756855325?q=80&w=2070",
+    "image": "https://images.unsplash.com/photo-1665593998976-d957f2827fe7?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "isVeg": false,
-    "available": true
+    "available": true,
+    "isBestseller": false
   },
   {
     "id": "s3",
@@ -25,9 +26,10 @@
     "description": "Comforting creamy yellow corn soup with vegetable bits.",
     "price": 140,
     "category": "Soups",
-    "image": "https://images.unsplash.com/photo-1628191010210-a59de33e5941?q=80&w=2070",
+    "image": "https://images.unsplash.com/photo-1682235286008-89e1735e4d20?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "isVeg": true,
-    "available": true
+    "available": true,
+    "isBestseller": false
   },
   {
     "id": "s4",
@@ -35,9 +37,10 @@
     "description": "Rich creamy sweet corn soup whipped with chicken and egg drops.",
     "price": 170,
     "category": "Soups",
-    "image": "https://images.unsplash.com/photo-1628191010210-a59de33e5941?q=80&w=2070",
+    "image": "https://images.unsplash.com/photo-1682235286008-89e1735e4d20?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "isVeg": false,
-    "available": true
+    "available": true,
+    "isBestseller": false
   },
   {
     "id": "s5",
@@ -105,9 +108,10 @@
     "description": "Golden and crispy deep-fried potato fries.",
     "price": 119,
     "category": "Appetizers",
-    "image": "https://images.unsplash.com/photo-1573080491719-20f77d4a4971?q=80&w=1974",
+    "image": "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZnJlbmNoJTIwZnJpZXN8ZW58MHx8MHx8fDA%3D",
     "isVeg": true,
-    "available": true
+    "available": true,
+    "isBestseller": false
   },
   {
     "id": "a2",
@@ -115,9 +119,10 @@
     "description": "Crispy potatoes tossed in honey and chilli sauce.",
     "price": 129,
     "category": "Appetizers",
-    "image": "https://images.unsplash.com/photo-1626074353765-517a681e40be?q=80&w=1974",
+    "image": "https://recipes.timesofindia.com/thumb/52532656.cms?width=1200&height=900",
     "isVeg": true,
-    "available": true
+    "available": true,
+    "isBestseller": false
   },
   {
     "id": "a3",
@@ -155,9 +160,10 @@
     "description": "Spicy stir-fried chicken with cashews and chillies.",
     "price": 259,
     "category": "Appetizers",
-    "image": "https://images.unsplash.com/photo-1525755662778-989d966695cc?q=80&w=1974",
+    "image": "https://www.indianhealthyrecipes.com/wp-content/uploads/2025/02/dragon-chicken-recipe.jpg",
     "isVeg": false,
-    "available": true
+    "available": true,
+    "isBestseller": false
   },
   {
     "id": "a13",
@@ -535,7 +541,7 @@
     "description": "Grilled marinated paneer with capsicum and tomato.",
     "price": 299,
     "category": "Tandoori",
-    "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=2070",
+    "image": "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?q=80&w=2070&auto=format&fit=crop",
     "isVeg": true,
     "available": true
   },

@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     Plus,
@@ -20,7 +22,9 @@ import {
     ChevronDown,
     ChevronUp,
     Pencil,
-    ArrowLeft
+    ArrowLeft,
+    Upload,
+    ImagePlus
 } from "lucide-react";
 
 interface MenuItem {
@@ -41,6 +45,7 @@ export default function AdminDashboard() {
     const [showAddForm, setShowAddForm] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
+    const [isUploading, setIsUploading] = useState(false);
     const router = useRouter();
 
     const [newItem, setNewItem] = useState({
@@ -129,9 +134,52 @@ export default function AdminDashboard() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setIsUploading(true);
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            });
+            const data = await res.json();
+            if (data.success) {
+                setNewItem({ ...newItem, image: data.url });
+            } else {
+                alert("Upload failed: " + data.error);
+            }
+        } catch (error) {
+            console.error("Upload Error:", error);
+            alert("Upload failed. Please try again.");
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+    const fixUnsplashUrl = (url: string) => {
+        if (!url) return "";
+        // If it's a standard Unsplash photo page link
+        // Example: https://unsplash.com/photos/a-bowl-of-soup-gDwy_JEoz8k
+        if (url.includes("unsplash.com/photos/")) {
+            const parts = url.split("/");
+            const id = parts[parts.length - 1];
+            // If the ID has a slug name before it (e.g., bowl-of-soup-ABC123)
+            const idParts = id.split("-");
+            const actualId = idParts[idParts.length - 1];
+            return `https://images.unsplash.com/photo-${actualId}?q=80&w=2070&auto=format&fit=crop`;
+        }
+        return url;
+    };
+
     const handleAddItem = async (e: React.FormEvent) => {
         e.preventDefault();
         const categoryToSave = isCustomCategory ? customCategory : newItem.category;
+        const fixedImageUrl = fixUnsplashUrl(newItem.image);
 
         try {
             const res = await fetch("/api/menu", {
@@ -140,8 +188,8 @@ export default function AdminDashboard() {
                 body: JSON.stringify({
                     action: isEditing ? "UPDATE" : "ADD",
                     item: isEditing
-                        ? { ...newItem, id: editingId, category: categoryToSave }
-                        : { ...newItem, category: categoryToSave }
+                        ? { ...newItem, id: editingId, category: categoryToSave, image: fixedImageUrl }
+                        : { ...newItem, category: categoryToSave, image: fixedImageUrl }
                 }),
             });
             if (res.ok) {
@@ -325,6 +373,18 @@ export default function AdminDashboard() {
                                         onChange={(e) => setNewItem({ ...newItem, image: e.target.value })}
                                         required
                                     />
+                                    {newItem.image && (
+                                        <div className="mt-2 relative h-32 w-full rounded-xl overflow-hidden border border-border bg-accent/30 group/preview">
+                                            <img
+                                                src={fixUnsplashUrl(newItem.image)}
+                                                alt="Preview"
+                                                className="w-full h-full object-cover transition-transform duration-500 group-hover/preview:scale-110"
+                                            />
+                                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/preview:opacity-100 transition-opacity">
+                                                <span className="text-white text-[10px] font-bold uppercase tracking-wider">Live Preview</span>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
                                     <label className="text-sm font-medium text-muted-foreground">Description</label>

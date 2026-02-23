@@ -1,7 +1,4 @@
-"use client";
-
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -85,11 +82,10 @@ export function Specialties() {
 
                             {/* Category Image */}
                             <div className="relative h-[220px] md:h-[260px] rounded-2xl overflow-hidden mb-8 group">
-                                <Image
+                                <img
                                     src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2074&auto=format&fit=crop"
                                     alt="Varieties of food served at Fulbari"
-                                    fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                                 <div className="absolute bottom-4 left-4">
@@ -118,11 +114,10 @@ export function Specialties() {
                                 >
                                     {/* Category Thumbnail */}
                                     <div className="relative h-28 overflow-hidden">
-                                        <Image
+                                        <img
                                             src={item.image}
                                             alt={item.label}
-                                            fill
-                                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
                                     </div>
@@ -167,11 +162,10 @@ export function Specialties() {
                         >
                             {/* Modal Header */}
                             <div className="relative h-40 md:h-48 overflow-hidden">
-                                <Image
+                                <img
                                     src={selectedCategory.image}
                                     alt={selectedCategory.label}
-                                    fill
-                                    className="object-cover"
+                                    className="w-full h-full object-cover"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent" />
                                 <div className="absolute bottom-4 left-6 z-10">
@@ -207,11 +201,10 @@ export function Specialties() {
                                             className="flex gap-4 p-3 rounded-xl bg-background border border-border/30 hover:border-primary/30 hover:shadow-md transition-all group"
                                         >
                                             <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
-                                                <Image
+                                                <img
                                                     src={item.image}
                                                     alt={item.name}
-                                                    fill
-                                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
                                             </div>
                                             <div className="flex flex-col justify-center flex-1 min-w-0">

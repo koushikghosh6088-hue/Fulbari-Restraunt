@@ -1,7 +1,4 @@
-"use client";
-
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -48,11 +45,10 @@ export default function MenuPage() {
             {/* Menu Header */}
             <section className="pt-24 md:pt-32 pb-12 md:pb-16 px-4 text-center relative overflow-hidden">
                 <div className="absolute inset-0">
-                    <Image
+                    <img
                         src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2074&auto=format&fit=crop"
                         alt="Delicious food spread"
-                        fill
-                        className="object-cover opacity-15"
+                        className="w-full h-full object-cover opacity-15"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-background/30 to-background" />
                 </div>
@@ -164,11 +160,10 @@ export default function MenuPage() {
                                 >
                                     {/* Image */}
                                     <div className="relative h-48 overflow-hidden">
-                                        <Image
+                                        <img
                                             src={item.image}
                                             alt={item.name}
-                                            fill
-                                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                         />
                                         {item.isBestseller && (
                                             <div className="absolute top-2 left-2 bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-sm shadow-md">
