@@ -19,7 +19,7 @@ export function Hero() {
                         alt="Fulbari Restaurant Exterior Night View"
                         width={1920}
                         height={1080}
-                        className="w-full max-h-[82vh] object-cover object-center"
+                        className="w-full max-h-[90vh] object-cover object-top"
                         priority
                     />
 
