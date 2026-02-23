@@ -25,7 +25,7 @@
     "description": "Creamy corn soup with finely chopped veggies.",
     "price": 140,
     "category": "Soups",
-    "image": "https://images.unsplash.com/photo-1628191010210-a59de33e5941?q=80&w=2070",
+    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=2070",
     "isVeg": true,
     "available": true
   },
@@ -35,7 +35,7 @@
     "description": "Creamy sweet corn soup with chicken and egg drops.",
     "price": 170,
     "category": "Soups",
-    "image": "https://images.unsplash.com/photo-1628191010210-a59de33e5941?q=80&w=2070",
+    "image": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=2070",
     "isVeg": false,
     "available": true
   },
@@ -725,7 +725,7 @@
     "description": "Grilled marinated paneer with capsicum and tomato.",
     "price": 299,
     "category": "Tandoori",
-    "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=2070",
+    "image": "https://images.unsplash.com/photo-1666060519824-796d5638d809?q=80&w=2070",
     "isVeg": true,
     "available": true
   },
