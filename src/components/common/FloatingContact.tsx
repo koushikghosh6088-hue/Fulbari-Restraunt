@@ -10,8 +10,14 @@ export default function FloatingContact() {
     const phoneNumber = "+918420680650";
     const whatsappLink = `https://wa.me/${phoneNumber.replace("+", "")}`;
 
+    console.log("FloatingContact Rendered at", new Date().toISOString());
+
     return (
-        <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-3 print:hidden">
+        <div
+            id="floating-contact-widget"
+            className="fixed bottom-6 right-6 z-[99999] flex flex-col items-end gap-3 print:hidden"
+            style={{ display: 'flex !important', visibility: 'visible !important', opacity: '1 !important' }}
+        >
             {/* Expanded Options */}
             <AnimatePresence>
                 {isOpen && (
