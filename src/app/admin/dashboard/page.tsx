@@ -164,7 +164,7 @@ export default function AdminDashboard() {
             }
         } catch (error) {
             console.error("Upload Error:", error);
-            alert("Upload failed! If you are on the live site, this is likely because the server is read-only. Please use Image URLs instead.");
+            alert("Upload failed! Please ensure you created the 'menu-images' bucket in Supabase and set it to Public.");
         } finally {
             setIsUploading(false);
         }
@@ -226,9 +226,9 @@ export default function AdminDashboard() {
                     type: 'success'
                 });
                 setTimeout(() => setShowToast({ ...showToast, show: false }), 3000);
-            } else {
+                // Show specific error from Supabase
                 const data = await res.json();
-                alert(`Error: ${data.error || "Failed to save item"}. Note: Live site is read-only.`);
+                alert(`Error: ${data.error || "Failed to save item"}. Check your Supabase table and keys.`);
             }
         } catch (error) {
             console.error(isEditing ? "Update failed" : "Add failed");
