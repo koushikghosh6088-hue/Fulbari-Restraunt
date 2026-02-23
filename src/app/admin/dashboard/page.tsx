@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,9 @@ import {
     Save,
     LogOut,
     ChevronDown,
-    ChevronUp
+    ChevronUp,
+    Pencil,
+    ArrowLeft
 } from "lucide-react";
 
 interface MenuItem {
@@ -36,9 +39,10 @@ export default function AdminDashboard() {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [showAddForm, setShowAddForm] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingId, setEditingId] = useState<string | null>(null);
     const router = useRouter();
 
-    // New item form state
     const [newItem, setNewItem] = useState({
         name: "",
         description: "",
@@ -109,6 +113,22 @@ export default function AdminDashboard() {
         }
     };
 
+    const handleEditItem = (item: MenuItem) => {
+        setNewItem({
+            name: item.name,
+            description: item.description,
+            price: item.price,
+            category: item.category,
+            image: item.image,
+            isVeg: item.isVeg,
+            isBestseller: item.isBestseller || false
+        });
+        setIsEditing(true);
+        setEditingId(item.id);
+        setShowAddForm(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     const handleAddItem = async (e: React.FormEvent) => {
         e.preventDefault();
         const categoryToSave = isCustomCategory ? customCategory : newItem.category;
@@ -118,12 +138,16 @@ export default function AdminDashboard() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    action: "ADD",
-                    item: { ...newItem, category: categoryToSave }
+                    action: isEditing ? "UPDATE" : "ADD",
+                    item: isEditing
+                        ? { ...newItem, id: editingId, category: categoryToSave }
+                        : { ...newItem, category: categoryToSave }
                 }),
             });
             if (res.ok) {
                 setShowAddForm(false);
+                setIsEditing(false);
+                setEditingId(null);
                 setNewItem({
                     name: "",
                     description: "",
@@ -138,7 +162,7 @@ export default function AdminDashboard() {
                 fetchMenu();
             }
         } catch (error) {
-            console.error("Add failed");
+            console.error(isEditing ? "Update failed" : "Add failed");
         }
     };
 
@@ -166,16 +190,36 @@ export default function AdminDashboard() {
             <main className="flex-grow pt-24 pb-12 px-4 container mx-auto">
                 <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
                     <div>
+                        <Link href="/" className="group inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-all mb-4">
+                            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                            <span className="text-sm font-medium">Back to Home</span>
+                        </Link>
                         <h1 className="text-3xl font-bold font-heading text-foreground mb-1">Admin Dashboard</h1>
                         <p className="text-muted-foreground">Manage your restaurant menu items dynamically</p>
                     </div>
                     <div className="flex gap-4">
                         <Button
-                            onClick={() => setShowAddForm(!showAddForm)}
+                            onClick={() => {
+                                if (showAddForm && isEditing) {
+                                    setIsEditing(false);
+                                    setEditingId(null);
+                                    setNewItem({
+                                        name: "",
+                                        description: "",
+                                        price: 0,
+                                        category: "Bengali",
+                                        image: "",
+                                        isVeg: false,
+                                        isBestseller: false
+                                    });
+                                } else {
+                                    setShowAddForm(!showAddForm);
+                                }
+                            }}
                             className="bg-primary hover:bg-primary/90 rounded-full px-6"
                         >
                             {showAddForm ? <ChevronUp className="mr-2" size={18} /> : <Plus className="mr-2" size={18} />}
-                            {showAddForm ? "Close Form" : "Add New Item"}
+                            {showAddForm ? (isEditing ? "Cancel Edit" : "Close Form") : "Add New Item"}
                         </Button>
                         <Button
                             variant="outline"
@@ -201,6 +245,11 @@ export default function AdminDashboard() {
                                 onSubmit={handleAddItem}
                                 className="bg-card border border-border rounded-3xl p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 shadow-xl relative"
                             >
+                                <div className="md:col-span-2 lg:col-span-3 mb-2">
+                                    <h2 className="text-xl font-bold font-heading text-primary">
+                                        {isEditing ? `Editing: ${newItem.name}` : "Add New Menu Item"}
+                                    </h2>
+                                </div>
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium text-muted-foreground">Item Name</label>
                                     <input
@@ -307,7 +356,7 @@ export default function AdminDashboard() {
                                         <span className="text-sm font-medium group-hover:text-yellow-500 transition-colors">Bestseller</span>
                                     </label>
                                     <Button type="submit" className="ml-auto px-8 py-6 rounded-2xl font-bold shadow-lg shadow-primary/20">
-                                        Save Item to Menu
+                                        {isEditing ? "Update Menu Item" : "Save Item to Menu"}
                                     </Button>
                                 </div>
                             </form>
@@ -332,15 +381,34 @@ export default function AdminDashboard() {
                                     />
                                     <div className="absolute top-2 right-2 flex flex-col gap-2">
                                         <button
-                                            onClick={() => toggleAvailability(item)}
-                                            className={`p-2 rounded-full backdrop-blur-md border border-white/20 transition-all ${item.available ? "bg-green-500/80 text-white" : "bg-red-500/80 text-white"}`}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                toggleAvailability(item);
+                                            }}
+                                            className={`w-12 h-6 rounded-full relative transition-all duration-300 backdrop-blur-md border border-white/20 ${item.available ? "bg-green-500/80" : "bg-red-500/80"}`}
                                             title={item.available ? "Disable Item" : "Enable Item"}
                                         >
-                                            {item.available ? <Power size={18} /> : <PowerOff size={18} />}
+                                            <motion.div
+                                                animate={{ x: item.available ? 24 : 4 }}
+                                                className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-lg"
+                                            />
                                         </button>
                                         <button
-                                            onClick={() => handleDelete(item.id)}
-                                            className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-red-500/80 transition-all"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleEditItem(item);
+                                            }}
+                                            className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-all"
+                                            title="Edit Item"
+                                        >
+                                            <Pencil size={18} />
+                                        </button>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleDelete(item.id);
+                                            }}
+                                            className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-red-500 transition-all"
                                             title="Delete Item"
                                         >
                                             <Trash2 size={18} />

@@ -63,6 +63,15 @@ export async function POST(request: Request) {
             }
         }
 
+        if (action === "UPDATE") {
+            const index = menu.findIndex((i: any) => i.id === item.id);
+            if (index !== -1) {
+                menu[index] = { ...menu[index], ...item };
+                saveMenu(menu);
+                return NextResponse.json({ success: true, item: menu[index] });
+            }
+        }
+
         return NextResponse.json({ error: "Invalid action" }, { status: 400 });
     } catch (error) {
         console.error("API Error:", error);

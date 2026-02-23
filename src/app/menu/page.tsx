@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Category } from "@/data/menu";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Leaf, Utensils, Loader2 } from "lucide-react";
+import { Search, Leaf, Utensils, Loader2, ArrowLeft } from "lucide-react";
 
 export default function MenuPage() {
     const [menuItems, setMenuItems] = useState<any[]>([]);
@@ -58,8 +59,12 @@ export default function MenuPage() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="relative z-10"
+                    className="relative z-10 container mx-auto px-4"
                 >
+                    <Link href="/" className="group inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-all mb-4 md:mb-6">
+                        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+                        <span className="text-sm font-medium">Back to Home</span>
+                    </Link>
                     <h1 className="text-2xl md:text-5xl font-bold font-heading mb-3 text-foreground">Our Menu</h1>
                     <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto">
                         Discover a symphony of flavors prepared with love and tradition.
