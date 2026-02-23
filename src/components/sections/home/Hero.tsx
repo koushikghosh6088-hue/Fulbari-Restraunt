@@ -27,8 +27,8 @@ export function Hero() {
                     <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
 
-                    {/* Text - centered vertically, left-aligned, starts after navbar */}
-                    <div className="absolute inset-0 flex items-center">
+                    {/* Text - bottom of image, left-aligned, clear of the neon sign */}
+                    <div className="absolute inset-0 flex items-end pb-10 md:pb-14">
                         <div className="max-w-7xl mx-auto w-full px-8 md:px-12 lg:px-16">
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
