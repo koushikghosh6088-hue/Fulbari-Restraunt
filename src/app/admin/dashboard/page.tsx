@@ -504,9 +504,9 @@ export default function AdminDashboard() {
                                         required
                                     />
                                 </div>
-                                <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-start md:items-center lg:col-span-3 pt-2">
-                                    <div className="flex gap-6 items-center">
-                                        <label className="flex items-center gap-2 cursor-pointer group">
+                                <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start lg:items-center lg:col-span-3 pt-2">
+                                    <div className="flex flex-wrap gap-x-6 gap-y-3 items-center w-full lg:w-auto">
+                                        <label className="flex items-center gap-2 cursor-pointer group whitespace-nowrap">
                                             <input
                                                 type="checkbox"
                                                 className="w-5 h-5 accent-primary rounded cursor-pointer"
@@ -515,7 +515,7 @@ export default function AdminDashboard() {
                                             />
                                             <span className="text-sm font-medium group-hover:text-primary transition-colors">Vegetarian</span>
                                         </label>
-                                        <label className="flex items-center gap-2 cursor-pointer group">
+                                        <label className="flex items-center gap-2 cursor-pointer group whitespace-nowrap">
                                             <input
                                                 type="checkbox"
                                                 className="w-5 h-5 accent-yellow-500 rounded cursor-pointer"
@@ -528,7 +528,7 @@ export default function AdminDashboard() {
                                     <Button
                                         type="submit"
                                         disabled={isSaving}
-                                        className="w-full md:w-auto md:ml-auto px-8 py-6 rounded-2xl font-bold shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+                                        className="w-full lg:w-auto lg:ml-auto px-6 lg:px-8 py-6 rounded-2xl font-bold shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
                                     >
                                         {isSaving && <Loader2 className="w-4 h-4 animate-spin" />}
                                         {isEditing ? "Update Menu Item" : "Save Item to Menu"}
