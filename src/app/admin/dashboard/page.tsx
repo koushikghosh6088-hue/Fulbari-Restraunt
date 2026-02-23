@@ -49,6 +49,9 @@ export default function AdminDashboard() {
         isBestseller: false
     });
 
+    const [customCategory, setCustomCategory] = useState("");
+    const [isCustomCategory, setIsCustomCategory] = useState(false);
+
     useEffect(() => {
         // Simple protected route check
         const isLoggedIn = localStorage.getItem("adminLoggedIn");
@@ -58,6 +61,9 @@ export default function AdminDashboard() {
         }
         fetchMenu();
     }, []);
+
+    // Derive categories from existing items
+    const existingCategories = Array.from(new Set(menuItems.map(item => item.category)));
 
     const fetchMenu = async () => {
         try {
@@ -105,11 +111,16 @@ export default function AdminDashboard() {
 
     const handleAddItem = async (e: React.FormEvent) => {
         e.preventDefault();
+        const categoryToSave = isCustomCategory ? customCategory : newItem.category;
+
         try {
             const res = await fetch("/api/menu", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ action: "ADD", item: newItem }),
+                body: JSON.stringify({
+                    action: "ADD",
+                    item: { ...newItem, category: categoryToSave }
+                }),
             });
             if (res.ok) {
                 setShowAddForm(false);
@@ -122,6 +133,8 @@ export default function AdminDashboard() {
                     isVeg: false,
                     isBestseller: false
                 });
+                setCustomCategory("");
+                setIsCustomCategory(false);
                 fetchMenu();
             }
         } catch (error) {
@@ -211,19 +224,47 @@ export default function AdminDashboard() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-muted-foreground">Category</label>
-                                    <select
-                                        className="w-full bg-accent border-transparent rounded-xl p-3 outline-none focus:ring-1 focus:ring-primary transition-all"
-                                        value={newItem.category}
-                                        onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
-                                    >
-                                        <option value="Bengali">Bengali</option>
-                                        <option value="Indian">Indian</option>
-                                        <option value="Chinese">Chinese</option>
-                                        <option value="Starters">Starters</option>
-                                        <option value="Drinks">Drinks</option>
-                                        <option value="Desserts">Desserts</option>
-                                    </select>
+                                    <div className="flex justify-between items-center">
+                                        <label className="text-sm font-medium text-muted-foreground">Category</label>
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsCustomCategory(!isCustomCategory)}
+                                            className="text-[10px] text-primary hover:underline"
+                                        >
+                                            {isCustomCategory ? "Select Existing" : "Add New"}
+                                        </button>
+                                    </div>
+                                    {isCustomCategory ? (
+                                        <input
+                                            type="text"
+                                            placeholder="Enter New Category"
+                                            className="w-full bg-accent border-transparent rounded-xl p-3 outline-none focus:ring-1 focus:ring-primary transition-all"
+                                            value={customCategory}
+                                            onChange={(e) => setCustomCategory(e.target.value)}
+                                            required
+                                        />
+                                    ) : (
+                                        <select
+                                            className="w-full bg-accent border-transparent rounded-xl p-3 outline-none focus:ring-1 focus:ring-primary transition-all"
+                                            value={newItem.category}
+                                            onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+                                        >
+                                            {existingCategories.length > 0 ? (
+                                                existingCategories.map(cat => (
+                                                    <option key={cat} value={cat}>{cat}</option>
+                                                ))
+                                            ) : (
+                                                <>
+                                                    <option value="Bengali">Bengali</option>
+                                                    <option value="Indian">Indian</option>
+                                                    <option value="Chinese">Chinese</option>
+                                                    <option value="Starters">Starters</option>
+                                                    <option value="Drinks">Drinks</option>
+                                                    <option value="Desserts">Desserts</option>
+                                                </>
+                                            )}
+                                        </select>
+                                    )}
                                 </div>
                                 <div className="space-y-2 md:col-span-2 lg:col-span-1">
                                     <label className="text-sm font-medium text-muted-foreground">Image URL</label>

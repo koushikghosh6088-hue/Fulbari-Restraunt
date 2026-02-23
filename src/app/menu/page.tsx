@@ -12,10 +12,8 @@ import { Search, Leaf, Utensils, Loader2 } from "lucide-react";
 export default function MenuPage() {
     const [menuItems, setMenuItems] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeCategory, setActiveCategory] = useState<Category>("All");
+    const [activeCategory, setActiveCategory] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
-
-    const categories: Category[] = ["All", "Bengali", "Indian", "Chinese", "Starters", "Drinks", "Desserts"];
 
     useEffect(() => {
         fetch("/api/menu")
@@ -30,9 +28,12 @@ export default function MenuPage() {
             });
     }, []);
 
+    // Derive categories dynamically from data
+    const categories = ["All", ...Array.from(new Set(menuItems.map(item => item.category)))];
+
     // Filter logic - Only show available items
     const filteredItems = menuItems.filter((item) => {
-        const isAvailable = item.available !== false; // Default to true if not specified
+        const isAvailable = item.available !== false;
         const matchesCategory = activeCategory === "All" || item.category === activeCategory;
         const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             item.description.toLowerCase().includes(searchQuery.toLowerCase());
