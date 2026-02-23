@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Star, ArrowRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
