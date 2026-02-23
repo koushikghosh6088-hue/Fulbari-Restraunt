@@ -267,7 +267,7 @@ export default function AdminDashboard() {
                         animate={{ opacity: 1, y: -20, x: "-50%" }}
                         exit={{ opacity: 0, y: 50, x: "-50%" }}
                         className={cn(
-                            "fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 w-[90%] md:min-w-[300px] md:w-auto",
+                            "fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 w-[90%] md:min-w-[320px] md:w-auto",
                             showToast.type === 'success' ? "bg-green-500 text-white" : "bg-red-500 text-white"
                         )}
                     >
@@ -504,7 +504,7 @@ export default function AdminDashboard() {
                                         required
                                     />
                                 </div>
-                                <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start lg:items-center lg:col-span-3 pt-2">
+                                <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start lg:items-center col-span-1 md:col-span-2 lg:col-span-3 pt-2">
                                     <div className="flex flex-wrap gap-x-6 gap-y-3 items-center w-full lg:w-auto">
                                         <label className="flex items-center gap-2 cursor-pointer group whitespace-nowrap">
                                             <input
@@ -528,10 +528,10 @@ export default function AdminDashboard() {
                                     <Button
                                         type="submit"
                                         disabled={isSaving}
-                                        className="w-full lg:w-auto lg:ml-auto px-6 lg:px-8 py-6 rounded-2xl font-bold shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+                                        className="w-full lg:w-auto lg:ml-auto px-6 lg:px-8 py-6 rounded-2xl font-bold shadow-lg shadow-primary/20 flex items-center justify-center gap-2 overflow-hidden"
                                     >
                                         {isSaving && <Loader2 className="w-4 h-4 animate-spin" />}
-                                        {isEditing ? "Update Menu Item" : "Save Item to Menu"}
+                                        <span className="truncate">{isEditing ? "Update Menu Item" : "Save Item to Menu"}</span>
                                     </Button>
                                 </div>
                             </form>
