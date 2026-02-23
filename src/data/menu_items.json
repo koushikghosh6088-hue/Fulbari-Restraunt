@@ -15,7 +15,7 @@
     "description": "Clear chicken broth with tender chicken pieces.",
     "price": 160,
     "category": "Soups",
-    "image": "https://images.unsplash.com/photo-1626500155552-446756855325?q=80&w=2070",
+    "image": "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?q=80&w=1974",
     "isVeg": false,
     "available": true
   },
@@ -80,6 +80,26 @@
     "available": true
   },
   {
+    "id": "s9",
+    "name": "Noodles Soup (Veg)",
+    "description": "Clear soup with noodles and vegetables.",
+    "price": 140,
+    "category": "Soups",
+    "image": "https://images.unsplash.com/photo-1616030846238-c3a8877bc961?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "s10",
+    "name": "Noodles Soup (Non-Veg)",
+    "description": "Noodle soup with chicken and oriental spices.",
+    "price": 170,
+    "category": "Soups",
+    "image": "https://images.unsplash.com/photo-1616030846238-c3a8877bc961?q=80&w=1974",
+    "isVeg": false,
+    "available": true
+  },
+  {
     "id": "a1",
     "name": "French Fry",
     "description": "Golden and crispy deep-fried potato fries.",
@@ -102,7 +122,7 @@
   {
     "id": "a3",
     "name": "Paneer Pakora (6pc)",
-    "description": "Fried cottage cheese fritters.",
+    "description": "Fried cottage cheese fritters with special spices.",
     "price": 209,
     "category": "Appetizers",
     "image": "https://images.unsplash.com/photo-1666060519824-796d5638d809?q=80&w=2070",
@@ -112,7 +132,7 @@
   {
     "id": "a4",
     "name": "Dry Chilli Paneer (8pc)",
-    "description": "Panel cubes tossed with spicy chillies and onions.",
+    "description": "Paneer cubes tossed with spicy chillies and onions.",
     "price": 259,
     "category": "Appetizers",
     "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=2070",
@@ -122,7 +142,7 @@
   {
     "id": "a5",
     "name": "Crispy Chilli Babycorn",
-    "description": "Crunchy baby corn tossed in spicy schezwan sauce.",
+    "description": "Crunchy baby corn tossed in spicy sauce.",
     "price": 209,
     "category": "Appetizers",
     "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=1974",
@@ -141,8 +161,18 @@
   },
   {
     "id": "a7",
+    "name": "Mushroom Salt And Pepper",
+    "description": "Crispy mushrooms seasoned with salt and black pepper.",
+    "price": 219,
+    "category": "Appetizers",
+    "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "a8",
     "name": "Chicken Drums of Heaven (6pc)",
-    "description": "Chicken lollipops tossed in a spicy gravy.",
+    "description": "Chicken lollipops tossed in a spicy schezwan sauce.",
     "price": 239,
     "category": "Appetizers",
     "image": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=2070",
@@ -150,7 +180,7 @@
     "available": true
   },
   {
-    "id": "a8",
+    "id": "a9",
     "name": "BBQ Chicken (6pc)",
     "description": "Grilled chicken pieces with smoky BBQ flavor.",
     "price": 249,
@@ -160,9 +190,29 @@
     "available": true
   },
   {
-    "id": "a9",
+    "id": "a10",
+    "name": "Crispy Chicken",
+    "description": "Bite-sized crispy fried chicken pieces.",
+    "price": 219,
+    "category": "Appetizers",
+    "image": "https://images.unsplash.com/photo-1569058242253-92a9c73f49ec?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "a11",
+    "name": "Honey Garlic Chicken (8pc)",
+    "description": "Crispy chicken tossed in sweet honey garlic sauce.",
+    "price": 249,
+    "category": "Appetizers",
+    "image": "https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=1970",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "a12",
     "name": "Dragon Chicken (8pc)",
-    "description": "Spicy stir-fried chicken with cashews.",
+    "description": "Spicy stir-fried chicken with cashews and chillies.",
     "price": 259,
     "category": "Appetizers",
     "image": "https://images.unsplash.com/photo-1525755662778-989d966695cc?q=80&w=1974",
@@ -170,7 +220,37 @@
     "available": true
   },
   {
-    "id": "a10",
+    "id": "a13",
+    "name": "Chicken 65 (8pc)",
+    "description": "South Indian style spicy deep fried chicken.",
+    "price": 249,
+    "category": "Appetizers",
+    "image": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=1974",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "a14",
+    "name": "Dry Chilli Chicken (8pc)",
+    "description": "Classic dry chilli chicken with peppers and onions.",
+    "price": 249,
+    "category": "Appetizers",
+    "image": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=1974",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "a15",
+    "name": "Chicken Salt and Pepper",
+    "description": "Fried chicken seasoned with salt and crushed black pepper.",
+    "price": 239,
+    "category": "Appetizers",
+    "image": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "a16",
     "name": "Chicken Pakora (8pc)",
     "description": "Crispy chicken fritters with Indian spices.",
     "price": 229,
@@ -180,9 +260,9 @@
     "available": true
   },
   {
-    "id": "a11",
-    "name": "Fish Finger (6pc)",
-    "description": "Breaded and fried fish fillets.",
+    "id": "a17",
+    "name": "Chilli Fish (6pc)",
+    "description": "Battered fish fillets tossed in spicy chilli sauce.",
     "price": 319,
     "category": "Appetizers",
     "image": "https://images.unsplash.com/photo-1604135307399-86c6ce0aba8e?q=80&w=1974",
@@ -190,9 +270,39 @@
     "available": true
   },
   {
+    "id": "a18",
+    "name": "Fish Finger (6pc)",
+    "description": "Crunchy breaded fish fillets served with dip.",
+    "price": 319,
+    "category": "Appetizers",
+    "image": "https://images.unsplash.com/photo-1604135307399-86c6ce0aba8e?q=80&w=1974",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "a19",
+    "name": "Dry Chilli Prawns (6pc)",
+    "description": "Juicy prawns tossed in a spicy chilli sauce.",
+    "price": 249,
+    "category": "Appetizers",
+    "image": "https://images.unsplash.com/photo-1628102422003-887630790182?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "a20",
+    "name": "Golden Fried Prawns (6pc)",
+    "description": "Crispy golden fried prawns with dip.",
+    "price": 349,
+    "category": "Appetizers",
+    "image": "https://images.unsplash.com/photo-1628102422003-887630790182?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
     "id": "n1",
-    "name": "Hakka Noodles (Veg)",
-    "description": "Classic vegetable hakka noodles.",
+    "name": "Hakka Noodles",
+    "description": "Classic stir-fried noodles with vegetable/egg/chicken.",
     "price": 139,
     "category": "Noodles",
     "image": "https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=1984",
@@ -201,18 +311,18 @@
   },
   {
     "id": "n2",
-    "name": "Hakka Noodles (Chicken)",
-    "description": "Hakka noodles cooked with shredded chicken.",
-    "price": 189,
+    "name": "Lo Mein Noodles",
+    "description": "Slightly sweet and savory thick noodles.",
+    "price": 149,
     "category": "Noodles",
-    "image": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=2080",
-    "isVeg": false,
+    "image": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=2070",
+    "isVeg": true,
     "available": true
   },
   {
     "id": "n3",
-    "name": "Shanghai Noodles (Veg)",
-    "description": "Indo-Chinese noodles with Shanghai style sauce.",
+    "name": "Shanghai Noodles",
+    "description": "Thick noodles tossed in a rich dark soy sauce.",
     "price": 159,
     "category": "Noodles",
     "image": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=2070",
@@ -221,31 +331,51 @@
   },
   {
     "id": "n4",
-    "name": "Schezwan Noodles (Chicken)",
-    "description": "Spicy chicken noodles in schezwan sauce.",
-    "price": 199,
+    "name": "Hong Kong Noodles",
+    "description": "Crispy noodles served with a savory gravy.",
+    "price": 159,
+    "category": "Noodles",
+    "image": "https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=1984",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "n5",
+    "name": "Kimchi Noodles",
+    "description": "Spicy noodles with pungent kimchi flavor.",
+    "price": 159,
+    "category": "Noodles",
+    "image": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=2080",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "n6",
+    "name": "Schezwan Noodles",
+    "description": "Spicy noodles tossed in fiery schezwan sauce.",
+    "price": 149,
     "category": "Noodles",
     "image": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=1974",
-    "isVeg": false,
+    "isVeg": true,
     "available": true
   },
   {
     "id": "cm1",
-    "name": "Chilli Chicken",
-    "description": "Classic spicy chilli chicken in gravy.",
+    "name": "Chilli Paneer",
+    "description": "Paneer cubes in a spicy soy-chilli gravy.",
     "price": 239,
     "category": "Chinese Main Course",
-    "image": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=1974",
-    "isVeg": false,
+    "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=2070",
+    "isVeg": true,
     "available": true
   },
   {
     "id": "cm2",
-    "name": "Veg Manchurian",
-    "description": "Fried vegetable balls in a tangy, spicy sauce.",
-    "price": 199,
+    "name": "Paneer Manchurian",
+    "description": "Fried paneer balls in a tangy manchurian sauce.",
+    "price": 239,
     "category": "Chinese Main Course",
-    "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=1974",
+    "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=2070",
     "isVeg": true,
     "available": true
   },
@@ -261,8 +391,48 @@
   },
   {
     "id": "cm4",
+    "name": "Veg Manchurian",
+    "description": "Vegetable dumplings in savory manchurian gravy.",
+    "price": 199,
+    "category": "Chinese Main Course",
+    "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "cm5",
+    "name": "Baby Corn Manchurian",
+    "description": "Crispy baby corn in manchurian sauce.",
+    "price": 199,
+    "category": "Chinese Main Course",
+    "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "cm6",
+    "name": "Chilli Mushroom",
+    "description": "Spicy mushroom gravy in Indo-Chinese style.",
+    "price": 199,
+    "category": "Chinese Main Course",
+    "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "cm7",
+    "name": "Chilli Chicken",
+    "description": "Traditional spicy chilli chicken with peppers.",
+    "price": 239,
+    "category": "Chinese Main Course",
+    "image": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=1974",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "cm8",
     "name": "Chicken Manchurian",
-    "description": "Chicken pieces in a savory Manchurian sauce.",
+    "description": "Golden fried chicken in manchurian gravy.",
     "price": 239,
     "category": "Chinese Main Course",
     "image": "https://images.unsplash.com/photo-1626074353765-517a681e40be?q=80&w=1974",
@@ -270,9 +440,49 @@
     "available": true
   },
   {
+    "id": "cm9",
+    "name": "Shanghai Chicken",
+    "description": "Sweet and spicy Shanghai style chicken gravy.",
+    "price": 259,
+    "category": "Chinese Main Course",
+    "image": "https://images.unsplash.com/photo-1626074353765-517a681e40be?q=80&w=1974",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "cm10",
+    "name": "Hong Kong Chicken",
+    "description": "Stir-fried chicken in a classic Hong Kong sauce.",
+    "price": 249,
+    "category": "Chinese Main Course",
+    "image": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "cm11",
+    "name": "Hot Garlic Chicken",
+    "description": "Chicken tossed in high heat with spicy garlic sauce.",
+    "price": 249,
+    "category": "Chinese Main Course",
+    "image": "https://images.unsplash.com/photo-1525755662778-989d966695cc?q=80&w=1974",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "cm12",
+    "name": "Butter Garlic Chicken",
+    "description": "Creamy butter garlic chicken with subtle spices.",
+    "price": 259,
+    "category": "Chinese Main Course",
+    "image": "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
     "id": "im1",
     "name": "Dal Makhani",
-    "description": "Creamy black lentils slow-cooked overnight.",
+    "description": "Black lentils slow-cooked with butter and cream.",
     "price": 159,
     "category": "Indian Main Course",
     "image": "https://images.unsplash.com/photo-1546833999-b9f58160280b?q=80&w=2072",
@@ -281,8 +491,38 @@
   },
   {
     "id": "im2",
+    "name": "Veg Kolhapuri",
+    "description": "Spicy mixed vegetable curry from Kolhapur.",
+    "price": 189,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=2036",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "im3",
+    "name": "Chana Masala",
+    "description": "Chickpeas cooked in a tangy and spicy tomato gravy.",
+    "price": 169,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1589301760014-d929f3979dbf?q=80&w=2070",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "im4",
+    "name": "Palak Paneer",
+    "description": "Cottage cheese cubes in a fresh spinach gravy.",
+    "price": 249,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=2070",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "im5",
     "name": "Paneer Butter Masala",
-    "description": "Soft paneer in a rich tomato and butter gravy.",
+    "description": "Rich tomato gravy with soft paneer and butter.",
     "price": 259,
     "category": "Indian Main Course",
     "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=1974",
@@ -290,9 +530,29 @@
     "available": true
   },
   {
-    "id": "im3",
+    "id": "im6",
+    "name": "Kadhai Paneer",
+    "description": "Paneer cooked with bell peppers in a kadhai gravy.",
+    "price": 249,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "im7",
+    "name": "Chicken Curry (4pc)",
+    "description": "Traditional home-style chicken curry.",
+    "price": 219,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "im8",
     "name": "Chicken Handi",
-    "description": "Spicy chicken cooked in a traditional handi.",
+    "description": "Succulent chicken slow-cooked in a rich spice blend.",
     "price": 259,
     "category": "Indian Main Course",
     "image": "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=2070",
@@ -300,9 +560,29 @@
     "available": true
   },
   {
-    "id": "im4",
+    "id": "im9",
+    "name": "Chicken Tikka Butter Masala",
+    "description": "Grilled chicken tikka in a buttery makhani gravy.",
+    "price": 299,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "im10",
+    "name": "Hyderabadi Chicken",
+    "description": "Spicy chicken cooked in an aromatic Nizami style.",
+    "price": 279,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "im11",
     "name": "Fulbari Special Murg Musallam",
-    "description": "Our chef's special whole roasted chicken in rich gravy.",
+    "description": "Our signature whole roasted chicken in royal gravy.",
     "price": 459,
     "category": "Indian Main Course",
     "image": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=2070",
@@ -310,7 +590,17 @@
     "available": true
   },
   {
-    "id": "im5",
+    "id": "im12",
+    "name": "Mutton Curry",
+    "description": "Spicy and flavorful slow-cooked mutton gravy.",
+    "price": 419,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1545247181-516773cae754?q=80&w=2080",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "im13",
     "name": "Mutton Rezala",
     "description": "Traditional white mutton curry with aromatic spices.",
     "price": 429,
@@ -320,9 +610,29 @@
     "available": true
   },
   {
-    "id": "im6",
+    "id": "im14",
+    "name": "Rara Mutton",
+    "description": "Mutton chunks cooked with mutton keema in spicy gravy.",
+    "price": 559,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1545247181-516773cae754?q=80&w=2080",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "im15",
+    "name": "Katla Kaliya",
+    "description": "Traditional Bengali large-piece fish in rich curry.",
+    "price": 220,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1626776876729-bab4369a5a5a?q=80&w=2074",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "im16",
     "name": "Ilish Bhapa",
-    "description": "Steamed Hilsa fish in a pungent mustard paste.",
+    "description": "Steamed Hilsa in pungent mustard paste.",
     "price": 350,
     "category": "Indian Main Course",
     "image": "https://images.unsplash.com/photo-1626776876729-bab4369a5a5a?q=80&w=2074",
@@ -330,9 +640,19 @@
     "available": true
   },
   {
-    "id": "im7",
+    "id": "im17",
     "name": "Chingri Malaikari",
-    "description": "Prawns cooked in creamy coconut milk gravy.",
+    "description": "Jumbo prawns in creamy coconut milk gravy.",
+    "price": 350,
+    "category": "Indian Main Course",
+    "image": "https://images.unsplash.com/photo-1628102422003-887630790182?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "im18",
+    "name": "Prawn Masala",
+    "description": "Prawns cooked in a semi-dry spicy masala gravy.",
     "price": 350,
     "category": "Indian Main Course",
     "image": "https://images.unsplash.com/photo-1628102422003-887630790182?q=80&w=2070",
@@ -341,9 +661,9 @@
   },
   {
     "id": "r1",
-    "name": "Jeera Rice",
-    "description": "Fragrant basmati rice with cumin.",
-    "price": 119,
+    "name": "Steam Rice",
+    "description": "Soft and fluffy steam basmati rice.",
+    "price": 79,
     "category": "Rice",
     "image": "https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=1974",
     "isVeg": true,
@@ -351,9 +671,29 @@
   },
   {
     "id": "r2",
+    "name": "Jeera Rice",
+    "description": "Fragrant basmati rice tempered with cumin.",
+    "price": 119,
+    "category": "Rice",
+    "image": "https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "r3",
     "name": "Veg Pulao",
-    "description": "Aromatic rice cooked with assorted vegetables.",
+    "description": "Basmati rice cooked with garden fresh vegetables.",
     "price": 149,
+    "category": "Rice",
+    "image": "https://images.unsplash.com/photo-1563379091339-03b21bc4a4f8?q=80&w=2020",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "r4",
+    "name": "Kashmiri Pulao",
+    "description": "Sweet and aromatic pulao with dry fruits and nuts.",
+    "price": 169,
     "category": "Rice",
     "image": "https://images.unsplash.com/photo-1563379091339-03b21bc4a4f8?q=80&w=2020",
     "isVeg": true,
@@ -362,7 +702,7 @@
   {
     "id": "b1",
     "name": "Chicken Kacchi Biryani",
-    "description": "Authentic chicken biryani with special spices.",
+    "description": "Succulent chicken cooked with long grain basmati rice.",
     "price": 179,
     "category": "Biryani",
     "image": "https://images.unsplash.com/photo-1563379091339-03b21bc4a4f8?q=80&w=2020",
@@ -372,7 +712,7 @@
   {
     "id": "b2",
     "name": "Mutton Kacchi Biryani",
-    "description": "Rich and aromatic mutton kacchi biryani.",
+    "description": "Traditional mutton biryani cooked to perfection.",
     "price": 219,
     "category": "Biryani",
     "image": "https://images.unsplash.com/photo-1563379091339-03b21bc4a4f8?q=80&w=2020",
@@ -381,18 +721,8 @@
   },
   {
     "id": "t1",
-    "name": "Tandoor Chicken (Full)",
-    "description": "Whole roasted tandoori chicken.",
-    "price": 449,
-    "category": "Tandoori",
-    "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=2070",
-    "isVeg": false,
-    "available": true
-  },
-  {
-    "id": "t2",
     "name": "Paneer Tikka",
-    "description": "Char-grilled marinated paneer cubes.",
+    "description": "Grilled marinated paneer with capsicum and tomato.",
     "price": 299,
     "category": "Tandoori",
     "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=2070",
@@ -400,10 +730,30 @@
     "available": true
   },
   {
+    "id": "t2",
+    "name": "Tandoor Chicken",
+    "description": "Classic tandoori chicken marinated in yogurt.",
+    "price": 449,
+    "category": "Tandoori",
+    "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
+    "id": "t3",
+    "name": "Chicken Tangdi Kabab",
+    "description": "Juicy chicken drumsticks roasted in tandoor.",
+    "price": 419,
+    "category": "Tandoori",
+    "image": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=2070",
+    "isVeg": false,
+    "available": true
+  },
+  {
     "id": "br1",
-    "name": "Butter Naan",
-    "description": "Soft oven-baked bread with butter.",
-    "price": 55,
+    "name": "Plain Roti",
+    "description": "Traditional Indian whole wheat flatbread.",
+    "price": 10,
     "category": "Bread",
     "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=2070",
     "isVeg": true,
@@ -411,8 +761,18 @@
   },
   {
     "id": "br2",
+    "name": "Butter Naan",
+    "description": "Fluffy oven-baked bread with butter.",
+    "price": 55,
+    "category": "Bread",
+    "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=2070",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "br3",
     "name": "Garlic Naan",
-    "description": "Fresh naan bread with garlic and butter.",
+    "description": "Freshly baked naan topped with garlic.",
     "price": 59,
     "category": "Bread",
     "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=2070",
@@ -420,39 +780,29 @@
     "available": true
   },
   {
+    "id": "br4",
+    "name": "Masala Kulcha",
+    "description": "Stuffed bread with tangy and spicy filling.",
+    "price": 69,
+    "category": "Bread",
+    "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=2070",
+    "isVeg": true,
+    "available": true
+  },
+  {
     "id": "bev1",
-    "name": "Virgin Mojito",
-    "description": "Refreshing lime and mint mojito.",
-    "price": 119,
+    "name": "Cold Drink",
+    "description": "Chilled carbonated soft drink.",
+    "price": 39,
     "category": "Beverages",
-    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1974",
+    "image": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=2070",
     "isVeg": true,
     "available": true
   },
   {
     "id": "bev2",
-    "name": "Blue Lagoon",
-    "description": "Chilled blue lagoon mocktail.",
-    "price": 99,
-    "category": "Beverages",
-    "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=2050",
-    "isVeg": true,
-    "available": true
-  },
-  {
-    "id": "bev3",
-    "name": "Cold Coffee",
-    "description": "Creamy whipped cold coffee.",
-    "price": 149,
-    "category": "Beverages",
-    "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=2069",
-    "isVeg": true,
-    "available": true
-  },
-  {
-    "id": "bev4",
     "name": "Dahi Lassi",
-    "description": "Traditional thick and sweet lassi.",
+    "description": "Sweet and thick yogurt-based drink.",
     "price": 59,
     "category": "Beverages",
     "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=2069",
@@ -460,29 +810,79 @@
     "available": true
   },
   {
-    "id": "bev5",
-    "name": "Mango Delight",
-    "description": "Fresh mango mocktail.",
+    "id": "bev3",
+    "name": "Milk Shake",
+    "description": "Classic creamy milk shake.",
     "price": 129,
     "category": "Beverages",
-    "image": "https://images.unsplash.com/photo-1546173159-315724a30d56?q=80&w=1974",
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev4",
+    "name": "Milk Shake (Mango)",
+    "description": "Milk shake blended with fresh mangoes.",
+    "price": 139,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev5",
+    "name": "Fresh Lime Soda",
+    "description": "Tangy and refreshing lemon soda.",
+    "price": 79,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1974",
     "isVeg": true,
     "available": true
   },
   {
     "id": "bev6",
-    "name": "Sunrise",
-    "description": "Beautiful layered fruit mocktail.",
-    "price": 129,
+    "name": "Masala Cola",
+    "description": "Cola with a spicy Indian kick.",
+    "price": 79,
     "category": "Beverages",
-    "image": "https://images.unsplash.com/photo-1546173159-315724a30d56?q=80&w=1974",
+    "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=2050",
     "isVeg": true,
     "available": true
   },
   {
     "id": "bev7",
-    "name": "Pina Colada",
-    "description": "Coconut and pineapple mocktail.",
+    "name": "Blue Lagoon",
+    "description": "Vibrant blue curacao mocktail.",
+    "price": 99,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1536935338788-846bb9981813?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev8",
+    "name": "Virgin Mojito",
+    "description": "Refreshing mint and lime mocktail.",
+    "price": 119,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev9",
+    "name": "Black Currant",
+    "description": "Sweet and tangy black currant drink.",
+    "price": 119,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1615478503562-ec2e8aa0e24e?q=80&w=2070",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev10",
+    "name": "Mango Delight",
+    "description": "Refreshing tropical mango mocktail.",
     "price": 129,
     "category": "Beverages",
     "image": "https://images.unsplash.com/photo-1546173159-315724a30d56?q=80&w=1974",
@@ -490,9 +890,99 @@
     "available": true
   },
   {
+    "id": "bev11",
+    "name": "American Sign",
+    "description": "Exclusive layered signature drink.",
+    "price": 129,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=2050",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev12",
+    "name": "Rainbow",
+    "description": "Multi-layered fruit syrup mocktail.",
+    "price": 139,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1595981267035-23a422c9e93d?q=80&w=2070",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev13",
+    "name": "Sunrise",
+    "description": "Beautiful sunrise gradient mocktail.",
+    "price": 129,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1497534446932-c946e7316a05?q=80&p=2070",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev14",
+    "name": "Green Ice Land",
+    "description": "Chilled green apple and mint cooler.",
+    "price": 129,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev15",
+    "name": "German Passion",
+    "description": "Unique berry blend German style mocktail.",
+    "price": 139,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=2070",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev16",
+    "name": "Indian Passion",
+    "description": "Spicy and sweet Indian fruit punch.",
+    "price": 139,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1536935338788-846bb9981813?q=80&w=1974",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev17",
+    "name": "Blue Sky",
+    "description": "Light and bubbly blue sky refreshment.",
+    "price": 129,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=2050",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev18",
+    "name": "Cold Coffee",
+    "description": "Creamy classic cold coffee with froth.",
+    "price": 149,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=2069",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "bev19",
+    "name": "Pina Colada",
+    "description": "Coconut and pineapple tropical joy.",
+    "price": 129,
+    "category": "Beverages",
+    "image": "https://images.unsplash.com/photo-1517959105821-eaf2591934cd?q=80&w=2071",
+    "isVeg": true,
+    "available": true
+  },
+  {
     "id": "ic1",
-    "name": "Vanilla Ice Cream",
-    "description": "Smooth and creamy vanilla ice cream.",
+    "name": "Vanilla",
+    "description": "Classic creamy vanilla ice cream scoop.",
     "price": 59,
     "category": "Ice Cream",
     "image": "https://images.unsplash.com/photo-1501443762994-82bd5dabb892?q=80&w=2070",
@@ -501,11 +991,31 @@
   },
   {
     "id": "ic2",
-    "name": "Chocolate Ice Cream",
-    "description": "Rich chocolate ice cream scoop.",
+    "name": "Chocolate",
+    "description": "Rich dark chocolate ice cream.",
     "price": 69,
     "category": "Ice Cream",
     "image": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=1972",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "ic3",
+    "name": "Mango",
+    "description": "Seasonal fresh mango ice cream.",
+    "price": 69,
+    "category": "Ice Cream",
+    "image": "https://images.unsplash.com/photo-1553177595-4de2bb0842b9?q=80&w=2070",
+    "isVeg": true,
+    "available": true
+  },
+  {
+    "id": "ic4",
+    "name": "Butterscotch",
+    "description": "Crunchy butterscotch flavored ice cream.",
+    "price": 69,
+    "category": "Ice Cream",
+    "image": "https://images.unsplash.com/photo-1542124948-cd3d29b1f230?q=80&w=2070",
     "isVeg": true,
     "available": true
   }
