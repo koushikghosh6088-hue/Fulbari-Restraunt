@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Utensils, CalendarDays, Star, Leaf, ChevronRight, Loader2 } from "lucide-react";
+import { Utensils, CalendarDays, Star, ChevronRight, Loader2, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface MenuItem {
@@ -24,17 +24,18 @@ interface Event {
     description: string;
     event_date: string;
     poster_url: string | null;
+    image_urls?: string[];
     is_active: boolean;
 }
 
 const tabVariants = {
     hidden: { opacity: 0, y: 16 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4, staggerChildren: 0.07 } },
-    exit: { opacity: 0, y: -12, transition: { duration: 0.25 } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, staggerChildren: 0.06 } },
+    exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
 };
 
 const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 16 },
     visible: { opacity: 1, y: 0 },
 };
 
@@ -46,20 +47,76 @@ function formatEventDate(dateStr: string) {
 function EmptyState({ icon, text }: { icon: React.ReactNode; text: string }) {
     return (
         <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                {icon}
-            </div>
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary">{icon}</div>
             <p className="text-muted-foreground text-sm max-w-xs">{text}</p>
         </div>
     );
 }
 
+// Auto-scrolling image carousel for event cards
+function EventImageCarousel({ images }: { images: string[] }) {
+    const [idx, setIdx] = useState(0);
+
+    useEffect(() => {
+        if (images.length <= 1) return;
+        const t = setInterval(() => setIdx(i => (i + 1) % images.length), 3000);
+        return () => clearInterval(t);
+    }, [images.length]);
+
+    if (images.length === 0) {
+        return (
+            <div className="w-full h-52 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-primary/10 to-card">
+                <CalendarDays size={36} className="text-primary/40" />
+            </div>
+        );
+    }
+
+    return (
+        <div className="relative w-full h-52 overflow-hidden select-none">
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={idx}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-0"
+                >
+                    <Image src={images[idx]} alt={`Event image ${idx + 1}`} fill className="object-cover" />
+                </motion.div>
+            </AnimatePresence>
+
+            {/* Prev / Next arrows */}
+            {images.length > 1 && (
+                <>
+                    <button onClick={() => setIdx(i => (i - 1 + images.length) % images.length)}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70 transition z-10">
+                        <ChevronLeft size={13} />
+                    </button>
+                    <button onClick={() => setIdx(i => (i + 1) % images.length)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70 transition z-10">
+                        <ChevronRight size={13} />
+                    </button>
+                    {/* Dots */}
+                    <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 z-10">
+                        {images.map((_, i) => (
+                            <button key={i} onClick={() => setIdx(i)}
+                                className={`w-1.5 h-1.5 rounded-full transition-all ${i === idx ? "bg-white w-4" : "bg-white/50"}`} />
+                        ))}
+                    </div>
+                </>
+            )}
+        </div>
+    );
+}
+
 export function TodaysMenuAndEvents() {
-    const [activeTab, setActiveTab] = useState<"menu" | "events">("menu");
+    const [activeTab, setActiveTab] = useState<"events" | "menu">("events");
     const [specials, setSpecials] = useState<MenuItem[]>([]);
     const [events, setEvents] = useState<Event[]>([]);
     const [loadingMenu, setLoadingMenu] = useState(true);
     const [loadingEvents, setLoadingEvents] = useState(true);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         fetch("/api/daily-specials")
@@ -76,8 +133,8 @@ export function TodaysMenuAndEvents() {
     }, []);
 
     return (
-        <section className="py-16 md:py-24 bg-background relative overflow-hidden">
-            {/* Background accent */}
+        <section className="py-14 md:py-20 bg-background relative overflow-hidden">
+            {/* Background accents */}
             <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl pointer-events-none" />
             <div className="absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 
@@ -85,43 +142,38 @@ export function TodaysMenuAndEvents() {
 
                 {/* Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-10 md:mb-14"
+                    className="text-center mb-8 md:mb-12"
                 >
-                    <span className="text-primary font-heading italic text-base mb-2 block tracking-wide">
+                    <span className="text-primary font-heading italic text-sm md:text-base mb-2 block tracking-wide">
                         What&apos;s On Today
                     </span>
-                    <h2 className="text-3xl md:text-5xl font-bold font-heading mb-4 tracking-tight">
+                    <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold font-heading mb-3 tracking-tight">
                         Today&apos;s Menu &amp; Events
                     </h2>
-                    <p className="text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
+                    <p className="text-muted-foreground max-w-lg mx-auto text-xs md:text-sm">
                         Fresh picks and upcoming celebrations — updated daily by our team.
                     </p>
                 </motion.div>
 
                 {/* Tab Switcher */}
-                <div className="flex justify-center mb-10">
+                <div className="flex justify-center mb-8">
                     <div className="inline-flex items-center gap-1 bg-card/60 border border-border/50 rounded-2xl p-1.5 backdrop-blur-sm shadow-lg">
                         {([
-                            { key: "menu", label: "Today's Special", icon: <Utensils size={15} /> },
-                            { key: "events", label: "Events", icon: <CalendarDays size={15} /> },
+                            { key: "events", label: "Events", icon: <CalendarDays size={14} /> },
+                            { key: "menu", label: "Today's Special", icon: <Star size={14} /> },
                         ] as const).map(tab => (
                             <button
                                 key={tab.key}
                                 onClick={() => setActiveTab(tab.key)}
-                                className={`
-                                    flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold
-                                    transition-all duration-300
+                                className={`flex items-center gap-2 px-4 md:px-6 py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all duration-300
                                     ${activeTab === tab.key
                                         ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-background/60"
-                                    }
-                                `}
+                                        : "text-muted-foreground hover:text-foreground"}`}
                             >
-                                {tab.icon}
-                                {tab.label}
+                                {tab.icon}{tab.label}
                             </button>
                         ))}
                     </div>
@@ -130,157 +182,129 @@ export function TodaysMenuAndEvents() {
                 {/* Tab Content */}
                 <AnimatePresence mode="wait">
 
-                    {/* ── TODAY'S SPECIAL ───────────────────────────── */}
+                    {/* ── EVENTS ── */}
+                    {activeTab === "events" && (
+                        <motion.div key="events" variants={tabVariants} initial="hidden" animate="visible" exit="exit">
+                            {loadingEvents ? (
+                                <div className="flex justify-center py-20"><Loader2 className="animate-spin text-primary" size={32} /></div>
+                            ) : events.length === 0 ? (
+                                <EmptyState icon={<CalendarDays size={26} />} text="No upcoming events right now. Follow us for announcements!" />
+                            ) : (
+                                <motion.div variants={tabVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                                    {events.map(event => {
+                                        // Build image list: prefer image_urls array, fallback to poster_url
+                                        const imgs: string[] = (event.image_urls && event.image_urls.length > 0)
+                                            ? event.image_urls
+                                            : event.poster_url ? [event.poster_url] : [];
+
+                                        return (
+                                            <motion.div
+                                                key={event.id}
+                                                variants={cardVariants}
+                                                whileHover={{ y: -5 }}
+                                                className="group bg-card/60 rounded-2xl overflow-hidden border border-border/50 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300"
+                                            >
+                                                <EventImageCarousel images={imgs} />
+                                                {/* Date chip */}
+                                                <div className="px-5 pt-4 pb-5">
+                                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary text-[11px] font-bold rounded-full mb-3">
+                                                        <CalendarDays size={11} /> {formatEventDate(event.event_date)}
+                                                    </span>
+                                                    <h3 className="font-bold text-foreground text-base leading-snug mb-1">{event.title}</h3>
+                                                    {event.description && (
+                                                        <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">{event.description}</p>
+                                                    )}
+                                                </div>
+                                            </motion.div>
+                                        );
+                                    })}
+                                </motion.div>
+                            )}
+                        </motion.div>
+                    )}
+
+                    {/* ── TODAY'S SPECIAL ── */}
                     {activeTab === "menu" && (
                         <motion.div key="menu" variants={tabVariants} initial="hidden" animate="visible" exit="exit">
                             {loadingMenu ? (
-                                <div className="flex justify-center items-center py-24">
-                                    <Loader2 className="animate-spin text-primary" size={36} />
-                                </div>
+                                <div className="flex justify-center py-20"><Loader2 className="animate-spin text-primary" size={32} /></div>
                             ) : specials.length === 0 ? (
-                                <EmptyState
-                                    icon={<Utensils size={28} />}
-                                    text="No specials set for today. Check back later or browse our full menu!"
-                                />
+                                <EmptyState icon={<Utensils size={26} />} text="No specials set for today. Check back later or browse our full menu!" />
                             ) : (
-                                <motion.div
-                                    variants={tabVariants}
-                                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
-                                >
-                                    {specials.map(item => (
-                                        <motion.div
-                                            key={item.id}
-                                            variants={cardVariants}
-                                            whileHover={{ y: -6 }}
-                                            className="group bg-card/60 rounded-2xl overflow-hidden border border-border/50
-                                                       hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10
-                                                       transition-all duration-300 backdrop-blur-sm"
-                                        >
-                                            {/* Image */}
-                                            <div className="relative w-full h-44 overflow-hidden">
-                                                {item.image ? (
-                                                    <Image
-                                                        src={item.image}
-                                                        alt={item.name}
-                                                        fill
-                                                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                                                    />
-                                                ) : (
-                                                    <div className="w-full h-full bg-card flex items-center justify-center">
-                                                        <Utensils size={32} className="text-muted-foreground" />
-                                                    </div>
-                                                )}
-                                                {/* Veg / Non-veg badge */}
-                                                <div className="absolute top-3 left-3">
-                                                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center
-                                                        ${item.isVeg ? "border-green-500 bg-green-500/10" : "border-red-500 bg-red-500/10"}`}>
-                                                        <div className={`w-2 h-2 rounded-full ${item.isVeg ? "bg-green-500" : "bg-red-500"}`} />
+                                <>
+                                    {/* Mobile: horizontal scroll strip */}
+                                    <div ref={scrollRef} className="md:hidden flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
+                                        {specials.map(item => (
+                                            <motion.div
+                                                key={item.id}
+                                                variants={cardVariants}
+                                                className="snap-start shrink-0 w-44 bg-card/70 rounded-2xl overflow-hidden border border-border/50"
+                                            >
+                                                <div className="relative w-full h-28">
+                                                    {item.image
+                                                        ? <Image src={item.image} alt={item.name} fill className="object-cover" />
+                                                        : <div className="w-full h-full bg-card flex items-center justify-center"><Utensils size={20} className="text-muted-foreground" /></div>
+                                                    }
+                                                    <div className="absolute top-2 left-2">
+                                                        <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${item.isVeg ? "border-green-500 bg-green-500/10" : "border-red-500 bg-red-500/10"}`}>
+                                                            <div className={`w-1.5 h-1.5 rounded-full ${item.isVeg ? "bg-green-500" : "bg-red-500"}`} />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                {/* Today's special badge */}
-                                                <div className="absolute top-3 right-3">
-                                                    <span className="flex items-center gap-1 px-2 py-0.5 bg-primary text-primary-foreground text-[10px] font-bold rounded-full shadow">
-                                                        <Star size={9} fill="currentColor" /> Today&apos;s Pick
-                                                    </span>
+                                                <div className="p-2.5">
+                                                    <p className="font-bold text-xs text-foreground leading-tight line-clamp-1">{item.name}</p>
+                                                    <p className="text-primary font-extrabold text-xs mt-0.5">₹{item.price}</p>
                                                 </div>
-                                            </div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
 
-                                            {/* Info */}
-                                            <div className="p-4">
-                                                <div className="flex items-start justify-between gap-2 mb-1">
-                                                    <h3 className="font-bold text-foreground text-sm leading-tight">{item.name}</h3>
-                                                    <span className="text-primary font-extrabold text-sm whitespace-nowrap">
-                                                        ₹{item.price}
-                                                    </span>
+                                    {/* Desktop: compact grid */}
+                                    <motion.div variants={tabVariants}
+                                        className="hidden md:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                                        {specials.map(item => (
+                                            <motion.div
+                                                key={item.id}
+                                                variants={cardVariants}
+                                                whileHover={{ y: -4 }}
+                                                className="group bg-card/60 rounded-2xl overflow-hidden border border-border/50 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300"
+                                            >
+                                                <div className="relative w-full h-36 overflow-hidden">
+                                                    {item.image
+                                                        ? <Image src={item.image} alt={item.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                                        : <div className="w-full h-full bg-card flex items-center justify-center"><Utensils size={24} className="text-muted-foreground" /></div>
+                                                    }
+                                                    <div className="absolute top-2 left-2">
+                                                        <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${item.isVeg ? "border-green-500 bg-green-500/10" : "border-red-500 bg-red-500/10"}`}>
+                                                            <div className={`w-1.5 h-1.5 rounded-full ${item.isVeg ? "bg-green-500" : "bg-red-500"}`} />
+                                                        </div>
+                                                    </div>
+                                                    <div className="absolute top-2 right-2">
+                                                        <span className="flex items-center gap-0.5 px-1.5 py-0.5 bg-primary text-primary-foreground text-[9px] font-bold rounded-full">
+                                                            <Star size={8} fill="currentColor" /> Today
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                {item.description && (
-                                                    <p className="text-muted-foreground text-xs line-clamp-2 leading-relaxed">{item.description}</p>
-                                                )}
-                                                <span className="inline-block mt-2 px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-semibold rounded-full">
-                                                    {item.category}
-                                                </span>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </motion.div>
+                                                <div className="p-3">
+                                                    <div className="flex items-start justify-between gap-1 mb-0.5">
+                                                        <h3 className="font-bold text-foreground text-xs leading-tight line-clamp-1">{item.name}</h3>
+                                                        <span className="text-primary font-extrabold text-xs whitespace-nowrap">₹{item.price}</span>
+                                                    </div>
+                                                    <span className="inline-block px-1.5 py-0.5 bg-primary/10 text-primary text-[9px] font-semibold rounded-full">{item.category}</span>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
+                                </>
                             )}
 
-                            {/* View full menu CTA */}
-                            <div className="text-center mt-10">
+                            <div className="text-center mt-8">
                                 <Link href="/menu">
-                                    <Button variant="outline" className="gap-2 px-8">
-                                        View Full Menu <ChevronRight size={16} />
-                                    </Button>
+                                    <Button variant="outline" className="gap-2 px-6">View Full Menu <ChevronRight size={15} /></Button>
                                 </Link>
                             </div>
                         </motion.div>
                     )}
-
-                    {/* ── EVENTS ────────────────────────────────────── */}
-                    {activeTab === "events" && (
-                        <motion.div key="events" variants={tabVariants} initial="hidden" animate="visible" exit="exit">
-                            {loadingEvents ? (
-                                <div className="flex justify-center items-center py-24">
-                                    <Loader2 className="animate-spin text-primary" size={36} />
-                                </div>
-                            ) : events.length === 0 ? (
-                                <EmptyState
-                                    icon={<CalendarDays size={28} />}
-                                    text="No upcoming events right now. Follow us for announcements!"
-                                />
-                            ) : (
-                                <motion.div
-                                    variants={tabVariants}
-                                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                                >
-                                    {events.map(event => (
-                                        <motion.div
-                                            key={event.id}
-                                            variants={cardVariants}
-                                            whileHover={{ y: -6 }}
-                                            className="group bg-card/60 rounded-2xl overflow-hidden border border-border/50
-                                                       hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10
-                                                       transition-all duration-300 backdrop-blur-sm"
-                                        >
-                                            {/* Poster */}
-                                            <div className="relative w-full h-52 overflow-hidden bg-card">
-                                                {event.poster_url ? (
-                                                    <Image
-                                                        src={event.poster_url}
-                                                        alt={event.title}
-                                                        fill
-                                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                                    />
-                                                ) : (
-                                                    <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-primary/10 to-card">
-                                                        <CalendarDays size={36} className="text-primary/50" />
-                                                        <span className="text-xs text-muted-foreground">No poster</span>
-                                                    </div>
-                                                )}
-                                                {/* Date chip overlay */}
-                                                <div className="absolute bottom-3 left-3">
-                                                    <span className="flex items-center gap-1.5 px-3 py-1 bg-black/70 backdrop-blur-sm
-                                                                     text-white text-[11px] font-bold rounded-full">
-                                                        <CalendarDays size={11} />
-                                                        {formatEventDate(event.event_date)}
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            {/* Details */}
-                                            <div className="p-5">
-                                                <h3 className="font-bold text-foreground text-base mb-2 leading-snug">{event.title}</h3>
-                                                {event.description && (
-                                                    <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">{event.description}</p>
-                                                )}
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </motion.div>
-                            )}
-                        </motion.div>
-                    )}
-
                 </AnimatePresence>
             </div>
         </section>

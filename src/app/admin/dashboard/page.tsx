@@ -79,7 +79,8 @@ export default function AdminDashboard() {
     // ── Events state ──
     const [events, setEvents] = useState<EventItem[]>([]);
     const [eventsLoading, setEventsLoading] = useState(false);
-    const [eventForm, setEventForm] = useState({ title: '', description: '', event_date: '', poster_url: '' });
+    const [eventForm, setEventForm] = useState({ title: '', description: '', event_date: '' });
+    const [eventImages, setEventImages] = useState<string[]>([]);
     const [eventUploading, setEventUploading] = useState(false);
     const [eventSaving, setEventSaving] = useState(false);
 
@@ -146,9 +147,13 @@ export default function AdminDashboard() {
         try {
             const res = await fetch('/api/upload', { method: 'POST', body: fd });
             const data = await res.json();
-            if (data.url) setEventForm(f => ({ ...f, poster_url: data.url }));
+            if (data.url) setEventImages(prev => [...prev, data.url]);
         } catch { }
         finally { setEventUploading(false); }
+    };
+
+    const removeEventImage = (idx: number) => {
+        setEventImages(prev => prev.filter((_, i) => i !== idx));
     };
 
     const handleAddEvent = async (e: React.FormEvent) => {
@@ -158,9 +163,17 @@ export default function AdminDashboard() {
             await fetch('/api/events', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'ADD', event: eventForm }),
+                body: JSON.stringify({
+                    action: 'ADD',
+                    event: {
+                        ...eventForm,
+                        poster_url: eventImages[0] ?? null,
+                        image_urls: eventImages,
+                    }
+                }),
             });
-            setEventForm({ title: '', description: '', event_date: '', poster_url: '' });
+            setEventForm({ title: '', description: '', event_date: '' });
+            setEventImages([]);
             fetchEvents();
         } catch { }
         finally { setEventSaving(false); }
@@ -736,27 +749,40 @@ export default function AdminDashboard() {
                                         value={eventForm.description} onChange={e => setEventForm(f => ({ ...f, description: e.target.value }))}
                                         className="w-full bg-accent border-transparent rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-primary resize-none" />
                                 </div>
-                                {/* Poster upload */}
+                                {/* Multi-image upload */}
                                 <div className="space-y-2 md:col-span-2">
-                                    <label className="text-sm font-medium text-muted-foreground">Event Poster</label>
-                                    <div className="flex gap-3 items-start">
+                                    <label className="text-sm font-medium text-muted-foreground">Event Images <span className="text-xs text-muted-foreground/60">(add as many as you want — they auto-scroll on the site)</span></label>
+                                    {/* Thumbnails row */}
+                                    {eventImages.length > 0 && (
+                                        <div className="flex gap-2 flex-wrap mb-2">
+                                            {eventImages.map((url, i) => (
+                                                <div key={i} className="relative w-20 h-14 rounded-xl overflow-hidden border border-border group">
+                                                    <img src={url} alt={`img ${i + 1}`} className="w-full h-full object-cover" />
+                                                    <button type="button" onClick={() => removeEventImage(i)}
+                                                        className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <X size={9} />
+                                                    </button>
+                                                    {i === 0 && <span className="absolute bottom-0.5 left-0.5 text-[8px] bg-primary text-primary-foreground px-1 rounded">Cover</span>}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    <div className="flex gap-2 items-center">
                                         <label className="flex items-center gap-2 px-4 py-2.5 bg-primary/10 border border-primary/30 text-primary rounded-xl text-sm font-medium cursor-pointer hover:bg-primary/20 transition-all shrink-0">
                                             {eventUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
-                                            {eventUploading ? 'Uploading...' : 'Upload Poster'}
+                                            {eventUploading ? 'Uploading...' : '+ Add Image'}
                                             <input type="file" accept="image/*" className="hidden" onChange={handleEventPosterUpload} />
                                         </label>
-                                        {eventForm.poster_url && (
-                                            <div className="relative w-20 h-14 rounded-xl overflow-hidden border border-border">
-                                                <img src={eventForm.poster_url} alt="poster preview" className="w-full h-full object-cover" />
-                                                <button type="button" onClick={() => setEventForm(f => ({ ...f, poster_url: '' }))}
-                                                    className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white">
-                                                    <X size={9} />
-                                                </button>
-                                            </div>
-                                        )}
-                                        <input type="text" placeholder="Or paste image URL..."
-                                            value={eventForm.poster_url} onChange={e => setEventForm(f => ({ ...f, poster_url: e.target.value }))}
-                                            className="flex-1 bg-accent border-transparent rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-primary" />
+                                        <span className="text-xs text-muted-foreground">or</span>
+                                        <form className="flex-1 flex gap-2" onSubmit={e => {
+                                            e.preventDefault();
+                                            const input = e.currentTarget.querySelector('input') as HTMLInputElement;
+                                            if (input.value.trim()) { setEventImages(prev => [...prev, input.value.trim()]); input.value = ''; }
+                                        }}>
+                                            <input type="text" placeholder="Paste image URL then press Enter"
+                                                className="flex-1 bg-accent border-transparent rounded-xl p-2.5 text-sm outline-none focus:ring-1 focus:ring-primary" />
+                                            <button type="submit" className="px-3 py-2 bg-accent border border-border rounded-xl text-xs font-medium hover:bg-primary/10 transition">Add</button>
+                                        </form>
                                     </div>
                                 </div>
                                 <div className="md:col-span-2 flex justify-end">

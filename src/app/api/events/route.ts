@@ -30,6 +30,7 @@ export async function POST(request: Request) {
                     description: event.description,
                     event_date: event.event_date,
                     poster_url: event.poster_url ?? null,
+                    image_urls: event.image_urls ?? [],
                     is_active: true,
                 }])
                 .select()
