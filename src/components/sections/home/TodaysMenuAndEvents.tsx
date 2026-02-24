@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Utensils, CalendarDays, Star, ChevronRight, Loader2, ChevronLeft } from "lucide-react";
+import { Utensils, CalendarDays, Star, ChevronRight, Loader2, ChevronLeft, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface MenuItem {
@@ -116,6 +116,7 @@ export function TodaysMenuAndEvents() {
     const [events, setEvents] = useState<Event[]>([]);
     const [loadingMenu, setLoadingMenu] = useState(true);
     const [loadingEvents, setLoadingEvents] = useState(true);
+    const [showSpecialsPopup, setShowSpecialsPopup] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -232,29 +233,40 @@ export function TodaysMenuAndEvents() {
                                 <EmptyState icon={<Utensils size={26} />} text="No specials set for today. Check back later or browse our full menu!" />
                             ) : (
                                 <>
-                                    {/* Mobile: horizontal scroll strip */}
-                                    <div ref={scrollRef} className="md:hidden flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
-                                        {specials.map(item => (
-                                            <motion.div
-                                                key={item.id}
-                                                variants={cardVariants}
-                                                className="snap-start shrink-0 w-44 bg-card/70 rounded-2xl overflow-hidden border border-border/50"
-                                            >
-                                                <div className="relative w-full h-28">
-                                                    {item.image
-                                                        ? <Image src={item.image} alt={item.name} fill className="object-cover" />
-                                                        : <div className="w-full h-full bg-card flex items-center justify-center"><Utensils size={20} className="text-muted-foreground" /></div>
-                                                    }
-                                                </div>
-                                                <div className="p-3 bg-gradient-to-b from-card/80 to-card">
-                                                    <div className="flex items-center justify-between gap-2 mb-1">
-                                                        <div className={`w-3 h-3 rounded-full border border-white/20 shadow-[0_0_8px] ${item.isVeg ? "bg-green-500 shadow-green-500/40" : "bg-red-500 shadow-red-500/40"}`} />
-                                                        <p className="text-primary font-black text-xs">₹{item.price}</p>
+                                    {/* Mobile: Compact preview + See More */}
+                                    <div className="md:hidden space-y-4">
+                                        <div className="grid grid-cols-2 gap-3">
+                                            {specials.slice(0, 4).map(item => (
+                                                <motion.div
+                                                    key={item.id}
+                                                    variants={cardVariants}
+                                                    className="bg-card/70 rounded-2xl overflow-hidden border border-border/50"
+                                                >
+                                                    <div className="relative w-full h-24">
+                                                        {item.image
+                                                            ? <Image src={item.image} alt={item.name} fill className="object-cover" />
+                                                            : <div className="w-full h-full bg-card flex items-center justify-center"><Utensils size={18} className="text-muted-foreground" /></div>
+                                                        }
                                                     </div>
-                                                    <p className="font-bold text-sm text-foreground leading-tight line-clamp-1 group-hover:text-primary transition-colors">{item.name}</p>
-                                                </div>
-                                            </motion.div>
-                                        ))}
+                                                    <div className="p-2.5 bg-gradient-to-b from-card/80 to-card">
+                                                        <div className="flex items-center justify-between gap-2 mb-1">
+                                                            <div className={`w-2.5 h-2.5 rounded-full border border-white/20 shadow-[0_0_8px] ${item.isVeg ? "bg-green-500 shadow-green-500/40" : "bg-red-500 shadow-red-500/40"}`} />
+                                                            <p className="text-primary font-black text-[10px]">₹{item.price}</p>
+                                                        </div>
+                                                        <p className="font-bold text-[11px] text-foreground leading-tight line-clamp-1">{item.name}</p>
+                                                    </div>
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                        {specials.length > 4 && (
+                                            <Button
+                                                variant="outline"
+                                                className="w-full py-6 rounded-2xl border-dashed border-primary/30 text-primary font-bold gap-2"
+                                                onClick={() => setShowSpecialsPopup(true)}
+                                            >
+                                                See More Special Items <ChevronRight size={16} />
+                                            </Button>
+                                        )}
                                     </div>
 
                                     {/* Desktop: compact grid */}
@@ -301,6 +313,73 @@ export function TodaysMenuAndEvents() {
                                     <Button variant="outline" className="gap-2 px-6">View Full Menu <ChevronRight size={15} /></Button>
                                 </Link>
                             </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* Specials Popup Modal */}
+                <AnimatePresence>
+                    {showSpecialsPopup && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
+                            onClick={() => setShowSpecialsPopup(false)}
+                        >
+                            <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.9, y: 30 }}
+                                onClick={(e) => e.stopPropagation()}
+                                className="relative bg-card border border-border/50 rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-hidden shadow-2xl"
+                            >
+                                <div className="flex items-center justify-between p-6 border-b border-border/50 bg-card/80 backdrop-blur-sm sticky top-0 z-20">
+                                    <div>
+                                        <span className="text-primary font-heading italic text-sm">Update Freshly</span>
+                                        <h3 className="text-xl font-bold font-heading">Today&apos;s Special Selection</h3>
+                                    </div>
+                                    <button
+                                        onClick={() => setShowSpecialsPopup(false)}
+                                        className="w-10 h-10 rounded-full bg-muted/50 hover:bg-primary/20 flex items-center justify-center text-foreground transition-all"
+                                    >
+                                        <X size={20} />
+                                    </button>
+                                </div>
+
+                                <div className="p-6 overflow-y-auto max-h-[calc(85vh-88px)] scrollbar-hide">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        {specials.map((item, index) => (
+                                            <motion.div
+                                                key={item.id}
+                                                initial={{ opacity: 0, y: 15 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: index * 0.05 }}
+                                                className="flex gap-4 p-3.5 rounded-2xl bg-background/40 border border-border/30 hover:border-primary/30 transition-all group"
+                                            >
+                                                <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 shadow-lg">
+                                                    {item.image
+                                                        ? <Image src={item.image} alt={item.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                                        : <div className="w-full h-full bg-muted flex items-center justify-center"><Utensils size={20} className="text-muted-foreground" /></div>
+                                                    }
+                                                </div>
+                                                <div className="flex flex-col justify-center flex-1 min-w-0">
+                                                    <div className="flex items-center justify-between mb-1.5">
+                                                        <h4 className="font-bold text-sm text-foreground truncate">{item.name}</h4>
+                                                        <span className="text-primary font-black text-sm ml-2">₹{item.price}</span>
+                                                    </div>
+                                                    <p className="text-[11px] text-muted-foreground line-clamp-2 mb-2 leading-relaxed">{item.description || "Freshly prepared dish of the day."}</p>
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-[10px] uppercase tracking-wider font-bold text-primary/70 bg-primary/5 px-2 py-0.5 rounded-full border border-primary/10">{item.category}</span>
+                                                        <div className={`w-2.5 h-2.5 rounded-full border border-white/20 shadow-[0_0_5px] ${item.isVeg ? "bg-green-500 shadow-green-500/40" : "bg-red-500 shadow-red-500/40"}`} />
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </motion.div>
                         </motion.div>
                     )}
                 </AnimatePresence>
