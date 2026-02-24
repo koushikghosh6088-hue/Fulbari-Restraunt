@@ -246,7 +246,7 @@ export function TodaysMenuAndEvents() {
                                             >
                                                 <div className="relative h-28 md:h-36 lg:h-40 overflow-hidden">
                                                     {item.image
-                                                        ? <Image src={item.image} alt={item.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                                        ? <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                                         : <div className="w-full h-full bg-card flex items-center justify-center"><Utensils size={24} className="text-muted-foreground" /></div>
                                                     }
                                                     <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-full text-primary text-[10px] font-bold">
@@ -334,7 +334,7 @@ export function TodaysMenuAndEvents() {
                                             >
                                                 <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0 shadow-lg">
                                                     {item.image
-                                                        ? <Image src={item.image} alt={item.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                                                        ? <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                                         : <div className="w-full h-full bg-muted flex items-center justify-center"><Utensils size={24} className="text-muted-foreground" /></div>
                                                     }
                                                 </div>

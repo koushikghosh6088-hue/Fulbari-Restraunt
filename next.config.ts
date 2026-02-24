@@ -43,6 +43,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "deliciouslyindian.net",
       },
+      {
+        protocol: "https",
+        hostname: "*.ftcdn.net",
+      },
     ],
   },
 };
