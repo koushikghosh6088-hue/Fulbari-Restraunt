@@ -29,6 +29,17 @@ interface Event {
     is_active: boolean;
 }
 
+// Helper to ensure image URLs are properly formatted and include fallbacks
+function sanitizeImageUrl(url: string | undefined | null) {
+    if (!url) return "";
+    // Handle Unsplash optimization if missing
+    if (url.includes("unsplash.com") && !url.includes("auto=format")) {
+        return `${url}${url.includes("?") ? "&" : "?"}auto=format&fit=crop&q=80&w=800`;
+    }
+    // Handle spaces in URLs by encoding them
+    return url.replace(/ /g, "%20");
+}
+
 const tabVariants = {
     hidden: { opacity: 0, y: 16 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4, staggerChildren: 0.06 } },
@@ -83,7 +94,18 @@ function EventImageCarousel({ images }: { images: string[] }) {
                     transition={{ duration: 0.5 }}
                     className="absolute inset-0"
                 >
-                    <Image src={images[idx]} alt={`Event image ${idx + 1}`} fill className="object-cover" />
+                    <img
+                        src={sanitizeImageUrl(images[idx])}
+                        alt={`Event image ${idx + 1}`}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            if (!target.src.includes('placeholder')) {
+                                target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop";
+                            }
+                        }}
+                    />
                 </motion.div>
             </AnimatePresence>
 
@@ -246,7 +268,19 @@ export function TodaysMenuAndEvents() {
                                             >
                                                 <div className="relative h-28 md:h-36 lg:h-40 overflow-hidden">
                                                     {item.image
-                                                        ? <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                                        ? <img
+                                                            src={sanitizeImageUrl(item.image)}
+                                                            alt={item.name}
+                                                            referrerPolicy="no-referrer"
+                                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                            onError={(e) => {
+                                                                // fallback if image still fails
+                                                                const target = e.target as HTMLImageElement;
+                                                                if (!target.src.includes('placeholder')) {
+                                                                    target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop";
+                                                                }
+                                                            }}
+                                                        />
                                                         : <div className="w-full h-full bg-card flex items-center justify-center"><Utensils size={24} className="text-muted-foreground" /></div>
                                                     }
                                                     <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-full text-primary text-[10px] font-bold">
@@ -334,7 +368,18 @@ export function TodaysMenuAndEvents() {
                                             >
                                                 <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0 shadow-lg">
                                                     {item.image
-                                                        ? <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                                        ? <img
+                                                            src={sanitizeImageUrl(item.image)}
+                                                            alt={item.name}
+                                                            referrerPolicy="no-referrer"
+                                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                            onError={(e) => {
+                                                                const target = e.target as HTMLImageElement;
+                                                                if (!target.src.includes('placeholder')) {
+                                                                    target.src = "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop";
+                                                                }
+                                                            }}
+                                                        />
                                                         : <div className="w-full h-full bg-muted flex items-center justify-center"><Utensils size={24} className="text-muted-foreground" /></div>
                                                     }
                                                 </div>
