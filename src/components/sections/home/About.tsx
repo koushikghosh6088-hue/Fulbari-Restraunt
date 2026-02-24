@@ -181,7 +181,7 @@ export function About() {
     const IconComponent = current.icon;
 
     return (
-        <section className="py-12 md:py-20 lg:py-24 xl:py-32 bg-background relative overflow-hidden">
+        <section className="pt-8 md:pt-12 lg:pt-16 pb-12 md:pb-20 lg:pb-24 xl:pb-32 bg-background relative overflow-hidden">
             {/* Decorative glows */}
             <div className="absolute top-20 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-20 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />

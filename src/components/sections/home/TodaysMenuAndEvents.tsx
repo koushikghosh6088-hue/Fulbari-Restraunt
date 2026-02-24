@@ -201,7 +201,7 @@ function EventPhotoMarquee({ images }: { images: string[] }) {
     const displayImages = images.length < 10 ? [...images, ...images, ...images, ...images] : [...images, ...images];
 
     return (
-        <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] mr-[50vw] overflow-hidden py-6 md:py-10 bg-primary/5 select-none">
+        <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] mr-[50vw] overflow-hidden py-4 md:py-6 bg-primary/5 select-none">
             {/* Top row - scrolls left */}
             <div className="flex gap-4 mb-4">
                 <motion.div
@@ -281,7 +281,7 @@ export function TodaysMenuAndEvents() {
     }, []);
 
     return (
-        <section className={`py-12 md:py-20 bg-background relative overflow-hidden ${showSpecialsPopup ? "z-[100]" : "z-10"}`}>
+        <section className={`pt-12 md:pt-20 pb-0 bg-background relative overflow-hidden ${showSpecialsPopup ? "z-[100]" : "z-10"}`}>
             {/* Background accents */}
             <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-primary/5 blur-3xl pointer-events-none" />
             <div className="absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full bg-primary/5 blur-3xl pointer-events-none" />
@@ -293,12 +293,12 @@ export function TodaysMenuAndEvents() {
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-8 md:mb-12"
+                    className="text-center mb-6 md:mb-10"
                 >
                     <span className="text-primary font-heading italic text-sm md:text-base mb-2 block tracking-wide">
                         What&apos;s On Today
                     </span>
-                    <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold font-heading mb-3 tracking-tight">
+                    <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold font-heading mb-2 tracking-tight">
                         Today&apos;s Menu &amp; Events
                     </h2>
                     <p className="text-muted-foreground max-w-lg mx-auto text-xs md:text-sm">
@@ -340,8 +340,8 @@ export function TodaysMenuAndEvents() {
                             ) : (
                                 <>
                                     {/* Infinite Marquee - Hero Visual */}
-                                    <div className="mb-12 md:mb-16">
-                                        <div className="text-center mb-6">
+                                    <div className="mb-8 md:mb-12">
+                                        <div className="text-center mb-4">
                                             <h3 className="text-xl md:text-2xl font-bold font-heading">Event Gallery</h3>
                                             <div className="w-12 h-0.5 bg-primary mx-auto mt-2 rounded-full" />
                                         </div>
