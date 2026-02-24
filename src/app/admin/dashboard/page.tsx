@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -44,6 +44,13 @@ interface EventItem {
     is_active: boolean;
 }
 
+interface GalleryItem {
+    id: string;
+    url: string;
+    category: 'Cafe' | 'Restaurant' | 'Ambience' | 'Food' | 'Other';
+    created_at: string;
+}
+
 interface MenuItem {
     id: string;
     name: string;
@@ -74,8 +81,8 @@ export default function AdminDashboard() {
     });
     const router = useRouter();
 
-    // ── Today's Special state ──
-    const [adminTab, setAdminTab] = useState<'menu' | 'specials' | 'events'>('menu');
+    // ── Navigation ──
+    const [adminTab, setAdminTab] = useState<'menu' | 'specials' | 'events' | 'gallery'>('menu');
     const [todaysSpecialIds, setTodaysSpecialIds] = useState<string[]>([]);
     const [specSearch, setSpecSearch] = useState('');
     const [togglingSpecial, setTogglingSpecial] = useState<string | null>(null);
@@ -89,6 +96,13 @@ export default function AdminDashboard() {
     const [eventSaving, setEventSaving] = useState(false);
     const [isEditingEvent, setIsEditingEvent] = useState(false);
     const [editingEventId, setEditingEventId] = useState<string | null>(null);
+
+    // ── Gallery state ──
+    const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
+    const [galleryLoading, setGalleryLoading] = useState(false);
+    const [galleryForm, setGalleryForm] = useState({ url: '', category: 'Food' as GalleryItem['category'] });
+    const [galleryUploading, setGalleryUploading] = useState(false);
+    const [gallerySaving, setGallerySaving] = useState(false);
 
     const [newItem, setNewItem] = useState({
         name: "",
@@ -115,13 +129,24 @@ export default function AdminDashboard() {
         fetchMenu();
         fetchTodaysSpecials();
         fetchEvents();
+        fetchGallery();
     }, []);
+
+    const fetchGallery = async () => {
+        setGalleryLoading(true);
+        try {
+            const res = await fetch('/api/gallery');
+            const data = await res.json();
+            setGalleryItems(Array.isArray(data) ? data : []);
+        } catch { }
+        finally { setGalleryLoading(false); }
+    };
 
     const fetchTodaysSpecials = async () => {
         try {
             const res = await fetch('/api/daily-specials');
             const data = await res.json();
-            setTodaysSpecialIds((data ?? []).map((i: MenuItem) => i.id));
+            setTodaysSpecialIds((Array.isArray(data) ? data : []).map((i: MenuItem) => i.id));
         } catch { }
     };
 
@@ -237,16 +262,70 @@ export default function AdminDashboard() {
         fetchEvents();
     };
 
+    // ── Gallery Actions ──
+    const handleGalleryImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setGalleryUploading(true);
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('bucket', 'gallery');
+        try {
+            const res = await fetch('/api/upload', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (data.url) setGalleryForm(prev => ({ ...prev, url: data.url }));
+        } catch { }
+        finally { setGalleryUploading(false); }
+    };
+
+    const handleSaveGalleryItem = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!galleryForm.url) return;
+        setGallerySaving(true);
+        try {
+            const res = await fetch('/api/gallery', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'ADD',
+                    item: galleryForm
+                }),
+            });
+            if (res.ok) {
+                setGalleryForm({ url: '', category: 'Food' });
+                fetchGallery();
+                setShowToast({ show: true, message: "Image Added to Gallery!", type: 'success' });
+                setTimeout(() => setShowToast(p => ({ ...p, show: false })), 3000);
+            }
+        } catch { }
+        finally { setGallerySaving(false); }
+    };
+
+    const handleDeleteGalleryItem = async (id: string) => {
+        if (!confirm('Delete this gallery image?')) return;
+        await fetch('/api/gallery', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'DELETE', item: { id } }),
+        });
+        fetchGallery();
+    };
+
     // Derive categories from existing items
-    const existingCategories = Array.from(new Set(menuItems.map(item => item.category)));
+    const existingCategories = useMemo(() => {
+        if (!Array.isArray(menuItems)) return [];
+        return Array.from(new Set(menuItems.map(item => item.category)));
+    }, [menuItems]);
 
     const fetchMenu = async () => {
         try {
             const res = await fetch("/api/menu");
             const data = await res.json();
-            setMenuItems(data);
+            setMenuItems(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error("Failed to fetch menu");
+            setMenuItems([]);
         } finally {
             setLoading(false);
         }
@@ -765,6 +844,7 @@ export default function AdminDashboard() {
                         { key: 'menu', label: 'Menu Items', icon: <Utensils size={14} /> },
                         { key: 'specials', label: "Today's Special", icon: <Star size={14} /> },
                         { key: 'events', label: 'Events', icon: <CalendarDays size={14} /> },
+                        { key: 'gallery', label: 'Gallery', icon: <ImageIcon size={14} /> },
                     ] as const).map(t => (
                         <button key={t.key} onClick={() => setAdminTab(t.key)}
                             className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200
@@ -773,6 +853,89 @@ export default function AdminDashboard() {
                         </button>
                     ))}
                 </div>
+
+                {/* ── GALLERY TAB ──────────────────────────── */}
+                {adminTab === 'gallery' && (
+                    <div className="space-y-8">
+                        {/* Gallery Upload Form */}
+                        <div className="bg-card border border-border rounded-3xl p-6 shadow-xl">
+                            <h2 className="text-xl font-bold font-heading mb-4">Add Image to Gallery</h2>
+                            <form onSubmit={handleSaveGalleryItem} className="grid grid-cols-1 md:grid-cols-2 gap-5 items-end">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-muted-foreground">Category</label>
+                                    <select
+                                        className="w-full bg-accent border-transparent rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-primary font-bold"
+                                        value={galleryForm.category}
+                                        onChange={(e) => setGalleryForm({ ...galleryForm, category: e.target.value as any })}
+                                    >
+                                        <option value="Cafe">Cafe</option>
+                                        <option value="Restaurant">Restaurant</option>
+                                        <option value="Ambience">Ambience</option>
+                                        <option value="Food">Food</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-muted-foreground">Image Source</label>
+                                    <div className="flex gap-2">
+                                        <label className="flex items-center gap-2 px-4 py-2.5 bg-primary/10 border border-primary/30 text-primary rounded-xl text-sm font-medium cursor-pointer hover:bg-primary/20 transition-all shrink-0">
+                                            {galleryUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+                                            {galleryUploading ? 'Uploading...' : 'Upload'}
+                                            <input type="file" accept="image/*" className="hidden" onChange={handleGalleryImageUpload} />
+                                        </label>
+                                        <input
+                                            type="text"
+                                            placeholder="or Paste Image URL"
+                                            className="flex-1 bg-accent border-transparent rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-primary"
+                                            value={galleryForm.url}
+                                            onChange={(e) => setGalleryForm({ ...galleryForm, url: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="md:col-span-2 flex justify-end">
+                                    <Button type="submit" disabled={gallerySaving || !galleryForm.url} className="px-8 gap-2">
+                                        {gallerySaving && <Loader2 size={14} className="animate-spin" />}
+                                        Save to Gallery
+                                    </Button>
+                                </div>
+                            </form>
+                        </div>
+
+                        {/* Gallery Grid */}
+                        <div className="bg-card border border-border rounded-3xl p-6 shadow-xl">
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-xl font-bold font-heading">Gallery Collection</h2>
+                                <span className="text-xs font-bold text-muted-foreground bg-accent px-3 py-1 rounded-full">
+                                    {galleryItems.length} Total Images
+                                </span>
+                            </div>
+
+                            {galleryLoading ? (
+                                <div className="flex justify-center py-12"><Loader2 className="animate-spin text-primary" size={28} /></div>
+                            ) : galleryItems.length === 0 ? (
+                                <div className="text-center py-12 text-muted-foreground text-sm">No images in gallery yet.</div>
+                            ) : (
+                                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                                    {galleryItems.map(item => (
+                                        <div key={item.id} className="relative aspect-square rounded-2xl overflow-hidden border border-border group shadow-sm bg-accent/20">
+                                            <img src={item.url} alt={item.category} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-2">
+                                                <span className="text-[10px] font-bold text-white bg-primary/80 px-2 py-0.5 rounded-full">{item.category}</span>
+                                                <button
+                                                    onClick={() => handleDeleteGalleryItem(item.id)}
+                                                    className="p-2 rounded-full bg-red-500 text-white hover:bg-red-600 transition-all shadow-lg active:scale-95"
+                                                    title="Delete Image"
+                                                >
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
 
                 {/* ── TODAY'S SPECIAL TAB ───────────────────── */}
                 {adminTab === 'specials' && (
@@ -789,7 +952,7 @@ export default function AdminDashboard() {
                             />
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                            {menuItems
+                            {(Array.isArray(menuItems) ? menuItems : [])
                                 .filter(i => i.name.toLowerCase().includes(specSearch.toLowerCase()))
                                 .map(item => {
                                     const isSpecial = todaysSpecialIds.includes(item.id);
@@ -974,97 +1137,99 @@ export default function AdminDashboard() {
                 )}
 
                 {/* ── MENU ITEMS TAB ───────────────────────── */}
-                {adminTab === 'menu' && (
-                    <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-2xl">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
-                            {menuItems.map((item) => (
-                                <motion.div
-                                    key={item.id}
-                                    layout
-                                    className={`relative group p-4 rounded-2xl border transition-all flex flex-col ${item.available ? "bg-accent/50 border-border" : "bg-accent/20 border-border/50 opacity-60"}`}
-                                >
-                                    <div className="relative h-40 rounded-xl overflow-hidden mb-4">
-                                        <img
-                                            src={item.image}
-                                            alt={item.name}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                        />
-                                        <div className="absolute top-2 right-2 flex flex-col gap-2">
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    toggleAvailability(item);
-                                                }}
-                                                className={`w-12 h-6 rounded-full relative transition-all duration-300 backdrop-blur-md border border-white/20 ${item.available ? "bg-green-500/80" : "bg-red-500/80"}`}
-                                                title={item.available ? "Disable Item" : "Enable Item"}
-                                            >
-                                                <motion.div
-                                                    animate={{ x: item.available ? 24 : 4 }}
-                                                    className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-lg"
-                                                />
-                                            </button>
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleEditItem(item);
-                                                }}
-                                                className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-all"
-                                                title="Edit Item"
-                                            >
-                                                <Pencil size={18} />
-                                            </button>
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleDelete(item.id);
-                                                }}
-                                                className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-red-500 transition-all"
-                                                title="Delete Item"
-                                            >
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex-grow">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <div className="flex flex-col">
-                                                <h3 className="font-bold font-heading line-clamp-1">{item.name}</h3>
-                                                <span className={cn(
-                                                    "text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded w-fit mt-1",
-                                                    item.menu_type === "CAFE" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
-                                                )}>
-                                                    {item.menu_type || "RESTAURANT"}
-                                                </span>
-                                            </div>
-                                            <span className="text-[10px] uppercase font-bold text-primary px-2 py-0.5 bg-primary/10 rounded-full">{item.category}</span>
-                                        </div>
-                                        <p className="text-xs text-muted-foreground line-clamp-2 mb-4">{item.description}</p>
-
-                                        <div className="flex items-center gap-3 mt-auto">
-                                            <span className="text-sm font-bold text-foreground">₹</span>
-                                            <input
-                                                type="number"
-                                                defaultValue={item.price}
-                                                onBlur={(e) => updatePrice(item.id, Number(e.target.value))}
-                                                className="w-20 bg-background border-border border rounded-lg px-2 py-1 text-sm font-bold focus:ring-1 focus:ring-primary outline-none"
+                {
+                    adminTab === 'menu' && (
+                        <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-2xl">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
+                                {(Array.isArray(menuItems) ? menuItems : []).map((item) => (
+                                    <motion.div
+                                        key={item.id}
+                                        layout
+                                        className={`relative group p-4 rounded-2xl border transition-all flex flex-col ${item.available ? "bg-accent/50 border-border" : "bg-accent/20 border-border/50 opacity-60"}`}
+                                    >
+                                        <div className="relative h-40 rounded-xl overflow-hidden mb-4">
+                                            <img
+                                                src={item.image}
+                                                alt={item.name}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             />
-                                            <div className={`ml-auto w-3 h-3 rounded-full ${item.available ? "bg-green-500 animate-pulse" : "bg-red-500"}`} />
+                                            <div className="absolute top-2 right-2 flex flex-col gap-2">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        toggleAvailability(item);
+                                                    }}
+                                                    className={`w-12 h-6 rounded-full relative transition-all duration-300 backdrop-blur-md border border-white/20 ${item.available ? "bg-green-500/80" : "bg-red-500/80"}`}
+                                                    title={item.available ? "Disable Item" : "Enable Item"}
+                                                >
+                                                    <motion.div
+                                                        animate={{ x: item.available ? 24 : 4 }}
+                                                        className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-lg"
+                                                    />
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleEditItem(item);
+                                                    }}
+                                                    className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-all"
+                                                    title="Edit Item"
+                                                >
+                                                    <Pencil size={18} />
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(item.id);
+                                                    }}
+                                                    className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-red-500 transition-all"
+                                                    title="Delete Item"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                        {menuItems.length === 0 && (
-                            <div className="text-center py-20">
-                                <Utensils size={48} className="mx-auto text-muted-foreground mb-4 opacity-20" />
-                                <p className="text-muted-foreground">Your menu is currently empty.</p>
+
+                                        <div className="flex-grow">
+                                            <div className="flex justify-between items-start mb-2">
+                                                <div className="flex flex-col">
+                                                    <h3 className="font-bold font-heading line-clamp-1">{item.name}</h3>
+                                                    <span className={cn(
+                                                        "text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded w-fit mt-1",
+                                                        item.menu_type === "CAFE" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
+                                                    )}>
+                                                        {item.menu_type || "RESTAURANT"}
+                                                    </span>
+                                                </div>
+                                                <span className="text-[10px] uppercase font-bold text-primary px-2 py-0.5 bg-primary/10 rounded-full">{item.category}</span>
+                                            </div>
+                                            <p className="text-xs text-muted-foreground line-clamp-2 mb-4">{item.description}</p>
+
+                                            <div className="flex items-center gap-3 mt-auto">
+                                                <span className="text-sm font-bold text-foreground">₹</span>
+                                                <input
+                                                    type="number"
+                                                    defaultValue={item.price}
+                                                    onBlur={(e) => updatePrice(item.id, Number(e.target.value))}
+                                                    className="w-20 bg-background border-border border rounded-lg px-2 py-1 text-sm font-bold focus:ring-1 focus:ring-primary outline-none"
+                                                />
+                                                <div className={`ml-auto w-3 h-3 rounded-full ${item.available ? "bg-green-500 animate-pulse" : "bg-red-500"}`} />
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
                             </div>
-                        )}
-                    </div>
-                )}
-            </main>
+                            {menuItems.length === 0 && (
+                                <div className="text-center py-20">
+                                    <Utensils size={48} className="mx-auto text-muted-foreground mb-4 opacity-20" />
+                                    <p className="text-muted-foreground">Your menu is currently empty.</p>
+                                </div>
+                            )}
+                        </div>
+                    )
+                }
+            </main >
             <Footer />
-        </div>
+        </div >
     );
 }
