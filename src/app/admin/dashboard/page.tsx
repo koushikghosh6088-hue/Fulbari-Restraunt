@@ -429,18 +429,20 @@ export default function AdminDashboard() {
             {/* Success/Error Toast */}
             <AnimatePresence>
                 {showToast.show && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 50, x: "-50%" }}
-                        animate={{ opacity: 1, y: -20, x: "-50%" }}
-                        exit={{ opacity: 0, y: 50, x: "-50%" }}
-                        className={cn(
-                            "fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 w-[90%] md:min-w-[320px] md:w-auto",
-                            showToast.type === 'success' ? "bg-green-500 text-white" : "bg-red-500 text-white"
-                        )}
-                    >
-                        {showToast.type === 'success' ? <CheckCircle2 size={24} /> : <AlertCircle size={24} />}
-                        <span className="font-bold text-sm tracking-wide text-center flex-grow">{showToast.message}</span>
-                    </motion.div>
+                    <div className="fixed bottom-24 left-0 right-0 z-[100] flex justify-center px-4">
+                        <motion.div
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 50 }}
+                            className={cn(
+                                "px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 w-full max-w-[400px] md:w-auto",
+                                showToast.type === 'success' ? "bg-green-500 text-white" : "bg-red-500 text-white"
+                            )}
+                        >
+                            {showToast.type === 'success' ? <CheckCircle2 size={24} /> : <AlertCircle size={24} />}
+                            <span className="font-bold text-sm tracking-wide text-center flex-grow">{showToast.message}</span>
+                        </motion.div>
+                    </div>
                 )}
             </AnimatePresence>
 
