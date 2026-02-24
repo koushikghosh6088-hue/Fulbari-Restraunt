@@ -20,33 +20,34 @@ export function Hero() {
                     initial={{ opacity: 0, x: -40 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.9, delay: 0.2 }}
-                    className="flex-1 flex flex-col justify-end pb-2 md:pb-4 px-10 lg:px-16 xl:px-24
+                    className="flex-1 flex flex-col justify-center py-20 px-10 lg:px-16 xl:px-24
                                bg-background relative z-10"
                 >
                     {/* Bengali tagline */}
                     <p className="text-primary font-bengali-logo font-bold italic
-                                  text-base lg:text-lg xl:text-2xl mb-5 leading-relaxed">
+                                  text-base lg:text-lg xl:text-xl mb-4 leading-relaxed">
                         ফুলবাড়ি রেস্তোরাঁ: প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা
                     </p>
 
                     {/* Main heading */}
-                    <h1 className="font-heading font-extrabold leading-[1.05]
-                                   text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl
-                                   text-foreground mb-5">
+                    <h1 className="font-heading font-extrabold leading-[1.1]
+                                   text-4xl lg:text-5xl xl:text-6xl
+                                   text-foreground mb-6">
                         Experience<br />
-                        <span className="text-primary">Authentic</span><br />
+                        <span className="text-primary font-black uppercase tracking-tight">Authentic</span><br />
                         Flavors &amp;<br />Ambiance
                     </h1>
 
                     {/* Divider */}
-                    <div className="w-16 h-1 rounded-full bg-primary mb-6" />
+                    <div className="w-16 h-1 rounded-full bg-primary mb-8" />
 
                     {/* Description */}
                     <p className="text-muted-foreground font-light leading-relaxed
-                                  text-sm lg:text-base xl:text-lg mb-8 max-w-sm lg:max-w-md">
+                                  text-sm lg:text-base mb-10 max-w-sm lg:max-w-md">
                         A perfect blend of traditional Bengali cuisine and modern dining in the heart of Serampore.
                         Come for the food, stay for the view.
                     </p>
+
 
                     {/* CTAs */}
                     <div className="flex gap-4">
@@ -109,10 +110,10 @@ export function Hero() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="px-5 pb-10 -mt-6 relative z-10"
                 >
-                    <p className="text-primary font-bengali-logo font-bold italic text-sm mb-3">
+                    <p className="text-primary font-bengali-logo font-bold italic text-xs mb-2">
                         ফুলবাড়ি রেস্তোরাঁ: প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা
                     </p>
-                    <h1 className="font-heading text-2xl sm:text-3xl font-bold text-foreground mb-3 leading-tight">
+                    <h1 className="font-heading text-xl sm:text-2xl font-bold text-foreground mb-2 leading-tight">
                         Experience <span className="text-primary">Authentic</span><br />
                         Flavors &amp; Ambiance
                     </h1>
