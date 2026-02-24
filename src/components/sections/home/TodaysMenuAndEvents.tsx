@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Utensils, CalendarDays, Star, ChevronRight, Loader2, ChevronLeft, X } from "lucide-react";
+import { Utensils, CalendarDays, Star, ChevronRight, Loader2, ChevronLeft, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface MenuItem {
@@ -16,6 +16,7 @@ interface MenuItem {
     image: string;
     isVeg: boolean;
     isBestseller?: boolean;
+    rating?: number;
 }
 
 interface Event {
@@ -233,78 +234,54 @@ export function TodaysMenuAndEvents() {
                                 <EmptyState icon={<Utensils size={26} />} text="No specials set for today. Check back later or browse our full menu!" />
                             ) : (
                                 <>
-                                    {/* Mobile: Compact preview + See More */}
-                                    <div className="md:hidden space-y-4">
-                                        <div className="grid grid-cols-2 gap-3">
-                                            {specials.slice(0, 4).map(item => (
-                                                <motion.div
-                                                    key={item.id}
-                                                    variants={cardVariants}
-                                                    className="bg-card/70 rounded-2xl overflow-hidden border border-border/50"
-                                                >
-                                                    <div className="relative w-full h-24">
-                                                        {item.image
-                                                            ? <Image src={item.image} alt={item.name} fill className="object-cover" />
-                                                            : <div className="w-full h-full bg-card flex items-center justify-center"><Utensils size={18} className="text-muted-foreground" /></div>
-                                                        }
-                                                    </div>
-                                                    <div className="p-2.5 bg-gradient-to-b from-card/80 to-card">
-                                                        <div className="flex items-center justify-between gap-2 mb-1">
-                                                            <div className={`w-2.5 h-2.5 rounded-full border border-white/20 shadow-[0_0_8px] ${item.isVeg ? "bg-green-500 shadow-green-500/40" : "bg-red-500 shadow-red-500/40"}`} />
-                                                            <p className="text-primary font-black text-[10px]">₹{item.price}</p>
-                                                        </div>
-                                                        <p className="font-bold text-[11px] text-foreground leading-tight line-clamp-1">{item.name}</p>
-                                                    </div>
-                                                </motion.div>
-                                            ))}
-                                        </div>
-                                        {specials.length > 4 && (
-                                            <Button
-                                                variant="outline"
-                                                className="w-full py-6 rounded-2xl border-dashed border-primary/30 text-primary font-bold gap-2"
-                                                onClick={() => setShowSpecialsPopup(true)}
-                                            >
-                                                See More Special Items <ChevronRight size={16} />
-                                            </Button>
-                                        )}
-                                    </div>
-
-                                    {/* Desktop: compact grid */}
-                                    <motion.div variants={tabVariants}
-                                        className="hidden md:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                                        {specials.map(item => (
+                                    {/* Grid layout matching TopFlavours: Horizontal scroll on mobile, grid on sm+ */}
+                                    <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar sm:grid sm:grid-cols-3 sm:overflow-visible lg:grid-cols-4 xl:grid-cols-5">
+                                        {specials.map((item, index) => (
                                             <motion.div
                                                 key={item.id}
                                                 variants={cardVariants}
-                                                whileHover={{ y: -4 }}
-                                                className="group bg-card/60 rounded-2xl overflow-hidden border border-border/50 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300"
+                                                whileHover={{ y: -5 }}
+                                                onClick={() => setShowSpecialsPopup(true)}
+                                                className="min-w-[160px] sm:min-w-0 group bg-card rounded-xl overflow-hidden border border-border/50 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5 transition-all cursor-pointer"
                                             >
-                                                <div className="relative w-full h-36 overflow-hidden">
+                                                <div className="relative h-28 md:h-36 lg:h-40 overflow-hidden">
                                                     {item.image
                                                         ? <Image src={item.image} alt={item.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                                                         : <div className="w-full h-full bg-card flex items-center justify-center"><Utensils size={24} className="text-muted-foreground" /></div>
                                                     }
-                                                    <div className="absolute top-2 left-2">
-                                                        <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${item.isVeg ? "border-green-500 bg-green-500/10" : "border-red-500 bg-red-500/10"}`}>
-                                                            <div className={`w-1.5 h-1.5 rounded-full ${item.isVeg ? "bg-green-500" : "bg-red-500"}`} />
-                                                        </div>
+                                                    <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-full text-primary text-[10px] font-bold">
+                                                        ₹{item.price}
                                                     </div>
-                                                    <div className="absolute top-2 right-2">
-                                                        <span className="flex items-center gap-0.5 px-1.5 py-0.5 bg-primary text-primary-foreground text-[9px] font-bold rounded-full">
-                                                            <Star size={8} fill="currentColor" /> Today
-                                                        </span>
+                                                    <div className="absolute top-2 left-2">
+                                                        <div className={`w-2.5 h-2.5 rounded-full border border-white/20 shadow-[0_0_5px] ${item.isVeg ? "bg-green-500 shadow-green-500/40" : "bg-red-500 shadow-red-500/40"}`} />
                                                     </div>
                                                 </div>
+
                                                 <div className="p-3">
-                                                    <div className="flex items-start justify-between gap-1 mb-0.5">
-                                                        <h3 className="font-bold text-foreground text-xs leading-tight line-clamp-1">{item.name}</h3>
-                                                        <span className="text-primary font-extrabold text-xs whitespace-nowrap">₹{item.price}</span>
+                                                    <h3 className="text-sm font-bold font-heading group-hover:text-primary transition-colors truncate mb-1">{item.name}</h3>
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-[10px] text-muted-foreground bg-muted/60 px-1.5 py-0.5 rounded-full">{item.category}</span>
+                                                        <div className="flex items-center gap-0.5">
+                                                            {[...Array(5)].map((_, i) => (
+                                                                <Star key={i} size={8} fill={i < (item.rating ?? 5) ? "currentColor" : "none"} className={i < (item.rating ?? 5) ? "text-yellow-500" : "text-muted"} />
+                                                            ))}
+                                                        </div>
                                                     </div>
-                                                    <span className="inline-block px-1.5 py-0.5 bg-primary/10 text-primary text-[9px] font-semibold rounded-full">{item.category}</span>
                                                 </div>
                                             </motion.div>
                                         ))}
-                                    </motion.div>
+                                    </div>
+
+                                    {specials.length > 5 && (
+                                        <div className="text-center mt-8">
+                                            <button
+                                                onClick={() => setShowSpecialsPopup(true)}
+                                                className="inline-flex items-center text-primary text-sm font-medium hover:underline underline-offset-4 gap-2 cursor-pointer"
+                                            >
+                                                See All Specials <ArrowRight size={14} />
+                                            </button>
+                                        </div>
+                                    )}
                                 </>
                             )}
 
@@ -313,38 +290,39 @@ export function TodaysMenuAndEvents() {
                     )}
                 </AnimatePresence>
 
-                {/* Specials Popup Modal */}
                 <AnimatePresence>
                     {showSpecialsPopup && (
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
+                            transition={{ duration: 0.25 }}
                             className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"
                             onClick={() => setShowSpecialsPopup(false)}
                         >
-                            <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
+                            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9, y: 30 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.9, y: 30 }}
+                                transition={{ duration: 0.3, type: "spring", damping: 25 }}
                                 onClick={(e) => e.stopPropagation()}
-                                className="relative bg-card border border-border/50 rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-hidden shadow-2xl"
+                                className="relative bg-card border border-border rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden shadow-2xl"
                             >
-                                <div className="flex items-center justify-between p-6 border-b border-border/50 bg-card/80 backdrop-blur-sm sticky top-0 z-20">
+                                <div className="flex items-center justify-between p-5 border-b border-border">
                                     <div>
-                                        <span className="text-primary font-heading italic text-sm">Update Freshly</span>
+                                        <span className="text-primary font-heading italic text-sm">Special Menu</span>
                                         <h3 className="text-xl font-bold font-heading">Today&apos;s Special Selection</h3>
                                     </div>
                                     <button
                                         onClick={() => setShowSpecialsPopup(false)}
-                                        className="w-10 h-10 rounded-full bg-muted/50 hover:bg-primary/20 flex items-center justify-center text-foreground transition-all"
+                                        className="w-9 h-9 rounded-full bg-muted/50 hover:bg-primary/20 border border-border/50 hover:border-primary/30 flex items-center justify-center text-foreground transition-colors cursor-pointer"
                                     >
-                                        <X size={20} />
+                                        <X size={18} />
                                     </button>
                                 </div>
 
-                                <div className="p-6 overflow-y-auto max-h-[calc(85vh-88px)] scrollbar-hide">
+                                <div className="p-5 overflow-y-auto max-h-[calc(85vh-5rem)] custom-scrollbar">
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         {specials.map((item, index) => (
                                             <motion.div
@@ -354,21 +332,28 @@ export function TodaysMenuAndEvents() {
                                                 transition={{ delay: index * 0.05 }}
                                                 className="flex gap-4 p-3.5 rounded-2xl bg-background/40 border border-border/30 hover:border-primary/30 transition-all group"
                                             >
-                                                <div className="relative w-20 h-20 rounded-xl overflow-hidden shrink-0 shadow-lg">
+                                                <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0 shadow-lg">
                                                     {item.image
                                                         ? <Image src={item.image} alt={item.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
-                                                        : <div className="w-full h-full bg-muted flex items-center justify-center"><Utensils size={20} className="text-muted-foreground" /></div>
+                                                        : <div className="w-full h-full bg-muted flex items-center justify-center"><Utensils size={24} className="text-muted-foreground" /></div>
                                                     }
                                                 </div>
                                                 <div className="flex flex-col justify-center flex-1 min-w-0">
-                                                    <div className="flex items-center justify-between mb-1.5">
+                                                    <div className="flex items-center justify-between mb-1">
                                                         <h4 className="font-bold text-sm text-foreground truncate">{item.name}</h4>
-                                                        <span className="text-primary font-black text-sm ml-2">₹{item.price}</span>
+                                                        <span className="text-primary font-bold text-sm shrink-0 ml-2">₹{item.price}</span>
                                                     </div>
-                                                    <p className="text-[11px] text-muted-foreground line-clamp-2 mb-2 leading-relaxed">{item.description || "Freshly prepared dish of the day."}</p>
+                                                    <p className="text-[11px] text-muted-foreground line-clamp-2 mb-1.5">{item.description || "Chef's special preparation for today."}</p>
                                                     <div className="flex items-center justify-between">
-                                                        <span className="text-[10px] uppercase tracking-wider font-bold text-primary/70 bg-primary/5 px-2 py-0.5 rounded-full border border-primary/10">{item.category}</span>
-                                                        <div className={`w-2.5 h-2.5 rounded-full border border-white/20 shadow-[0_0_5px] ${item.isVeg ? "bg-green-500 shadow-green-500/40" : "bg-red-500 shadow-red-500/40"}`} />
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-[10px] text-muted-foreground bg-muted px-2 py-0.5 rounded-full">{item.category}</span>
+                                                            <div className={`w-2 h-2 rounded-full shadow-[0_0_5px] ${item.isVeg ? "bg-green-500 shadow-green-500/40" : "bg-red-500 shadow-red-500/40"}`} />
+                                                        </div>
+                                                        <div className="flex items-center gap-0.5">
+                                                            {[...Array(5)].map((_, i) => (
+                                                                <Star key={i} size={10} fill={i < (item.rating ?? 5) ? "currentColor" : "none"} className={i < (item.rating ?? 5) ? "text-yellow-500" : "text-muted"} />
+                                                            ))}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </motion.div>
