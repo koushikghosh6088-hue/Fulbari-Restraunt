@@ -339,9 +339,9 @@ export function TodaysMenuAndEvents() {
                                 <EmptyState icon={<CalendarDays size={26} />} text="No upcoming events right now. Follow us for announcements!" />
                             ) : (
                                 <>
-                                    {/* Infinite Marquee - Hero Visual */}
-                                    <div className="mb-8 md:mb-12">
-                                        <div className="text-center mb-4">
+                                    {/* Infinite Marquee gallery - only show this as per user request */}
+                                    <div className="mb-0">
+                                        <div className="text-center mb-6">
                                             <h3 className="text-xl md:text-2xl font-bold font-heading">Event Gallery</h3>
                                             <div className="w-12 h-0.5 bg-primary mx-auto mt-2 rounded-full" />
                                         </div>
@@ -353,36 +353,6 @@ export function TodaysMenuAndEvents() {
                                             ).filter((v, i, a) => a.indexOf(v) === i) // unique
                                         } />
                                     </div>
-
-                                    <motion.div variants={tabVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                                        {events.map(event => {
-                                            // Build image list: prefer image_urls array, fallback to poster_url
-                                            const imgs: string[] = (event.image_urls && event.image_urls.length > 0)
-                                                ? event.image_urls
-                                                : event.poster_url ? [event.poster_url] : [];
-
-                                            return (
-                                                <motion.div
-                                                    key={event.id}
-                                                    variants={cardVariants}
-                                                    whileHover={{ y: -5 }}
-                                                    className="group bg-card/60 rounded-2xl overflow-hidden border border-border/50 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300"
-                                                >
-                                                    <EventImageCarousel images={imgs} />
-                                                    {/* Date chip */}
-                                                    <div className="px-5 pt-4 pb-5">
-                                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary text-[11px] font-bold rounded-full mb-3">
-                                                            <CalendarDays size={11} /> {formatEventDate(event.event_date)}
-                                                        </span>
-                                                        <h3 className="font-bold text-foreground text-base leading-snug mb-1">{event.title}</h3>
-                                                        {event.description && (
-                                                            <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">{event.description}</p>
-                                                        )}
-                                                    </div>
-                                                </motion.div>
-                                            );
-                                        })}
-                                    </motion.div>
                                 </>
                             )}
                         </motion.div>
