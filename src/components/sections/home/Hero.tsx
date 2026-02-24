@@ -20,7 +20,7 @@ export function Hero() {
                     initial={{ opacity: 0, x: -40 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.9, delay: 0.2 }}
-                    className="flex-1 flex flex-col justify-end pb-12 lg:pb-16 xl:pb-20 px-10 lg:px-16 xl:px-24
+                    className="flex-1 flex flex-col justify-end pb-8 lg:pb-10 xl:pb-12 px-10 lg:px-16 xl:px-24
                                bg-background relative z-10"
                 >
                     {/* Bengali tagline */}
