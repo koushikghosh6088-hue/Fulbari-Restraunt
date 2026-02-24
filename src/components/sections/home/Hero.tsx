@@ -133,15 +133,6 @@ export function Hero() {
                         </Link>
                     </div>
 
-                    {/* Scroll hint */}
-                    <motion.div
-                        animate={{ y: [0, 8, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className="mt-8 flex flex-col items-center gap-2 opacity-50"
-                    >
-                        <span className="text-[10px] uppercase tracking-widest font-bold">What&apos;s on today</span>
-                        <div className="w-px h-10 bg-gradient-to-b from-primary to-transparent" />
-                    </motion.div>
                 </motion.div>
             </div>
         </section>
