@@ -19,6 +19,30 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.supabase.co",
       },
+      {
+        protocol: "https",
+        hostname: "*.gstatic.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "recipes.timesofindia.com",
+      },
+      {
+        protocol: "https",
+        hostname: "static.toiimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.indianhealthyrecipes.com",
+      },
+      {
+        protocol: "https",
+        hostname: "deliciouslyindian.net",
+      },
     ],
   },
 };
