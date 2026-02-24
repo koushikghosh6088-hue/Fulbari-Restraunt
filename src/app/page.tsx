@@ -1,9 +1,8 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/home/Hero";
-import { TopFlavours } from "@/components/sections/home/TopFlavours";
-import { About } from "@/components/sections/home/About";
 import { TodaysMenuAndEvents } from "@/components/sections/home/TodaysMenuAndEvents";
+import { About } from "@/components/sections/home/About";
 import { GoogleReviews } from "@/components/sections/home/GoogleReviews";
 
 export default function Home() {
@@ -12,13 +11,13 @@ export default function Home() {
       <Navbar />
       <main className="flex-grow">
         <Hero />
-        <TopFlavours />
-        <About />
         <TodaysMenuAndEvents />
+        <About />
         <GoogleReviews />
       </main>
       <Footer />
     </div>
   );
 }
+
 
