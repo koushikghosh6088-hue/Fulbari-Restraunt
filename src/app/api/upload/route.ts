@@ -18,7 +18,9 @@ export async function POST(request: Request) {
             .from(bucket)
             .upload(fileName, file, { cacheControl: "3600", upsert: false });
 
-        if (error) throw error;
+        if (error) {
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        }
 
         const { data: { publicUrl } } = supabase.storage
             .from(bucket)
@@ -26,7 +28,6 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ success: true, url: publicUrl });
     } catch (error: any) {
-        console.error("Upload Error:", error);
         return NextResponse.json({
             error: error.message || "Upload failed."
         }, { status: 500 });

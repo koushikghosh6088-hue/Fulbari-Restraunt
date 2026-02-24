@@ -268,24 +268,29 @@ export default function AdminDashboard() {
         if (!file) return;
 
         setGalleryUploading(true);
-        const fd = new FormData();
-        fd.append('file', file);
-        fd.append('bucket', 'gallery');
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("bucket", "gallery");
+
         try {
-            const res = await fetch('/api/upload', { method: 'POST', body: fd });
+            const res = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            });
             const data = await res.json();
-            if (data.url) {
+            if (data.success || data.url) {
                 setGalleryForm(prev => ({ ...prev, url: data.url }));
                 setShowToast({ show: true, message: "Image Uploaded Successfully!", type: 'success' });
             } else {
-                throw new Error(data.error || "Upload failed");
+                alert("Upload failed: " + data.error);
             }
-        } catch (err: any) {
-            console.error("Gallery upload error:", err);
-            setShowToast({ show: true, message: `Upload Failed: ${err.message}. Ensure 'gallery' bucket exists.`, type: 'error' });
+        } catch (error) {
+            console.error("Upload Error:", error);
+            alert("Upload failed! Please ensure you created the 'gallery' bucket in Supabase, set it to Public, and added the appropriate policies.");
+        } finally {
+            setGalleryUploading(false);
+            setTimeout(() => setShowToast(p => ({ ...p, show: false })), 3000);
         }
-        finally { setGalleryUploading(false); }
-        setTimeout(() => setShowToast(p => ({ ...p, show: false })), 4000);
     };
 
     const handleSaveGalleryItem = async (e: React.FormEvent) => {
