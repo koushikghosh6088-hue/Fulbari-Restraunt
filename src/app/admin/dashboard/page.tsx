@@ -120,6 +120,11 @@ export default function AdminDashboard() {
     const [variantInput, setVariantInput] = useState("");
     const [priceOptionsInput, setPriceOptionsInput] = useState("");
 
+    // ── Menu Search & Filters ──
+    const [menuSearch, setMenuSearch] = useState("");
+    const [menuTypeFilter, setMenuTypeFilter] = useState<"ALL" | "RESTAURANT" | "CAFE">("ALL");
+    const [menuCategoryFilter, setMenuCategoryFilter] = useState("All");
+
     const [customCategory, setCustomCategory] = useState("");
     const [isCustomCategory, setIsCustomCategory] = useState(false);
 
@@ -338,6 +343,17 @@ export default function AdminDashboard() {
         return Array.from(new Set(menuItems.map(item => item.category)));
     }, [menuItems]);
 
+    // ── Filtered Menu Items ──
+    const filteredMenuItems = useMemo(() => {
+        return (Array.isArray(menuItems) ? menuItems : []).filter(item => {
+            const matchesSearch = item.name.toLowerCase().includes(menuSearch.toLowerCase()) ||
+                item.description.toLowerCase().includes(menuSearch.toLowerCase());
+            const matchesType = menuTypeFilter === "ALL" || item.menu_type === menuTypeFilter;
+            const matchesCategory = menuCategoryFilter === "All" || item.category === menuCategoryFilter;
+            return matchesSearch && matchesType && matchesCategory;
+        });
+    }, [menuItems, menuSearch, menuTypeFilter, menuCategoryFilter]);
+
     const fetchMenu = async () => {
         try {
             const res = await fetch("/api/menu");
@@ -401,7 +417,16 @@ export default function AdminDashboard() {
         setIsEditing(true);
         setEditingId(item.id);
         setShowAddForm(true);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Scroll to form automatically
+        setTimeout(() => {
+            const form = document.querySelector('#admin-menu-form');
+            if (form) {
+                form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }, 100);
     };
 
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -604,6 +629,7 @@ export default function AdminDashboard() {
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
                             className="overflow-hidden mb-12"
+                            id="admin-menu-form"
                         >
                             <form
                                 onSubmit={handleAddItem}
@@ -1159,92 +1185,151 @@ export default function AdminDashboard() {
                 {/* ── MENU ITEMS TAB ───────────────────────── */}
                 {
                     adminTab === 'menu' && (
-                        <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-2xl">
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
-                                {(Array.isArray(menuItems) ? menuItems : []).map((item) => (
-                                    <motion.div
-                                        key={item.id}
-                                        layout
-                                        className={`relative group p-4 rounded-2xl border transition-all flex flex-col ${item.available ? "bg-accent/50 border-border" : "bg-accent/20 border-border/50 opacity-60"}`}
-                                    >
-                                        <div className="relative h-40 rounded-xl overflow-hidden mb-4">
-                                            <img
-                                                src={item.image}
-                                                alt={item.name}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                            />
-                                            <div className="absolute top-2 right-2 flex flex-col gap-2">
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        toggleAvailability(item);
-                                                    }}
-                                                    className={`w-12 h-6 rounded-full relative transition-all duration-300 backdrop-blur-md border border-white/20 ${item.available ? "bg-green-500/80" : "bg-red-500/80"}`}
-                                                    title={item.available ? "Disable Item" : "Enable Item"}
-                                                >
-                                                    <motion.div
-                                                        animate={{ x: item.available ? 24 : 4 }}
-                                                        className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-lg"
-                                                    />
-                                                </button>
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleEditItem(item);
-                                                    }}
-                                                    className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-all"
-                                                    title="Edit Item"
-                                                >
-                                                    <Pencil size={18} />
-                                                </button>
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleDelete(item.id);
-                                                    }}
-                                                    className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-red-500 transition-all"
-                                                    title="Delete Item"
-                                                >
-                                                    <Trash2 size={18} />
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex-grow">
-                                            <div className="flex justify-between items-start mb-2">
-                                                <div className="flex flex-col">
-                                                    <h3 className="font-bold font-heading line-clamp-1">{item.name}</h3>
-                                                    <span className={cn(
-                                                        "text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded w-fit mt-1",
-                                                        item.menu_type === "CAFE" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
-                                                    )}>
-                                                        {item.menu_type || "RESTAURANT"}
-                                                    </span>
-                                                </div>
-                                                <span className="text-[10px] uppercase font-bold text-primary px-2 py-0.5 bg-primary/10 rounded-full">{item.category}</span>
-                                            </div>
-                                            <p className="text-xs text-muted-foreground line-clamp-2 mb-4">{item.description}</p>
-
-                                            <div className="flex items-center gap-3 mt-auto">
-                                                <span className="text-sm font-bold text-foreground">₹</span>
-                                                <input
-                                                    type="number"
-                                                    defaultValue={item.price}
-                                                    onBlur={(e) => updatePrice(item.id, Number(e.target.value))}
-                                                    className="w-20 bg-background border-border border rounded-lg px-2 py-1 text-sm font-bold focus:ring-1 focus:ring-primary outline-none"
-                                                />
-                                                <div className={`ml-auto w-3 h-3 rounded-full ${item.available ? "bg-green-500 animate-pulse" : "bg-red-500"}`} />
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </div>
-                            {menuItems.length === 0 && (
-                                <div className="text-center py-20">
-                                    <Utensils size={48} className="mx-auto text-muted-foreground mb-4 opacity-20" />
-                                    <p className="text-muted-foreground">Your menu is currently empty.</p>
+                        <div className="space-y-6">
+                            {/* Menu Filters */}
+                            <div className="bg-card border border-border rounded-3xl p-6 shadow-xl flex flex-col md:flex-row gap-4 items-end">
+                                <div className="flex-1 space-y-2 w-full">
+                                    <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                                        <Search size={14} /> Search Menu
+                                    </label>
+                                    <input
+                                        type="text"
+                                        placeholder="Search by name or description..."
+                                        className="w-full bg-accent border-transparent rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-primary"
+                                        value={menuSearch}
+                                        onChange={(e) => setMenuSearch(e.target.value)}
+                                    />
                                 </div>
-                            )}
+                                <div className="w-full md:w-48 space-y-2">
+                                    <label className="text-sm font-medium text-muted-foreground">Menu Type</label>
+                                    <select
+                                        className="w-full bg-accent border-transparent rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-primary font-bold"
+                                        value={menuTypeFilter}
+                                        onChange={(e) => setMenuTypeFilter(e.target.value as any)}
+                                    >
+                                        <option value="ALL">All Types</option>
+                                        <option value="RESTAURANT">Restaurant</option>
+                                        <option value="CAFE">Cafe</option>
+                                    </select>
+                                </div>
+                                <div className="w-full md:w-48 space-y-2">
+                                    <label className="text-sm font-medium text-muted-foreground">Category</label>
+                                    <select
+                                        className="w-full bg-accent border-transparent rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-primary"
+                                        value={menuCategoryFilter}
+                                        onChange={(e) => setMenuCategoryFilter(e.target.value)}
+                                    >
+                                        <option value="All">All Categories</option>
+                                        {existingCategories.map(cat => (
+                                            <option key={cat} value={cat}>{cat}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                {(menuSearch || menuTypeFilter !== "ALL" || menuCategoryFilter !== "All") && (
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => {
+                                            setMenuSearch("");
+                                            setMenuTypeFilter("ALL");
+                                            setMenuCategoryFilter("All");
+                                        }}
+                                        className="text-xs text-muted-foreground hover:text-primary h-11 px-4"
+                                    >
+                                        <X size={14} className="mr-1" /> Clear
+                                    </Button>
+                                )}
+                            </div>
+
+                            <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-2xl">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
+                                    {filteredMenuItems.map((item) => (
+                                        <motion.div
+                                            key={item.id}
+                                            layout
+                                            className={`relative group p-4 rounded-2xl border transition-all flex flex-col ${item.available ? "bg-accent/50 border-border" : "bg-accent/20 border-border/50 opacity-60"}`}
+                                        >
+                                            <div className="relative h-40 rounded-xl overflow-hidden mb-4">
+                                                <img
+                                                    src={item.image}
+                                                    alt={item.name}
+                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                />
+                                                <div className="absolute top-2 right-2 flex flex-col gap-2">
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            toggleAvailability(item);
+                                                        }}
+                                                        className={`w-12 h-6 rounded-full relative transition-all duration-300 backdrop-blur-md border border-white/20 ${item.available ? "bg-green-500/80" : "bg-red-500/80"}`}
+                                                        title={item.available ? "Disable Item" : "Enable Item"}
+                                                    >
+                                                        <motion.div
+                                                            animate={{ x: item.available ? 24 : 4 }}
+                                                            className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-lg"
+                                                        />
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleEditItem(item);
+                                                        }}
+                                                        className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-primary transition-all"
+                                                        title="Edit Item"
+                                                    >
+                                                        <Pencil size={18} />
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleDelete(item.id);
+                                                        }}
+                                                        className="p-2 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/20 hover:bg-red-500 transition-all"
+                                                        title="Delete Item"
+                                                    >
+                                                        <Trash2 size={18} />
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex-grow">
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <div className="flex flex-col">
+                                                        <h3 className="font-bold font-heading line-clamp-1">{item.name}</h3>
+                                                        <span className={cn(
+                                                            "text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded w-fit mt-1",
+                                                            item.menu_type === "CAFE" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
+                                                        )}>
+                                                            {item.menu_type || "RESTAURANT"}
+                                                        </span>
+                                                    </div>
+                                                    <span className="text-[10px] uppercase font-bold text-primary px-2 py-0.5 bg-primary/10 rounded-full">{item.category}</span>
+                                                </div>
+                                                <p className="text-xs text-muted-foreground line-clamp-2 mb-4">{item.description}</p>
+
+                                                <div className="flex items-center gap-3 mt-auto">
+                                                    <span className="text-sm font-bold text-foreground">₹</span>
+                                                    <input
+                                                        type="number"
+                                                        defaultValue={item.price}
+                                                        onBlur={(e) => updatePrice(item.id, Number(e.target.value))}
+                                                        className="w-20 bg-background border-border border rounded-lg px-2 py-1 text-sm font-bold focus:ring-1 focus:ring-primary outline-none"
+                                                    />
+                                                    <div className={`ml-auto w-3 h-3 rounded-full ${item.available ? "bg-green-500 animate-pulse" : "bg-red-500"}`} />
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                                {filteredMenuItems.length === 0 && (
+                                    <div className="text-center py-20">
+                                        <Utensils size={48} className="mx-auto text-muted-foreground mb-4 opacity-20" />
+                                        <p className="text-muted-foreground">
+                                            {menuItems.length === 0 ? "Your menu is currently empty." : "No items match your filters."}
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     )
                 }
