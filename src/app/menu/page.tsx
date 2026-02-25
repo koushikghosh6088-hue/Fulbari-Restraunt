@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -57,13 +58,15 @@ export default function MenuPage() {
             {/* Menu Header */}
             <section className="pt-24 md:pt-32 pb-8 md:pb-12 px-4 text-center relative overflow-hidden">
                 <div className="absolute inset-0">
-                    <img
+                    <Image
                         src={activeMenuTab === "RESTAURANT"
                             ? "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2074&auto=format&fit=crop"
                             : "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=2047&auto=format&fit=crop"
                         }
                         alt="Menu background"
-                        className="w-full h-full object-cover opacity-15"
+                        fill
+                        priority
+                        className="object-cover opacity-15"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-background/30 to-background" />
                 </div>
@@ -199,9 +202,11 @@ export default function MenuPage() {
                                 >
                                     {/* Image */}
                                     <div className="relative h-48 overflow-hidden">
-                                        <img
+                                        <Image
                                             src={item.image}
                                             alt={item.name}
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                         />
                                         {item.isBestseller && (

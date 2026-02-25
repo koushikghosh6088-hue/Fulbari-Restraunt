@@ -77,6 +77,7 @@ export function Hero() {
                         src="/hero-bg.jpg"
                         alt="Fulbari Restaurant Exterior Night View"
                         fill
+                        sizes="(max-width: 768px) 100vw, 60vw"
                         className="object-cover object-center"
                         priority
                     />

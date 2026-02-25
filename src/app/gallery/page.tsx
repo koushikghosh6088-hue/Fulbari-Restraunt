@@ -111,8 +111,8 @@ export default function GalleryPage() {
                                         alt={`${img.category} - Gallery image ${idx + 1}`}
                                         width={800}
                                         height={600}
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                                         className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-                                        unoptimized={img.url.startsWith('http')} // Optimization fallback for external URLs
                                     />
                                 </div>
                                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

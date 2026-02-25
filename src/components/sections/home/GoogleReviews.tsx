@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 const REVIEWS_PER_PAGE = 5;
@@ -330,7 +331,13 @@ export function GoogleReviews() {
 
 
                                     <div className="flex items-center gap-2 pt-4 border-t border-border/20 group-hover:border-primary/20 transition-colors grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-500">
-                                        <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google" className="h-3 w-auto" />
+                                        <Image
+                                            src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"
+                                            alt="Google"
+                                            width={60}
+                                            height={20}
+                                            className="h-3 w-auto"
+                                        />
                                         <span className="text-[9px] font-bold tracking-wider">VERIFIED REVIEW</span>
                                     </div>
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Utensils, Coffee, Wine, Cake, X, Leaf } from "lucide-react";
@@ -84,10 +85,12 @@ export function Specialties() {
 
                             {/* Category Image */}
                             <div className="relative h-[200px] md:h-[260px] lg:h-[300px] rounded-2xl overflow-hidden mb-8 group">
-                                <img
+                                <Image
                                     src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=2074&auto=format&fit=crop"
                                     alt="Varieties of food served at Fulbari"
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    className="object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                                 <div className="absolute bottom-4 left-4">
@@ -116,10 +119,12 @@ export function Specialties() {
                                 >
                                     {/* Category Thumbnail */}
                                     <div className="relative h-28 overflow-hidden">
-                                        <img
+                                        <Image
                                             src={item.image}
                                             alt={item.label}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                            fill
+                                            sizes="(max-width: 768px) 50vw, 25vw"
+                                            className="object-cover group-hover:scale-110 transition-transform duration-500"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
                                     </div>
@@ -164,10 +169,12 @@ export function Specialties() {
                         >
                             {/* Modal Header */}
                             <div className="relative h-40 md:h-48 overflow-hidden">
-                                <img
+                                <Image
                                     src={selectedCategory.image}
                                     alt={selectedCategory.label}
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 800px"
+                                    className="object-cover"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent" />
                                 <div className="absolute bottom-4 left-6 z-10">
@@ -203,10 +210,12 @@ export function Specialties() {
                                             className="flex gap-4 p-3 rounded-xl bg-background border border-border/30 hover:border-primary/30 hover:shadow-md transition-all group"
                                         >
                                             <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
-                                                <img
+                                                <Image
                                                     src={item.image}
                                                     alt={item.name}
-                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    fill
+                                                    sizes="80px"
+                                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
                                             </div>
                                             <div className="flex flex-col justify-center flex-1 min-w-0">
