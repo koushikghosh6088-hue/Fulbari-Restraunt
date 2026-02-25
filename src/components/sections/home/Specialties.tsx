@@ -1,53 +1,78 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Utensils, Coffee, Wine, Cake, X, Leaf } from "lucide-react";
-import { menuItems, type Category } from "@/data/menu";
+import { type Category } from "@/data/menu";
 
-const categories = [
+// Category configuration with icons and mapping
+const categoryConfig = [
     {
         icon: Utensils,
         label: "Main Course",
-        count: "40+ Items",
         image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=400&auto=format&fit=crop",
         menuCategories: ["Bengali", "Indian", "Chinese"] as Category[],
     },
     {
         icon: Coffee,
         label: "Breakfast",
-        count: "15+ Items",
         image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?q=80&w=400&auto=format&fit=crop",
         menuCategories: ["Starters"] as Category[],
     },
     {
         icon: Wine,
         label: "Drinks",
-        count: "20+ Items",
         image: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?q=80&w=400&auto=format&fit=crop",
         menuCategories: ["Drinks"] as Category[],
     },
     {
         icon: Cake,
         label: "Desserts",
-        count: "10+ Items",
         image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?q=80&w=400&auto=format&fit=crop",
         menuCategories: ["Desserts"] as Category[],
     },
 ];
 
 export function Specialties() {
-    const [selectedCategory, setSelectedCategory] = useState<typeof categories[number] | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<typeof categoryConfig[number] | null>(null);
+    const [liveMenu, setLiveMenu] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const getFilteredItems = () => {
-        if (!selectedCategory) return [];
-        return menuItems.filter((item) =>
-            selectedCategory.menuCategories.includes(item.category)
-        );
-    };
+    useEffect(() => {
+        fetch("/api/menu")
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) setLiveMenu(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error("Failed to load live menu for specialties", err);
+                setLoading(false);
+            });
+    }, []);
+
+    // Dynamically calculate counts and filter items
+    const categoriesWithCounts = useMemo(() => {
+        return categoryConfig.map(cat => {
+            const items = liveMenu.filter(item =>
+                (cat.menuCategories as string[]).includes(item.category) && item.available !== false
+            );
+            return {
+                ...cat,
+                count: items.length > 0 ? `${items.length}+ Items` : "Items coming soon",
+                items: items
+            };
+        });
+    }, [liveMenu]);
+
+    const activeCategoryData = selectedCategory
+        ? categoriesWithCounts.find(c => c.label === selectedCategory.label)
+        : null;
+
+    const filteredItems = activeCategoryData?.items || [];
 
     return (
         <>
@@ -106,7 +131,7 @@ export function Specialties() {
                         </motion.div>
 
                         <div className="grid grid-cols-2 gap-6">
-                            {categories.map((item, i) => (
+                            {categoriesWithCounts.map((item, i) => (
                                 <motion.div
                                     key={item.label}
                                     initial={{ opacity: 0, scale: 0.9 }}
@@ -134,7 +159,11 @@ export function Specialties() {
                                         </div>
                                         <div>
                                             <h4 className="font-bold text-base">{item.label}</h4>
-                                            <span className="text-sm text-muted-foreground">{item.count}</span>
+                                            {loading ? (
+                                                <div className="h-4 w-16 bg-muted animate-pulse rounded mx-auto mt-1" />
+                                            ) : (
+                                                <span className="text-sm text-muted-foreground">{item.count}</span>
+                                            )}
                                         </div>
                                     </div>
                                 </motion.div>
@@ -145,7 +174,7 @@ export function Specialties() {
             </section>
 
             {/* Category Popup Modal */}
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
                 {selectedCategory && (
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -184,7 +213,7 @@ export function Specialties() {
                                         </div>
                                         <div>
                                             <h3 className="text-2xl font-bold font-heading text-foreground">{selectedCategory.label}</h3>
-                                            <p className="text-sm text-muted-foreground">{selectedCategory.count}</p>
+                                            <p className="text-sm text-muted-foreground">{activeCategoryData?.count}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -201,7 +230,7 @@ export function Specialties() {
                             {/* Items List */}
                             <div className="p-4 md:p-6 overflow-y-auto max-h-[calc(85vh-12rem)] custom-scrollbar">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    {getFilteredItems().map((item, index) => (
+                                    {filteredItems.map((item, index) => (
                                         <motion.div
                                             key={item.id}
                                             initial={{ opacity: 0, y: 15 }}
@@ -237,7 +266,7 @@ export function Specialties() {
                                     ))}
                                 </div>
 
-                                {getFilteredItems().length === 0 && (
+                                {filteredItems.length === 0 && (
                                     <div className="text-center py-12 text-muted-foreground">
                                         <p>No items found in this category.</p>
                                     </div>

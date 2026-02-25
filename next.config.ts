@@ -47,6 +47,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.ftcdn.net",
       },
+      {
+        protocol: "https",
+        hostname: "www.google.com",
+      },
     ],
   },
 };
