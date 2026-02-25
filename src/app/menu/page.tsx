@@ -208,7 +208,9 @@ export default function MenuPage() {
                                             loading={idx < 4 ? "eager" : "lazy"}
                                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                             onError={(e) => {
-                                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
+                                                const target = e.target as HTMLImageElement;
+                                                console.error(`Menu item image failed: ${target.src}`);
+                                                target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
                                             }}
                                         />
                                         {item.isBestseller && (

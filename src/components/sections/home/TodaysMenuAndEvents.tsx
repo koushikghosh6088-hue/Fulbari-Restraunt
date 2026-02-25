@@ -139,7 +139,9 @@ function EventImageCarousel({ images }: { images: string[] }) {
                         loading={idx === 0 ? "eager" : "lazy"}
                         className="absolute inset-0 w-full h-full object-cover"
                         onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop';
+                            const target = e.target as HTMLImageElement;
+                            console.error(`Event image failed: ${target.src}`);
+                            target.src = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop';
                         }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
@@ -242,7 +244,9 @@ function ModernEventGallery({ images }: { images: string[] }) {
                                 loading={i < 2 ? "eager" : "lazy"}
                                 className="absolute inset-0 w-full h-full object-cover"
                                 onError={(e) => {
-                                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800&auto=format&fit=crop';
+                                    const target = e.target as HTMLImageElement;
+                                    console.error(`Event grid image failed: ${target.src}`);
+                                    target.src = 'https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800&auto=format&fit=crop';
                                 }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -281,7 +285,9 @@ function ModernEventGallery({ images }: { images: string[] }) {
                                 loading={i === 0 ? "eager" : "lazy"}
                                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 onError={(e) => {
-                                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800&auto=format&fit=crop';
+                                    const target = e.target as HTMLImageElement;
+                                    console.error(`Featured gallery image failed: ${target.src}`);
+                                    target.src = 'https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=800&auto=format&fit=crop';
                                 }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
@@ -425,7 +431,9 @@ export function TodaysMenuAndEvents() {
                                                             loading={index < 4 ? "eager" : "lazy"}
                                                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                             onError={(e) => {
-                                                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
+                                                                const target = e.target as HTMLImageElement;
+                                                                console.error(`Specials image failed: ${target.src}`);
+                                                                target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
                                                             }}
                                                         />
                                                         : <div className="w-full h-full bg-card flex items-center justify-center"><Utensils size={24} className="text-muted-foreground" /></div>

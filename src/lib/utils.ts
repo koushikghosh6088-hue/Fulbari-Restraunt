@@ -22,7 +22,8 @@ export function sanitizeImageUrl(url: string | undefined | null) {
 
     // 3. Handle spaces and basic special characters safely
     // We avoid full encodeURI as it can break some Supabase signed URL parameters
+    // but we must use proper hex codes for parentheses
     return s.replace(/ /g, "%20")
-        .replace(/\(/g, "%20")
-        .replace(/\)/g, "%20");
+        .replace(/\(/g, "%28")
+        .replace(/\)/g, "%29");
 }

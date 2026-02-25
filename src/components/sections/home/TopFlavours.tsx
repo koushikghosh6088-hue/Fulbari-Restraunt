@@ -109,7 +109,9 @@ export function TopFlavours() {
                                         loading={index < 4 ? "eager" : "lazy"}
                                         className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                         onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1546271876-af6caec5fae5?q=80&w=800&auto=format&fit=crop';
+                                            const target = e.target as HTMLImageElement;
+                                            console.error(`Top flavour image failed: ${target.src}`);
+                                            target.src = 'https://images.unsplash.com/photo-1546271876-af6caec5fae5?q=80&w=800&auto=format&fit=crop';
                                         }}
                                     />
                                     <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-full text-primary text-xs font-bold">
@@ -184,7 +186,9 @@ export function TopFlavours() {
                                                     loading="lazy"
                                                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                     onError={(e) => {
-                                                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1546271876-af6caec5fae5?q=80&w=800&auto=format&fit=crop';
+                                                        const target = e.target as HTMLImageElement;
+                                                        console.error(`Featured sub-flavour failed: ${target.src}`);
+                                                        target.src = 'https://images.unsplash.com/photo-1546271876-af6caec5fae5?q=80&w=800&auto=format&fit=crop';
                                                     }}
                                                 />
                                             </div>

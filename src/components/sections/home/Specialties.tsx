@@ -157,7 +157,9 @@ export function Specialties() {
                                             loading={i === 0 ? "eager" : "lazy"}
                                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                             onError={(e) => {
-                                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
+                                                const target = e.target as HTMLImageElement;
+                                                console.error(`Specialty category image failed: ${target.src}`);
+                                                target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
                                             }}
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
@@ -254,7 +256,9 @@ export function Specialties() {
                                                     loading="lazy"
                                                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                     onError={(e) => {
-                                                        (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
+                                                        const target = e.target as HTMLImageElement;
+                                                        console.error(`Specialty item image failed: ${target.src}`);
+                                                        target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
                                                     }}
                                                 />
                                             </div>

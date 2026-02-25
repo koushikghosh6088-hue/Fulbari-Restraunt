@@ -113,7 +113,9 @@ export default function GalleryPage() {
                                         loading={idx < 4 ? "eager" : "lazy"}
                                         className="w-full h-auto min-h-[200px] object-cover transition-transform duration-700 group-hover:scale-105"
                                         onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop';
+                                            const target = e.target as HTMLImageElement;
+                                            console.error(`Gallery image failed: ${target.src}`);
+                                            target.src = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop';
                                         }}
                                     />
                                 </div>
