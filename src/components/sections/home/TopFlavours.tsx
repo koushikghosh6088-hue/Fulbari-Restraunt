@@ -103,11 +103,14 @@ export function TopFlavours() {
                                 className="min-w-[140px] sm:min-w-0 group bg-card rounded-xl overflow-hidden border border-transparent hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5 transition-all cursor-pointer"
                             >
                                 <div className="relative h-28 md:h-36 lg:h-40 overflow-hidden">
-                                    <img
+                                    <Image
                                         src={sanitizeImageUrl(item.image)}
                                         alt={item.name}
-                                        loading={index < 4 ? "eager" : "lazy"}
-                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        fill
+                                        unoptimized
+                                        priority={index < 4}
+                                        sizes="(max-width: 768px) 33vw, 15vw"
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                     />
                                     <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-full text-primary text-xs font-bold">
                                         {item.price}
@@ -175,11 +178,13 @@ export function TopFlavours() {
                                             className="flex gap-4 p-3 rounded-xl bg-background border border-border/30 hover:border-primary/30 hover:shadow-md transition-all group"
                                         >
                                             <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0">
-                                                <img
+                                                <Image
                                                     src={sanitizeImageUrl(item.image)}
                                                     alt={item.name}
-                                                    loading="lazy"
-                                                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    fill
+                                                    unoptimized
+                                                    sizes="96px"
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
                                             </div>
                                             <div className="flex flex-col justify-center flex-1 min-w-0">

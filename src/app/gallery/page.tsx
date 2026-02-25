@@ -107,10 +107,13 @@ export default function GalleryPage() {
                                 className="break-inside-avoid rounded-2xl overflow-hidden relative group shadow-lg"
                             >
                                 <div className="relative w-full h-full">
-                                    <img
+                                    <Image
                                         src={sanitizeImageUrl(img.url)}
                                         alt={`${img.category} - Gallery image ${idx + 1}`}
-                                        loading={idx < 4 ? "eager" : "lazy"}
+                                        width={800}
+                                        height={600}
+                                        unoptimized
+                                        priority={idx < 4}
                                         className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                 </div>

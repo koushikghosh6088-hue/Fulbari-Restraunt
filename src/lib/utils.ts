@@ -13,10 +13,6 @@ export function sanitizeImageUrl(url: string | undefined | null) {
         const separator = s.includes("?") ? "&" : "?";
         s = `${s}${separator}auto=format&fit=crop&q=80&w=800`;
     }
-    // Encode the URL cleanly
-    try {
-        return encodeURI(s);
-    } catch (e) {
-        return s.replace(/ /g, "%20");
-    }
+    // Handle spaces in URLs by encoding them simply
+    return s.replace(/ /g, "%20");
 }

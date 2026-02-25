@@ -130,6 +130,7 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
                         src={sanitizeImageUrl(images[currentIndex])}
                         alt={`${label} photo ${currentIndex + 1}`}
                         fill
+                        unoptimized
                         sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover"
                         priority
