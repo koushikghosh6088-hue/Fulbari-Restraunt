@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Star, ArrowRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { sanitizeImageUrl } from "@/lib/utils";
 
 const specialItems = [
     {
@@ -103,7 +104,7 @@ export function TopFlavours() {
                             >
                                 <div className="relative h-28 md:h-36 lg:h-40 overflow-hidden">
                                     <Image
-                                        src={item.image}
+                                        src={sanitizeImageUrl(item.image)}
                                         alt={item.name}
                                         fill
                                         sizes="(max-width: 768px) 33vw, 15vw"
@@ -176,7 +177,7 @@ export function TopFlavours() {
                                         >
                                             <div className="relative w-24 h-24 rounded-lg overflow-hidden shrink-0">
                                                 <Image
-                                                    src={item.image}
+                                                    src={sanitizeImageUrl(item.image)}
                                                     alt={item.name}
                                                     fill
                                                     sizes="96px"

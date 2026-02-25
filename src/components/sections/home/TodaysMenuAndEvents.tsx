@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Star, CalendarDays, Loader2, ChevronLeft, ChevronRight, ArrowRight, X, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { sanitizeImageUrl } from "@/lib/utils";
 
 interface MenuItem {
     id: string;
@@ -33,16 +34,6 @@ interface Event {
     is_active: boolean;
 }
 
-// Helper to ensure image URLs are properly formatted and include fallbacks
-function sanitizeImageUrl(url: string | undefined | null) {
-    if (!url) return "";
-    // Handle Unsplash optimization if missing
-    if (url.includes("unsplash.com") && !url.includes("auto=format")) {
-        return `${url}${url.includes("?") ? "&" : "?"}auto=format&fit=crop&q=80&w=800`;
-    }
-    // Handle spaces in URLs by encoding them
-    return url.replace(/ /g, "%20");
-}
 
 const tabVariants = {
     hidden: { opacity: 0, y: 16 },

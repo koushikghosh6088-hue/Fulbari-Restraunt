@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Category } from "@/data/menu";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Leaf, Utensils, Loader2, ArrowLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, sanitizeImageUrl } from "@/lib/utils";
 
 export default function MenuPage() {
     const [menuItems, setMenuItems] = useState<any[]>([]);
@@ -203,7 +203,7 @@ export default function MenuPage() {
                                     {/* Image */}
                                     <div className="relative h-48 overflow-hidden">
                                         <Image
-                                            src={item.image}
+                                            src={sanitizeImageUrl(item.image)}
                                             alt={item.name}
                                             fill
                                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Utensils, Coffee, Wine, Cake, X, Leaf } from "lucide-react";
 import { type Category } from "@/data/menu";
+import { sanitizeImageUrl } from "@/lib/utils";
 
 // Category configuration with icons and precise database mapping
 const categoryConfig = [
@@ -151,7 +152,7 @@ export function Specialties() {
                                     {/* Category Thumbnail */}
                                     <div className="relative h-28 overflow-hidden">
                                         <Image
-                                            src={item.image}
+                                            src={sanitizeImageUrl(item.image)}
                                             alt={item.label}
                                             fill
                                             sizes="(max-width: 768px) 50vw, 25vw"
@@ -205,7 +206,7 @@ export function Specialties() {
                             {/* Modal Header */}
                             <div className="relative h-40 md:h-48 overflow-hidden">
                                 <Image
-                                    src={selectedCategory.image}
+                                    src={sanitizeImageUrl(selectedCategory.image)}
                                     alt={selectedCategory.label}
                                     fill
                                     sizes="(max-width: 768px) 100vw, 800px"
@@ -246,7 +247,7 @@ export function Specialties() {
                                         >
                                             <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
                                                 <Image
-                                                    src={item.image}
+                                                    src={sanitizeImageUrl(item.image)}
                                                     alt={item.name}
                                                     fill
                                                     sizes="80px"
