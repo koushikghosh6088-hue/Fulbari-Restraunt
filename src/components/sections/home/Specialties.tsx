@@ -151,13 +151,11 @@ export function Specialties() {
                                 >
                                     {/* Category Thumbnail */}
                                     <div className="relative h-28 overflow-hidden">
-                                        <Image
+                                        <img
                                             src={sanitizeImageUrl(item.image)}
                                             alt={item.label}
-                                            fill
-                                            priority={i === 0}
-                                            sizes="(max-width: 768px) 50vw, 25vw"
-                                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                            loading={i === 0 ? "eager" : "lazy"}
+                                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
                                     </div>
@@ -247,12 +245,11 @@ export function Specialties() {
                                             className="flex gap-4 p-3 rounded-xl bg-background border border-border/30 hover:border-primary/30 hover:shadow-md transition-all group"
                                         >
                                             <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
-                                                <Image
+                                                <img
                                                     src={sanitizeImageUrl(item.image)}
                                                     alt={item.name}
-                                                    fill
-                                                    sizes="80px"
-                                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    loading="lazy"
+                                                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
                                             </div>
                                             <div className="flex flex-col justify-center flex-1 min-w-0">

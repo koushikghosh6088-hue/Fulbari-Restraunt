@@ -133,12 +133,12 @@ function EventImageCarousel({ images }: { images: string[] }) {
                     exit="exit"
                     className="absolute inset-0"
                 >
-                    <Image
+                    <img
                         src={sanitizeImageUrl(images[idx])}
                         alt={`Event image ${idx + 1}`}
-                        fill
-                        priority={idx === 0}
-                        className="object-cover"
+                        fetchPriority={idx === 0 ? "high" : "auto"}
+                        loading={idx === 0 ? "eager" : "lazy"}
+                        className="absolute inset-0 w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
                 </motion.div>
@@ -234,13 +234,12 @@ function ModernEventGallery({ images }: { images: string[] }) {
                         className="flex-none w-[75vw] aspect-[4/5] snap-center snap-always"
                     >
                         <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl border border-border/50">
-                            <Image
+                            <img
                                 src={sanitizeImageUrl(img)}
                                 alt=""
-                                fill
-                                sizes="75vw"
-                                className="object-cover"
-                                priority={i < 2}
+                                loading={i < 2 ? "eager" : "lazy"}
+                                fetchPriority={i < 2 ? "high" : "auto"}
+                                className="absolute inset-0 w-full h-full object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                         </div>
@@ -272,12 +271,11 @@ function ModernEventGallery({ images }: { images: string[] }) {
                                             "col-span-1 row-span-1"
                             )}
                         >
-                            <Image
+                            <img
                                 src={sanitizeImageUrl(img)}
                                 alt=""
-                                fill
-                                sizes={i === 0 ? "50vw" : "25vw"}
-                                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                loading={i === 0 ? "eager" : "lazy"}
+                                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                             <div className="absolute inset-0 ring-1 ring-inset ring-white/20 group-hover:ring-primary/40 transition-all rounded-3xl" />
@@ -414,12 +412,11 @@ export function TodaysMenuAndEvents() {
                                             >
                                                 <div className="relative h-28 md:h-36 lg:h-40 overflow-hidden">
                                                     {item.image
-                                                        ? <Image
+                                                        ? <img
                                                             src={sanitizeImageUrl(item.image)}
                                                             alt={item.name}
-                                                            fill
-                                                            priority={index < 4}
-                                                            className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                                            loading={index < 4 ? "eager" : "lazy"}
+                                                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                         />
                                                         : <div className="w-full h-full bg-card flex items-center justify-center"><Utensils size={24} className="text-muted-foreground" /></div>
                                                     }

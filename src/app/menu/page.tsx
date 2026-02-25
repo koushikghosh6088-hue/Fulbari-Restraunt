@@ -202,13 +202,11 @@ export default function MenuPage() {
                                 >
                                     {/* Image */}
                                     <div className="relative h-48 overflow-hidden">
-                                        <Image
+                                        <img
                                             src={sanitizeImageUrl(item.image)}
                                             alt={item.name}
-                                            fill
-                                            priority={idx < 4}
-                                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                            loading={idx < 4 ? "eager" : "lazy"}
+                                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                         />
                                         {item.isBestseller && (
                                             <div className="absolute top-2 left-2 bg-yellow-500 text-black text-[10px] uppercase font-black px-2 py-1 rounded-sm shadow-md tracking-widest">
