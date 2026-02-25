@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { Utensils, Coffee, Building2, PartyPopper, Users, Clock, MapPin, Star, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { Utensils, Coffee, Building2, PartyPopper, Users, Clock, MapPin, Star, ChevronLeft, ChevronRight } from "lucide-react";
 
 type VenueKey = "restaurant" | "cafe" | "community" | "banquet";
 
@@ -12,12 +11,12 @@ const venues = {
     restaurant: {
         icon: Utensils,
         label: "Restaurant",
-        tagline: "Nature's Palette on Your Plate",
-        bengaliTagline: "প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা",
+        tagline: "প্রকৃতির সান্নিধ্যে এক অনন্য স্বাদের ঠিকানা",
+        taglineClassName: "font-bengali-logo text-base md:text-lg text-primary font-bold tracking-wide",
         description:
-            "Our lush open-air garden dining offers a truly exceptional experience. Spend memorable moments with loved ones under the open sky amidst sparkling illumination.",
-        bengaliDescription: "আমাদের সবুজ ঘেরা ওপেন-এয়ার গার্ডেন ডাইনিং আপনাকে দেবে এক অসাধারণ অভিজ্ঞতা। খোলা আকাশের নিচে ঝকঝকে আলোকসজ্জার মাঝে প্রিয়জনের সাথে কাটানো সময় হবে সত্যিই স্মরণীয়।",
-        highlights: ["Open-Air Garden Dining", "Live Band ('Nostalgic')", "Chicken Reshmi Butter Masala", "Traditional Bengali Thalis"],
+            "আমাদের সবুজ ঘেরা ওপেন-এয়ার গার্ডেন ডাইনিং আপনাকে দেবে এক অসাধারণ অভিজ্ঞতা। খোলা আকাশের নিচে ঝকঝকে আলোকসজ্জার মাঝে প্রিয়জনের সাথে কাটানো সময় হবে সত্যিই স্মরণীয়।",
+        descriptionClassName: "font-bengali text-sm md:text-base leading-relaxed font-semibold text-muted-foreground",
+        highlights: ["Open-Air Garden Dining", "Live Band ('Nostalgic')", "Signature Reshmi Butter Masala", "Traditional Bengali Thalis"],
         capacity: "120+ Guests",
         timing: "11:00 AM - 10:30 PM",
         images: [
@@ -31,12 +30,14 @@ const venues = {
     cafe: {
         icon: Coffee,
         label: "Café",
-        tagline: "Brews, Bites & Bliss",
+        tagline: "Brews & Bites",
         description:
-            "Unwind with freshly brewed coffee, artisan teas, and light bites in our cozy café corner. Perfect for casual meetups, steady work sessions, or a quiet escape.",
-        highlights: ["Specialty Coffee", "Fresh Pastries", "Free High-Speed Wi-Fi", "Cozy Modern Ambience"],
+            "Unwind with freshly brewed coffee, artisan teas, and light bites in our cozy café corner. Perfect for casual meetups, work sessions, or a quiet afternoon escape.",
+        highlights: ["Specialty Coffee", "Fresh Pastries", "Free Wi-Fi", "Cozy Ambience"],
         capacity: "40+ Guests",
         timing: "8:00 AM - 9:00 PM",
+        taglineClassName: "text-primary font-medium",
+        descriptionClassName: "text-muted-foreground",
         images: [
             "/cafe/cafe1.jpeg",
             "/cafe/cafe2.jpeg",
@@ -47,12 +48,14 @@ const venues = {
     community: {
         icon: Building2,
         label: "Community Hall",
-        tagline: "Where Moments Become Memories",
+        tagline: "Celebrate Together",
         description:
-            "Our spacious community hall is ideal for cultural events, seminars, and social gatherings. Equipped with modern amenities and flexible arrangements.",
-        highlights: ["Projector & Sound", "Flexible Seating", "Full AC Hall", "Professional Stage"],
+            "Our spacious community hall is ideal for cultural events, meetings, seminars, and social gatherings. Equipped with modern amenities and flexible seating arrangements.",
+        highlights: ["Projector & Sound", "Flexible Layout", "AC Hall", "Stage Available"],
         capacity: "300+ Guests",
         timing: "Contact for Inquiry",
+        taglineClassName: "text-primary font-medium",
+        descriptionClassName: "text-muted-foreground",
         images: [
             "/community/community4.jpeg",
             "/community/community2.jpeg",
@@ -64,12 +67,14 @@ const venues = {
     banquet: {
         icon: PartyPopper,
         label: "Food & Events",
-        tagline: "Exquisite Celebrations",
+        tagline: "Weddings & Grand Occasions",
         description:
-            "From grand weddings to intimate parties, we provide an elegant setting with premium catering, stunning décor, and dedicated coordination.",
-        highlights: ["Wedding Packages", "Themed Décor", "Premium Catering", "Dedicated Manager"],
+            "From grand weddings to birthday celebrations, our food provide an elegant setting with premium catering, décor support, and dedicated event coordination.",
+        highlights: ["Wedding Packages", "Custom Décor", "Premium Catering", "Event Manager"],
         capacity: "500+ Guests",
         timing: "Contact for Inquiry",
+        taglineClassName: "text-primary font-medium",
+        descriptionClassName: "text-muted-foreground",
         images: [
             "/food/food3.jpeg",
             "/food/food2.jpeg",
@@ -84,74 +89,88 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
 
-    const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % images.length);
-    const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    const nextSlide = () => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    };
 
     useEffect(() => {
         if (isPaused) return;
         const interval = setInterval(nextSlide, 5000);
         return () => clearInterval(interval);
-    }, [isPaused, currentIndex, images.length]);
+    }, [isPaused, currentIndex, images.length]); // Added currentIndex to dep array for reliability
+
+    const handleMouseEnter = () => {
+        // Only pause on hover for devices that actually support hovering (desktops)
+        if (window.matchMedia('(hover: hover)').matches) {
+            setIsPaused(true);
+        }
+    };
 
     return (
         <div
-            className="relative group overflow-hidden rounded-[2rem] shadow-2xl h-[280px] md:h-[440px] lg:h-[500px] touch-pan-y border border-white/10"
-            onMouseEnter={() => setIsPaused(true)}
+            className="relative group overflow-hidden rounded-2xl shadow-2xl h-[280px] md:h-[460px] lg:h-[540px] xl:h-[620px] touch-pan-y"
+            onMouseEnter={handleMouseEnter}
             onMouseLeave={() => setIsPaused(false)}
         >
-            <AnimatePresence mode="wait" initial={false}>
+            <AnimatePresence mode="wait">
                 <motion.div
                     key={currentIndex}
-                    initial={{ opacity: 0, scale: 1.05 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
                     className="relative w-full h-full"
                 >
                     <Image
                         src={images[currentIndex]}
-                        alt={`${label} - ${currentIndex + 1}`}
+                        alt={`${label} photo ${currentIndex + 1}`}
                         fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover"
-                        priority={currentIndex === 0}
+                        priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent" />
                 </motion.div>
             </AnimatePresence>
 
-            {/* Glass Navigation */}
-            <div className="absolute inset-0 flex items-center justify-between p-4 md:p-8 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            {/* Navigation Arrows - High Visibility */}
+            <div className="absolute inset-0 flex items-center justify-between p-3 md:p-6 pointer-events-none">
                 <button
                     onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-                    className="p-3 md:p-4 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-primary hover:border-primary transition-all active:scale-95 pointer-events-auto shadow-2xl"
+                    className="p-3 md:p-4 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/30 hover:bg-primary transition-all active:scale-90 pointer-events-auto z-30 shadow-xl"
+                    aria-label="Previous slide"
                 >
-                    <ChevronLeft size={24} />
+                    <ChevronLeft size={28} className="md:w-8 md:h-8" />
                 </button>
                 <button
                     onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-                    className="p-3 md:p-4 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-primary hover:border-primary transition-all active:scale-95 pointer-events-auto shadow-2xl"
+                    className="p-3 md:p-4 rounded-full bg-black/60 backdrop-blur-md text-white border border-white/30 hover:bg-primary transition-all active:scale-90 pointer-events-auto z-30 shadow-xl"
+                    aria-label="Next slide"
                 >
-                    <ChevronRight size={24} />
+                    <ChevronRight size={28} className="md:w-8 md:h-8" />
                 </button>
             </div>
 
-            {/* Minimal Indicators */}
-            <div className="absolute bottom-8 left-8 flex gap-2 z-30">
+            {/* Slide Indicators */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2.5 z-30">
                 {images.map((_, idx) => (
                     <button
                         key={idx}
-                        onClick={() => setCurrentIndex(idx)}
-                        className={cn(
-                            "h-1.5 rounded-full transition-all duration-500",
-                            idx === currentIndex ? "bg-primary w-8 shadow-[0_0_15px_rgba(255,184,0,0.5)]" : "bg-white/30 w-3 hover:bg-white/50"
-                        )}
+                        onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
+                        className={`w-2.5 h-2.5 rounded-full transition-all shadow-sm ${idx === currentIndex ? "bg-primary w-8" : "bg-white/50 hover:bg-white/80"
+                            }`}
+                        aria-label={`Go to slide ${idx + 1}`}
                     />
                 ))}
             </div>
 
-            <div className="absolute top-8 left-8 bg-black/40 backdrop-blur-lg border border-white/10 text-white/90 px-4 py-1.5 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase">
-                {String(currentIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
+            {/* Image Counter Badge */}
+            <div className="absolute top-6 right-6 bg-black/60 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-[11px] md:text-xs font-bold border border-white/20 z-30 shadow-lg tracking-wider">
+                {currentIndex + 1} / {images.length}
             </div>
         </div>
     );
@@ -160,152 +179,132 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
 export function About() {
     const [activeVenue, setActiveVenue] = useState<VenueKey>("restaurant");
     const current = venues[activeVenue];
+    const IconComponent = current.icon;
 
     return (
-        <section className="py-12 md:py-16 lg:py-20 bg-background relative overflow-hidden">
-            {/* Artistic Background Elements */}
-            <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] translate-y-1/2 pointer-events-none" />
+        <section className="pt-8 md:pt-12 lg:pt-16 pb-12 md:pb-20 lg:pb-24 xl:pb-32 bg-background relative overflow-hidden">
+            {/* Decorative glows */}
+            <div className="absolute top-20 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-20 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-                <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
+            <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-12 relative z-10">
+                {/* Section Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-12 md:mb-16"
+                >
+                    <span className="text-primary font-heading italic text-base md:text-lg mb-2 block">
+                        About Us
+                    </span>
+                    <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold font-heading mb-3 leading-tight">
+                        A <span className="text-primary">Proshantir Neer</span> in Serampore
+                    </h2>
+                    <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto mb-8">
+                        Fulbari is a complete destination — dine, sip, celebrate, and connect under one roof
+                        in the heart of Serampore.
+                    </p>
+                    <div className="relative max-w-4xl mx-auto p-6 md:p-8 rounded-2xl bg-primary/5 border border-primary/10 backdrop-blur-sm">
+                        <div className="absolute -top-3 left-6 px-3 py-1 bg-background border border-primary/20 rounded-full text-[10px] md:text-xs font-bold text-primary uppercase tracking-widest">
+                            Our Atmosphere
+                        </div>
+                        <p className="text-foreground font-bengali italic text-sm md:text-base leading-relaxed md:leading-loose text-center font-semibold">
+                            ব্যস্ত জীবনের ক্লান্তি ভুলে যদি প্রকৃতির স্নিগ্ধ ছোঁয়ায় সুস্বাদু খাবারের স্বাদ নিতে চান, তবে ফুলবাড়ি রেস্তোরাঁ আপনার জন্য এক আদর্শ গন্তব্য। শ্রীবামপুর ওল্ড দিল্লি রোডের ওপর রাজ্যাধরপুরে অবস্থিত আমাদের এই রেস্তোরাঁটি কেবল খাবারের জায়গাই নয়, বরং এটি এক প্রশান্তির নীড়।
+                        </p>
+                    </div>
+                </motion.div>
 
-                    {/* Left Side: Dynamic Content */}
-                    <div className="w-full lg:w-5/12 order-2 lg:order-1">
-                        <header className="mb-8 lg:mb-10">
-                            <motion.div
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold tracking-widest uppercase mb-4"
-                            >
-                                <Sparkles size={12} /> Discovery
-                            </motion.div>
-                            <motion.h2
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.1 }}
-                                className="text-3xl md:text-4xl xl:text-5xl font-bold font-heading mb-6 tracking-tight"
-                            >
-                                Experience <span className="text-primary italic">Fulbari</span>
-                            </motion.h2>
+                {/* Venue Tabs */}
+                <div className="flex justify-center mb-10 md:mb-14">
+                    <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 no-scrollbar">
+                        {(Object.keys(venues) as VenueKey[]).map((key) => {
+                            const venue = venues[key];
+                            const VIcon = venue.icon;
+                            const isActive = activeVenue === key;
+                            return (
+                                <button
+                                    key={key}
+                                    onClick={() => setActiveVenue(key)}
+                                    className={`flex items-center gap-2 px-4 md:px-6 py-3 rounded-full whitespace-nowrap transition-all text-sm md:text-base font-medium border ${isActive
+                                        ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20"
+                                        : "bg-card text-muted-foreground border-border hover:border-primary/40 hover:text-foreground"
+                                        }`}
+                                >
+                                    <VIcon size={18} />
+                                    {venue.label}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
 
-                            {/* Modern Tab Switcher */}
-                            <div className="flex flex-wrap gap-1.5 p-1.5 bg-card/50 border border-border/50 rounded-2xl backdrop-blur-md mb-6">
-                                {(Object.keys(venues) as VenueKey[]).map((key) => {
-                                    const venue = venues[key];
-                                    const isActive = activeVenue === key;
-                                    return (
-                                        <button
-                                            key={key}
-                                            onClick={() => setActiveVenue(key)}
-                                            className={cn(
-                                                "relative px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 flex items-center gap-2 z-10",
-                                                isActive ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground"
-                                            )}
-                                        >
-                                            {isActive && (
-                                                <motion.div
-                                                    layoutId="activeTab"
-                                                    className="absolute inset-0 bg-primary rounded-xl -z-10 shadow-lg shadow-primary/20"
-                                                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                                />
-                                            )}
-                                            <venue.icon size={16} />
-                                            {venue.label}
-                                        </button>
-                                    );
-                                })}
+                {/* Active Venue Content - Standardized with Slider */}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeVenue}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
+                            {/* Interactive Slider - Left Column */}
+                            <div className="lg:col-span-7">
+                                <VenueImageSlider images={current.images} label={current.label} />
                             </div>
-                        </header>
 
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={activeVenue}
-                                initial={{ opacity: 0, y: 15 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.4, ease: "easeOut" }}
-                                className="space-y-6"
-                            >
-                                <div className="space-y-4">
-                                    <h3 className="text-xl md:text-2xl font-bold font-heading text-foreground tracking-tight">
-                                        {current.label}
-                                        <span className="block text-primary text-[10px] font-medium tracking-widest uppercase mt-1.5 opacity-80">
-                                            {current.tagline}
-                                        </span>
-                                    </h3>
-
-                                    <div className="space-y-4">
-                                        <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-                                            {current.description}
-                                        </p>
-
-                                        {activeVenue === "restaurant" && (
-                                            <div className="p-4 rounded-2xl bg-primary/5 border-l-4 border-primary/50 relative overflow-hidden group">
-                                                <div className="absolute top-0 right-0 p-1.5 opacity-10 group-hover:rotate-12 transition-transform">
-                                                    <Utensils size={40} />
-                                                </div>
-                                                <p className="font-bengali text-base md:text-lg leading-relaxed text-foreground font-bold italic">
-                                                    {current.bengaliDescription}
-                                                </p>
-                                            </div>
-                                        )}
-                                    </div>
+                            {/* Venue Info - Right Column */}
+                            <div className="lg:col-span-5 flex flex-col justify-center">
+                                <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                                    <IconComponent size={16} className="text-primary" />
+                                    <span className={`text-sm md:text-base font-bold ${current.taglineClassName || ''}`}>
+                                        {current.tagline}
+                                    </span>
                                 </div>
 
-                                {/* Modern Highlight Grid */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    {current.highlights.map((item, i) => (
-                                        <motion.div
-                                            key={item}
-                                            initial={{ opacity: 0, scale: 0.95 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ delay: 0.1 + (i * 0.05) }}
-                                            className="flex items-center gap-2.5 p-2.5 rounded-xl bg-card border border-border/40 hover:border-primary/30 transition-colors group"
-                                        >
-                                            <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-all">
-                                                <Star size={12} fill="currentColor" />
-                                            </div>
-                                            <span className="text-[11px] font-bold tracking-tight">{item}</span>
-                                        </motion.div>
-                                    ))}
-                                </div>
+                                <h3 className="text-xl md:text-3xl xl:text-4xl font-bold font-heading mb-4 leading-tight">
+                                    {current.label}
+                                </h3>
+                                <p className={`text-sm md:text-base mb-8 leading-relaxed ${current.descriptionClassName || 'text-muted-foreground'}`}>
+                                    {current.description}
+                                </p>
 
-                                {/* Info Bar */}
-                                <div className="flex flex-wrap gap-2.5 pt-6">
-                                    {[
-                                        { icon: Users, label: current.capacity },
-                                        { icon: Clock, label: current.timing },
-                                        { icon: MapPin, label: "Serampore" }
-                                    ].map((info, i) => (
+                                {/* Highlights Grid */}
+                                <div className="grid grid-cols-2 gap-4 mb-8">
+                                    {current.highlights.map((item) => (
                                         <div
-                                            key={i}
-                                            className="flex items-center gap-2 px-3.5 py-1.5 bg-accent/40 backdrop-blur-md rounded-full border border-border/40 text-[10px] font-bold uppercase tracking-wider"
+                                            key={item}
+                                            className="flex items-center gap-2.5"
                                         >
-                                            <info.icon size={13} className="text-primary" />
-                                            {info.label}
+                                            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                                <Star className="text-primary" size={12} fill="currentColor" />
+                                            </div>
+                                            <span className="text-foreground text-sm md:text-base font-medium leading-tight">{item}</span>
                                         </div>
                                     ))}
                                 </div>
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
 
-                    {/* Right Side: Visual Showcase */}
-                    <div className="w-full lg:w-7/12 order-1 lg:order-2">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                        >
-                            <VenueImageSlider images={current.images} label={current.label} />
-                        </motion.div>
-                    </div>
+                                {/* Quick Info Badges */}
+                                <div className="flex flex-wrap gap-3 pt-6 border-t border-border/50">
+                                    <div className="flex items-center gap-2 bg-card px-4 py-2.5 rounded-xl border border-border/60 shadow-sm">
+                                        <Users className="text-primary" size={16} />
+                                        <span className="text-xs md:text-sm font-bold tracking-tight">{current.capacity}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 bg-card px-4 py-2.5 rounded-xl border border-border/60 shadow-sm">
+                                        <Clock className="text-primary" size={16} />
+                                        <span className="text-xs md:text-sm font-bold tracking-tight">{current.timing}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 bg-card px-4 py-2.5 rounded-xl border border-border/60 shadow-sm">
+                                        <MapPin className="text-primary" size={16} />
+                                        <span className="text-xs md:text-sm font-bold tracking-tight uppercase">Serampore</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
 
-                </div>
             </div>
         </section>
     );
