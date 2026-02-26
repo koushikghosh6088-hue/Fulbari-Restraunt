@@ -219,11 +219,13 @@ function ModernEventGallery({ images }: { images: string[] }) {
         return () => clearInterval(interval);
     }, [images.length]);
 
-    if (images.length === 0) return null;
-
-    const bentoImages = images.length > 5
-        ? images.slice(bentoOffset, bentoOffset + 5)
-        : images;
+    if (images.length === 0) {
+        return (
+            <div className="flex justify-center items-center h-48 border border-dashed border-border/50 rounded-2xl mx-4">
+                <p className="text-muted-foreground text-sm">No event images available yet. Admin: Upload images in the dashboard to see them here.</p>
+            </div>
+        );
+    }
 
     return (
         <div className="relative w-full overflow-hidden">
@@ -237,7 +239,7 @@ function ModernEventGallery({ images }: { images: string[] }) {
                         key={`snap-${i}`}
                         className="flex-none w-[85vw] md:w-[60vw] lg:w-[40vw] xl:w-[30vw] aspect-[4/3] snap-center snap-always"
                     >
-                        <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl border border-border/50 group">
+                        <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl border border-border/50 group bg-card">
                             <img
                                 src={sanitizeImageUrl(img)}
                                 alt="Event Atmosphere"
@@ -246,7 +248,6 @@ function ModernEventGallery({ images }: { images: string[] }) {
                                 onError={(e) => {
                                     const target = e.target as HTMLImageElement;
                                     console.error(`Event grid image failed: ${target.src}`);
-                                    target.src = 'https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800&auto=format&fit=crop';
                                 }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
