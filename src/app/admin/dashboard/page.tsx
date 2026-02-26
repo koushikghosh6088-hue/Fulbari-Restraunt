@@ -216,12 +216,18 @@ export default function AdminDashboard() {
         setEventUploading(true);
         const fd = new FormData();
         fd.append('file', file);
-        fd.append('bucket', 'menu-images');
+        fd.append('bucket', 'events');
         try {
             const res = await fetch('/api/upload', { method: 'POST', body: fd });
             const data = await res.json();
-            if (data.url) setEventImages(prev => [...prev, data.url]);
-        } catch { }
+            if (res.ok && data.url) {
+                setEventImages(prev => [...prev, data.url]);
+            } else {
+                alert(`Upload failed: ${data.error || "Unknown error"}`);
+            }
+        } catch (e: any) {
+            alert(`Network error uploading file: ${e.message}`);
+        }
         finally { setEventUploading(false); }
     };
 
