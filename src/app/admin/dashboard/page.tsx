@@ -97,7 +97,7 @@ export default function AdminDashboard() {
     const router = useRouter();
 
     // ── Navigation ──
-    const [adminTab, setAdminTab] = useState<'menu' | 'specials' | 'events'>('menu');
+    const [adminTab, setAdminTab] = useState<'menu' | 'specials' | 'events' | 'gallery'>('menu');
     const [todaysSpecialIds, setTodaysSpecialIds] = useState<string[]>([]);
     const [specSearch, setSpecSearch] = useState('');
     const [togglingSpecial, setTogglingSpecial] = useState<string | null>(null);
@@ -913,6 +913,7 @@ export default function AdminDashboard() {
                         { key: 'menu', label: 'Menu Items', icon: <Utensils size={14} /> },
                         { key: 'specials', label: "Today's Special", icon: <Star size={14} /> },
                         { key: 'events', label: 'Events', icon: <CalendarDays size={14} /> },
+                        { key: 'gallery', label: 'Gallery', icon: <ImageIcon size={14} /> },
                     ] as const).map(t => (
                         <button key={t.key} onClick={() => setAdminTab(t.key)}
                             className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200
@@ -1169,6 +1170,119 @@ export default function AdminDashboard() {
                                                     {new Date(ev.event_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                                                 </p>
                                                 {ev.description && <p className="text-xs text-muted-foreground line-clamp-2">{ev.description}</p>}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {/* ── GALLERY TAB ───────────────────────────── */}
+                {adminTab === 'gallery' && (
+                    <div className="space-y-8">
+                        {/* Upload Gallery Form */}
+                        <div className="bg-card border border-border rounded-3xl p-6 shadow-xl">
+                            <h2 className="text-xl font-bold font-heading mb-4">Add Gallery Image</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium text-muted-foreground">Select Category</label>
+                                        <select
+                                            value={galleryForm.category}
+                                            onChange={(e) => setGalleryForm({ ...galleryForm, category: e.target.value as any })}
+                                            className="w-full bg-accent border-transparent rounded-xl p-3 text-sm outline-none focus:ring-1 focus:ring-primary font-bold"
+                                        >
+                                            <option value="Food">Food</option>
+                                            <option value="Ambience">Ambience</option>
+                                            <option value="Event">Event</option>
+                                            <option value="People">People</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Uploading section */}
+                                    <div className="p-4 rounded-xl border border-dashed border-border/60 bg-accent/30 flex flex-col items-center justify-center text-center">
+                                        {(() => {
+                                            const categoryImagesCount = galleryItems.filter(img => img.category === galleryForm.category).length;
+                                            if (categoryImagesCount >= 10) {
+                                                return (
+                                                    <div className="text-red-500 py-6">
+                                                        <div className="text-sm font-bold bg-red-500/10 p-3 rounded-lg border border-red-500/20">Maximum 10 images reached for the "{galleryForm.category}" category.</div>
+                                                    </div>
+                                                );
+                                            }
+                                            return (
+                                                <div className="w-full">
+                                                    <UploadDropzone
+                                                        endpoint="galleryImage"
+                                                        onClientUploadComplete={(res) => {
+                                                            if (res?.[0]) {
+                                                                setGalleryForm(prev => ({ ...prev, url: res[0].url }));
+                                                                setShowToast({ show: true, message: "Image Uploaded! Click 'Add to Gallery' to save.", type: 'success' });
+                                                            }
+                                                        }}
+                                                        onUploadError={(error: Error) => {
+                                                            setShowToast({ show: true, message: `Upload Failed: ${error.message}`, type: 'error' });
+                                                        }}
+                                                        config={{ mode: "auto" }}
+                                                    />
+                                                </div>
+                                            );
+                                        })()}
+                                    </div>
+                                    <form onSubmit={handleSaveGalleryItem}>
+                                        {galleryForm.url && (
+                                            <div className="mb-4 bg-accent p-2 rounded-lg border border-border flex justify-between items-center">
+                                                <span className="text-xs truncate text-muted-foreground font-mono">{galleryForm.url}</span>
+                                                <button type="button" onClick={() => setGalleryForm(prev => ({ ...prev, url: '' }))} className="text-red-500 hover:text-red-600 px-2 text-xs font-bold">Clear</button>
+                                            </div>
+                                        )}
+                                        <Button type="submit" disabled={gallerySaving || !galleryForm.url} className="w-full h-12 rounded-xl mt-4">
+                                            {gallerySaving && <Loader2 size={16} className="animate-spin mr-2" />}
+                                            Save to Gallery Database
+                                        </Button>
+                                    </form>
+                                </div>
+                                <div className="space-y-4 pt-2">
+                                    <h3 className="text-sm font-bold text-muted-foreground mb-3 border-b border-border pb-2">Category Limits</h3>
+                                    <ul className="text-sm space-y-3 text-muted-foreground">
+                                        <li className="flex items-center gap-2"><ImageIcon size={14} className="text-primary" /> <span>You can upload only 1 image at a time.</span></li>
+                                        <li className="flex items-center gap-2"><ImageIcon size={14} className="text-primary" /> <span>Maximum 10 images are allowed per category.</span></li>
+                                        <li className="flex items-center gap-2 mt-4 p-3 bg-accent rounded-lg">
+                                            <span className="font-bold flex-1">Current images in '{galleryForm.category}':</span>
+                                            <span className="font-bold text-primary">{galleryItems.filter(img => img.category === galleryForm.category).length}/10</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Gallery List */}
+                        <div className="bg-card border border-border rounded-3xl p-6 shadow-xl mt-6">
+                            <h2 className="text-xl font-bold font-heading mb-5">Current Gallery ({galleryItems.length})</h2>
+                            {galleryLoading ? (
+                                <div className="flex justify-center py-12"><Loader2 className="animate-spin text-primary" size={28} /></div>
+                            ) : galleryItems.length === 0 ? (
+                                <div className="text-center py-12 text-muted-foreground text-sm">No gallery images yet. Upload one above!</div>
+                            ) : (
+                                <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-4">
+                                    {galleryItems.map(item => (
+                                        <div key={item.id} className="relative group rounded-xl overflow-hidden aspect-square border border-border bg-accent/20">
+                                            <img
+                                                src={sanitizeImageUrl(item.url)}
+                                                alt={item.category}
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 gap-3 backdrop-blur-sm">
+                                                <span className="text-white font-bold text-[10px] tracking-widest uppercase px-3 py-1 bg-white/20 border border-white/30 rounded-full">{item.category}</span>
+                                                <button
+                                                    onClick={() => handleDeleteGalleryItem(item.id)}
+                                                    className="w-10 h-10 rounded-full bg-red-500/90 hover:bg-red-500 text-white flex items-center justify-center transition-colors shadow-xl"
+                                                    title="Delete Image"
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
                                             </div>
                                         </div>
                                     ))}

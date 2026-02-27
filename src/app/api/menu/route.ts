@@ -24,9 +24,15 @@ export async function POST(request: Request) {
         const { action, item } = body;
 
         if (action === "ADD") {
+            const { isBestseller, ...restItem } = item;
+            const insertData = {
+                ...restItem,
+                is_bestseller: isBestseller,
+                available: true
+            };
             const { data, error } = await supabase
                 .from('menu_items')
-                .insert([{ ...item, available: true }])
+                .insert([insertData])
                 .select()
                 .single();
 
@@ -69,9 +75,14 @@ export async function POST(request: Request) {
         }
 
         if (action === "UPDATE") {
+            const { isBestseller, ...restItem } = item;
+            const updateData = {
+                ...restItem,
+                is_bestseller: isBestseller
+            };
             const { data, error } = await supabase
                 .from('menu_items')
-                .update(item)
+                .update(updateData)
                 .eq('id', item.id)
                 .select()
                 .single();

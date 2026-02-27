@@ -22,6 +22,12 @@ export const ourFileRouter = {
             console.log("file url", file.url);
             return { uploadedBy: "admin", url: file.url };
         }),
+
+    galleryImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+        .onUploadComplete(async ({ metadata, file }) => {
+            console.log("Upload complete for gallery image");
+            return { uploadedBy: "admin", url: file.url };
+        }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
