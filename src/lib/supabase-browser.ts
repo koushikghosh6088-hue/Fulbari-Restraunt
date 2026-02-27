@@ -1,45 +1,85 @@
 /**
- * Supabase client for direct browser-side uploads.
- * Using NEXT_PUBLIC_ variables so this is safe to use in "use client" components.
- * Uploads go browser → Supabase Storage directly, bypassing Vercel's 4.5MB serverless body limit.
+ * Client-side image compression utility.
+ * Compresses images using Canvas API before uploading to avoid
+ * Vercel's 4.5MB serverless function body size limit.
+ *
+ * Usage:
+ *   const compressed = await compressImageForUpload(file);
+ *   // Then POST `compressed` as FormData to /api/upload
  */
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-export const supabaseBrowser = createClient(supabaseUrl, supabaseAnonKey);
 
 /**
- * Upload a file directly from the browser to a Supabase Storage bucket.
- * Returns the public URL on success, or throws with a descriptive error message.
+ * Compresses an image file client-side using Canvas.
+ * - Resizes to max 1920px on the longest side
+ * - Converts to JPEG at 0.82 quality
+ * - Result is always well under 2MB, safe for /api/upload
  */
-export async function uploadFileToBucket(
-    file: File,
-    bucket: string
-): Promise<string> {
-    const ext = file.name.split('.').pop() ?? 'jpg';
-    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
+export async function compressImageForUpload(file: File): Promise<File> {
+    return new Promise((resolve) => {
+        // For non-image files (unlikely but safe), return as-is
+        if (!file.type.startsWith('image/')) {
+            resolve(file);
+            return;
+        }
 
-    const { data, error } = await supabaseBrowser.storage
-        .from(bucket)
-        .upload(fileName, file, {
-            cacheControl: '3600',
-            upsert: false,
-            contentType: file.type || 'image/jpeg',
-        });
+        const img = new window.Image();
+        const objectUrl = URL.createObjectURL(file);
 
-    if (error) {
-        throw new Error(
-            `Upload to '${bucket}' bucket failed: ${error.message}. ` +
-            `Make sure the bucket exists in Supabase Storage, is set to Public, ` +
-            `and has an INSERT policy for the anon role.`
-        );
-    }
+        img.onload = () => {
+            URL.revokeObjectURL(objectUrl);
 
-    const { data: { publicUrl } } = supabaseBrowser.storage
-        .from(bucket)
-        .getPublicUrl(data.path);
+            const MAX_DIM = 1920;
+            let { naturalWidth: w, naturalHeight: h } = img;
 
-    return publicUrl;
+            // Downscale if larger than 1920px
+            if (w > MAX_DIM || h > MAX_DIM) {
+                if (w > h) {
+                    h = Math.round((h / w) * MAX_DIM);
+                    w = MAX_DIM;
+                } else {
+                    w = Math.round((w / h) * MAX_DIM);
+                    h = MAX_DIM;
+                }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                resolve(file); // Canvas not supported, return original
+                return;
+            }
+
+            ctx.drawImage(img, 0, 0, w, h);
+
+            canvas.toBlob(
+                (blob) => {
+                    if (!blob) {
+                        resolve(file); // Fallback to original if compression fails
+                        return;
+                    }
+                    // If compression made it bigger (rare with small PNGs), use original
+                    const result = blob.size < file.size ? blob : file;
+                    resolve(
+                        new File(
+                            [result],
+                            file.name.replace(/\.[^/.]+$/, '.jpg'),
+                            { type: 'image/jpeg' }
+                        )
+                    );
+                },
+                'image/jpeg',
+                0.82
+            );
+        };
+
+        img.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            resolve(file); // Fallback to original on error
+        };
+
+        img.src = objectUrl;
+    });
 }

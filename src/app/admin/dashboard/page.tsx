@@ -8,7 +8,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { cn, sanitizeImageUrl, fixUnsplashUrl } from "@/lib/utils";
-import { uploadFileToBucket } from "@/lib/supabase-browser";
+import { compressImageForUpload } from "@/lib/supabase-browser";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     Plus,
@@ -216,14 +216,22 @@ export default function AdminDashboard() {
 
         setEventUploading(true);
         try {
-            // Upload directly from browser to Supabase — bypasses Vercel's 4.5MB serverless limit
-            const publicUrl = await uploadFileToBucket(file, 'events');
-            setEventImages(prev => [...prev, publicUrl]);
+            // Compress client-side first (keeps it under Vercel's 4.5MB limit)
+            const compressed = await compressImageForUpload(file);
+            const fd = new FormData();
+            fd.append('file', compressed);
+            fd.append('bucket', 'events');
+            const res = await fetch('/api/upload', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (res.ok && data.url) {
+                setEventImages(prev => [...prev, data.url]);
+            } else {
+                alert(`Upload failed: ${data.error || 'Unknown error'}`);
+            }
         } catch (err: any) {
-            alert(`Upload failed: ${err.message}`);
+            alert(`Upload error: ${err.message}`);
         } finally {
             setEventUploading(false);
-            // Reset file input so same file can be re-selected
             e.target.value = '';
         }
     };
@@ -302,10 +310,19 @@ export default function AdminDashboard() {
 
         setGalleryUploading(true);
         try {
-            // Upload directly from browser to Supabase — bypasses Vercel's 4.5MB serverless limit
-            const publicUrl = await uploadFileToBucket(file, 'gallery');
-            setGalleryForm(prev => ({ ...prev, url: publicUrl }));
-            setShowToast({ show: true, message: "Image Uploaded Successfully!", type: 'success' });
+            // Compress client-side first (keeps it under Vercel's 4.5MB limit)
+            const compressed = await compressImageForUpload(file);
+            const fd = new FormData();
+            fd.append('file', compressed);
+            fd.append('bucket', 'gallery');
+            const res = await fetch('/api/upload', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (res.ok && data.url) {
+                setGalleryForm(prev => ({ ...prev, url: data.url }));
+                setShowToast({ show: true, message: "Image Uploaded Successfully!", type: 'success' });
+            } else {
+                alert('Upload failed: ' + (data.error || 'Unknown error'));
+            }
         } catch (err: any) {
             console.error("Gallery Upload Error:", err);
             alert(err.message);
@@ -456,9 +473,17 @@ export default function AdminDashboard() {
 
         setIsUploading(true);
         try {
-            // Upload directly from browser to Supabase — bypasses Vercel's 4.5MB serverless limit
-            const publicUrl = await uploadFileToBucket(file, 'menu-images');
-            setNewItem(prev => ({ ...prev, image: publicUrl }));
+            // Compress client-side first (keeps it under Vercel's 4.5MB limit)
+            const compressed = await compressImageForUpload(file);
+            const fd = new FormData();
+            fd.append('file', compressed);
+            const res = await fetch('/api/upload', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (res.ok && data.url) {
+                setNewItem(prev => ({ ...prev, image: data.url }));
+            } else {
+                alert('Upload failed: ' + (data.error || 'Unknown error'));
+            }
         } catch (err: any) {
             console.error("Menu Image Upload Error:", err);
             alert(err.message);
