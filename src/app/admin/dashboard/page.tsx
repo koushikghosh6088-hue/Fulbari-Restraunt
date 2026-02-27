@@ -210,29 +210,43 @@ export default function AdminDashboard() {
         if (!file) return;
 
         if (eventImages.length >= 10) {
-            alert("Maximum 10 images allowed per event.");
+            setShowToast({ show: true, message: "Maximum 10 images allowed per event.", type: 'error' });
+            setTimeout(() => setShowToast(p => ({ ...p, show: false })), 3000);
             return;
         }
 
         setEventUploading(true);
+        setShowToast({ show: true, message: "Uploading image...", type: 'success' });
+        
         try {
+            console.log(`[ADMIN] Starting upload for file: ${file.name}, Size: ${file.size}`);
+            
             // Compress client-side first (keeps it under Vercel's 4.5MB limit)
             const compressed = await compressImageForUpload(file);
+            console.log(`[ADMIN] Compression complete: ${compressed.name}, Size: ${compressed.size}`);
+            
             const fd = new FormData();
             fd.append('file', compressed);
             fd.append('bucket', 'events');
+            
             const res = await fetch('/api/upload', { method: 'POST', body: fd });
             const data = await res.json();
+            
             if (res.ok && data.url) {
+                console.log(`[ADMIN] Upload successful: ${data.url}`);
                 setEventImages(prev => [...prev, data.url]);
+                setShowToast({ show: true, message: "Image uploaded successfully!", type: 'success' });
             } else {
-                alert(`Upload failed: ${data.error || 'Unknown error'}`);
+                console.error(`[ADMIN] Upload failed:`, data.error);
+                setShowToast({ show: true, message: `Upload failed: ${data.error || 'Unknown error'}`, type: 'error' });
             }
         } catch (err: any) {
-            alert(`Upload error: ${err.message}`);
+            console.error(`[ADMIN] Upload exception:`, err);
+            setShowToast({ show: true, message: `Upload error: ${err.message}`, type: 'error' });
         } finally {
             setEventUploading(false);
             e.target.value = '';
+            setTimeout(() => setShowToast(p => ({ ...p, show: false })), 3000);
         }
     };
 
@@ -309,23 +323,32 @@ export default function AdminDashboard() {
         if (!file) return;
 
         setGalleryUploading(true);
+        setShowToast({ show: true, message: "Uploading image...", type: 'success' });
+        
         try {
+            console.log(`[GALLERY] Starting upload for file: ${file.name}, Size: ${file.size}`);
+            
             // Compress client-side first (keeps it under Vercel's 4.5MB limit)
             const compressed = await compressImageForUpload(file);
+            console.log(`[GALLERY] Compression complete: ${compressed.name}, Size: ${compressed.size}`);
+            
             const fd = new FormData();
             fd.append('file', compressed);
             fd.append('bucket', 'gallery');
             const res = await fetch('/api/upload', { method: 'POST', body: fd });
             const data = await res.json();
+            
             if (res.ok && data.url) {
+                console.log(`[GALLERY] Upload successful: ${data.url}`);
                 setGalleryForm(prev => ({ ...prev, url: data.url }));
                 setShowToast({ show: true, message: "Image Uploaded Successfully!", type: 'success' });
             } else {
-                alert('Upload failed: ' + (data.error || 'Unknown error'));
+                console.error(`[GALLERY] Upload failed:`, data.error);
+                setShowToast({ show: true, message: `Upload failed: ${data.error || 'Unknown error'}`, type: 'error' });
             }
         } catch (err: any) {
-            console.error("Gallery Upload Error:", err);
-            alert(err.message);
+            console.error("[GALLERY] Upload exception:", err);
+            setShowToast({ show: true, message: `Upload error: ${err.message}`, type: 'error' });
         } finally {
             setGalleryUploading(false);
             e.target.value = '';
@@ -473,23 +496,32 @@ export default function AdminDashboard() {
 
         setIsUploading(true);
         try {
+            console.log(`[MENU] Starting upload for file: ${file.name}, Size: ${file.size}`);
+            
             // Compress client-side first (keeps it under Vercel's 4.5MB limit)
             const compressed = await compressImageForUpload(file);
+            console.log(`[MENU] Compression complete: ${compressed.name}, Size: ${compressed.size}`);
+            
             const fd = new FormData();
             fd.append('file', compressed);
             const res = await fetch('/api/upload', { method: 'POST', body: fd });
             const data = await res.json();
+            
             if (res.ok && data.url) {
+                console.log(`[MENU] Upload successful: ${data.url}`);
                 setNewItem(prev => ({ ...prev, image: data.url }));
+                setShowToast({ show: true, message: "Image uploaded successfully!", type: 'success' });
             } else {
-                alert('Upload failed: ' + (data.error || 'Unknown error'));
+                console.error(`[MENU] Upload failed:`, data.error);
+                setShowToast({ show: true, message: `Upload failed: ${data.error || 'Unknown error'}`, type: 'error' });
             }
         } catch (err: any) {
-            console.error("Menu Image Upload Error:", err);
-            alert(err.message);
+            console.error("[MENU] Upload exception:", err);
+            setShowToast({ show: true, message: `Upload error: ${err.message}`, type: 'error' });
         } finally {
             setIsUploading(false);
             e.target.value = '';
+            setTimeout(() => setShowToast(p => ({ ...p, show: false })), 3000);
         }
     };
 
