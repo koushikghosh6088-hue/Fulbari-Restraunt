@@ -95,6 +95,7 @@ export default function AdminDashboard() {
     const [eventForm, setEventForm] = useState({ title: '', description: '', event_date: '' });
     const [eventImages, setEventImages] = useState<string[]>([]);
     const [eventUploading, setEventUploading] = useState(false);
+    const [eventUploads, setEventUploads] = useState(0); // active uploads counter
     const [eventSaving, setEventSaving] = useState(false);
     const [isEditingEvent, setIsEditingEvent] = useState(false);
     const [editingEventId, setEditingEventId] = useState<string | null>(null);
@@ -216,6 +217,7 @@ export default function AdminDashboard() {
         }
 
         setEventUploading(true);
+        setEventUploads(u => u + 1);
         setShowToast({ show: true, message: "Uploading image...", type: 'success' });
         
         try {
@@ -245,6 +247,7 @@ export default function AdminDashboard() {
             setShowToast({ show: true, message: `Upload error: ${err.message}`, type: 'error' });
         } finally {
             setEventUploading(false);
+            setEventUploads(u => Math.max(0, u - 1));
             e.target.value = '';
             setTimeout(() => setShowToast(p => ({ ...p, show: false })), 3000);
         }
@@ -274,6 +277,7 @@ export default function AdminDashboard() {
             if (res.ok) {
                 setEventForm({ title: '', description: '', event_date: '' });
                 setEventImages([]);
+                setEventUploads(0);
                 setIsEditingEvent(false);
                 setEditingEventId(null);
                 fetchEvents();
@@ -1209,7 +1213,7 @@ export default function AdminDashboard() {
                                             Cancel
                                         </Button>
                                     )}
-                                    <Button type="submit" disabled={eventSaving || eventUploading} className="px-8 gap-2">
+                                    <Button type="submit" disabled={eventSaving || eventUploads > 0} className="px-8 gap-2">
                                         {eventSaving && <Loader2 size={14} className="animate-spin" />}
                                         {isEditingEvent ? 'Update Event' : 'Add Event'}
                                     </Button>

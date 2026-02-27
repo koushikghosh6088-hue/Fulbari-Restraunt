@@ -45,7 +45,7 @@ export async function compressImageForUpload(file: File): Promise<File> {
             URL.revokeObjectURL(objectUrl);
 
             try {
-                const MAX_DIM = 1920;
+                const MAX_DIM = (typeof window !== 'undefined' && window.innerWidth < 768) ? 1080 : 1920;
                 let { naturalWidth: w, naturalHeight: h } = img;
 
                 console.log(`Image dimensions: ${w}x${h}`);
@@ -79,6 +79,8 @@ export async function compressImageForUpload(file: File): Promise<File> {
                 ctx.drawImage(img, 0, 0, w, h);
 
                 // Convert to blob with proper error handling
+                // choose quality based on viewport: lower on mobile for faster loads
+                const quality = (typeof window !== 'undefined' && window.innerWidth < 768) ? 0.7 : 0.85;
                 canvas.toBlob(
                     (blob) => {
                         try {
@@ -107,7 +109,7 @@ export async function compressImageForUpload(file: File): Promise<File> {
                         }
                     },
                     'image/jpeg',
-                    0.85
+                    quality
                 );
             } catch (error) {
                 console.error("Error during compression:", error);
