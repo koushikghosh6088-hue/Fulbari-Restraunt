@@ -80,15 +80,15 @@ export function SocialLinksBar() {
                                     className={`group flex items-center gap-2 md:gap-3 px-2 sm:px-4 py-2 rounded-full hover:bg-primary/5 transition-all duration-300 ${social.color}`}
                                 >
                                     <div className="relative shrink-0">
-                                        <social.icon className="w-4 h-4 md:w-[18px] md:h-[18px] transition-transform group-hover:scale-110" />
-                                        <span className="absolute -top-1 -right-1 flex h-1.5 w-1.5 md:h-2 md:w-2">
+                                        <social.icon className="w-5 h-5 md:w-[18px] md:h-[18px] transition-transform group-hover:scale-110" />
+                                        <span className="absolute -top-1 -right-1 flex h-2 w-2">
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-40"></span>
-                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 md:h-2 md:w-2 bg-primary"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                                         </span>
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest leading-none mb-0.5">{social.name}</span>
-                                        <span className="text-[7px] sm:text-[9px] font-medium text-muted-foreground whitespace-nowrap">{social.label}</span>
+                                        <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest leading-none mb-0.5">{social.name}</span>
+                                        <span className="text-[8px] sm:text-[9px] font-medium text-muted-foreground whitespace-nowrap">{social.label}</span>
                                     </div>
                                 </Link>
                             </motion.div>
