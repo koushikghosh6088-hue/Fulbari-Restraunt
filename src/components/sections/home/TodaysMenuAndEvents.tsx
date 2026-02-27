@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -35,6 +35,20 @@ interface Event {
 }
 
 
+const formatEventDate = (dateString: string) => {
+    if (!dateString) return "";
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+    } catch {
+        return dateString;
+    }
+};
+
 const tabVariants = {
     hidden: { opacity: 0, y: 16 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4, staggerChildren: 0.06 } },
@@ -46,10 +60,7 @@ const cardVariants = {
     visible: { opacity: 1, y: 0 },
 };
 
-function formatEventDate(dateStr: string) {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
-}
+
 
 function EmptyState({ icon, text }: { icon: React.ReactNode; text: string }) {
     return (
@@ -195,130 +206,199 @@ function EventImageCarousel({ images }: { images: string[] }) {
     );
 }
 
-export function ModernEventGallery({ images }: { images: string[] }) {
+interface GallerySlide {
+    url: string;
+    title: string;
+    date: string;
+}
+
+export function PremiumEventGallery({ events }: { events: Event[] }) {
     const [idx, setIdx] = useState(0);
     const [direction, setDirection] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
     const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
-    const validImages = images.filter(img => !failedImages.has(img));
+    // Process events into flat slides with metadata
+    const slides = useMemo(() => {
+        const allSlides: GallerySlide[] = [];
+        events.forEach(ev => {
+            const urls = new Set<string>();
+            if (ev.poster_url && ev.poster_url.trim()) urls.add(ev.poster_url);
+            if (Array.isArray(ev.image_urls)) {
+                ev.image_urls.forEach(u => {
+                    if (u && u.trim()) urls.add(u);
+                });
+            }
+            urls.forEach(url => {
+                if (!failedImages.has(url)) {
+                    allSlides.push({ url, title: ev.title, date: ev.event_date });
+                }
+            });
+        });
+        return allSlides;
+    }, [events, failedImages]);
 
     useEffect(() => {
-        if (validImages.length <= 1 || isHovered) return;
+        if (slides.length <= 1 || isHovered) return;
         const t = setInterval(() => {
             setDirection(1);
-            setIdx(i => (i + 1) % validImages.length);
-        }, 4000);
+            setIdx(i => (i + 1) % slides.length);
+        }, 6000); // Slower for premium cinematic feel
         return () => clearInterval(t);
-    }, [validImages.length, isHovered]);
+    }, [slides.length, isHovered]);
 
-    const handleImageError = (failedUrl: string) => {
-        console.error(`Event gallery image failed to load: ${failedUrl}`);
-        setFailedImages(prev => new Set([...prev, failedUrl]));
-        if (validImages.length > 0) {
-            setIdx(i => (i + 1) % validImages.length);
-        }
+    const handleImageError = (url: string) => {
+        setFailedImages(prev => new Set([...prev, url]));
     };
 
     const paginate = (newDirection: number) => {
         setDirection(newDirection);
-        setIdx(i => (i + newDirection + validImages.length) % validImages.length);
+        setIdx(i => (i + newDirection + slides.length) % slides.length);
     };
 
-    const variants = {
-        enter: (direction: number) => ({
-            x: direction > 0 ? '100%' : '-100%',
-            opacity: 0,
-            scale: 1.05
-        }),
-        center: {
-            zIndex: 1,
-            x: 0,
-            opacity: 1,
-            scale: 1,
-            transition: {
-                x: { type: "spring" as const, stiffness: 300, damping: 30 },
-                opacity: { duration: 0.4 }
-            }
-        },
-        exit: (direction: number) => ({
-            zIndex: 0,
-            x: direction < 0 ? '100%' : '-100%',
-            opacity: 0,
-            scale: 0.95,
-            transition: {
-                x: { type: "spring" as const, stiffness: 300, damping: 30 },
-                opacity: { duration: 0.4 }
-            }
-        })
-    };
-
-    if (validImages.length === 0) {
+    if (slides.length === 0) {
         return (
             <div className="flex justify-center items-center h-48 md:h-80 border border-dashed border-border/50 rounded-3xl mx-4">
                 <div className="text-center">
-                    <p className="text-muted-foreground text-sm">No event images available yet.</p>
+                    <p className="text-muted-foreground text-sm font-heading">Our event gallery is preparing for you...</p>
                 </div>
             </div>
         );
     }
 
+    const currentSlide = slides[idx];
+
     return (
         <div
-            className="relative w-full max-w-4xl mx-auto aspect-[4/5] md:aspect-video max-h-[450px] md:max-h-[500px] overflow-hidden rounded-3xl shadow-xl group border border-border/50 select-none bg-card"
+            className="group relative w-full max-w-5xl mx-auto overflow-hidden rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] bg-black select-none"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <AnimatePresence initial={false} custom={direction}>
+            {/* Ambient Background Blur - Hardware accelerated */}
+            <AnimatePresence mode="wait">
                 <motion.div
-                    key={idx}
-                    custom={direction}
-                    variants={variants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    className="absolute inset-0"
-                >
-                    <img
-                        src={sanitizeImageUrl(validImages[idx])}
-                        alt={`Fulbari event image ${idx + 1}`}
-                        className="absolute inset-0 w-full h-full object-cover"
-                        onError={() => handleImageError(validImages[idx])}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-40" />
-                </motion.div>
+                    key={`bg-${idx}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.4 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.5 }}
+                    className="absolute inset-0 scale-125 blur-[100px] pointer-events-none"
+                    style={{
+                        backgroundImage: `url(${sanitizeImageUrl(currentSlide.url)})`,
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover'
+                    }}
+                />
             </AnimatePresence>
 
-            {/* Prev / Next arrows */}
-            {validImages.length > 1 && (
-                <>
-                    <button
-                        onClick={(e) => { e.stopPropagation(); paginate(-1); }}
-                        className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-primary hover:text-primary-foreground transition-all z-20 shadow-lg border border-white/20"
+            {/* Main Stage */}
+            <div className="relative aspect-[4/5] md:aspect-video max-h-[700px] overflow-hidden">
+                <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                    <motion.div
+                        key={idx}
+                        custom={direction}
+                        initial={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+                        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                        exit={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+                        transition={{
+                            opacity: { duration: 0.8, ease: "easeInOut" },
+                            scale: { duration: 12, ease: "linear" }, // Long Ken Burns zoom
+                            filter: { duration: 0.8 }
+                        }}
+                        className="absolute inset-0 w-full h-full"
                     >
-                        <ChevronLeft size={20} className="md:group-hover:-translate-x-0.5 transition-transform" />
-                    </button>
-                    <button
-                        onClick={(e) => { e.stopPropagation(); paginate(1); }}
-                        className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-primary hover:text-primary-foreground transition-all z-20 shadow-lg border border-white/20"
-                    >
-                        <ChevronRight size={20} className="md:group-hover:translate-x-0.5 transition-transform" />
-                    </button>
-                    {/* Dots */}
-                    <div className="absolute bottom-5 md:bottom-8 left-0 right-0 flex justify-center gap-2 md:gap-3 z-20">
-                        {validImages.map((_, i) => (
-                            <button
-                                key={i}
-                                onClick={(e) => { e.stopPropagation(); setDirection(i > idx ? 1 : -1); setIdx(i); }}
-                                className={cn(
-                                    "h-1.5 md:h-2 rounded-full transition-all duration-300",
-                                    i === idx ? "bg-primary w-6 md:w-10 shadow-[0_0_10px_rgba(var(--primary),0.8)]" : "bg-white/50 w-1.5 md:w-2 hover:bg-white/90"
-                                )}
+                        {/* Ken Burns Animation inner div */}
+                        <motion.div
+                            animate={{ scale: [1, 1.15] }}
+                            transition={{ duration: 12, ease: "linear", repeat: Infinity, repeatType: "mirror" }}
+                            className="w-full h-full"
+                        >
+                            <img
+                                src={sanitizeImageUrl(currentSlide.url)}
+                                alt={currentSlide.title}
+                                className="w-full h-full object-cover"
+                                onError={() => handleImageError(currentSlide.url)}
                             />
-                        ))}
-                    </div>
-                </>
-            )}
+                        </motion.div>
+
+                        {/* Dramatic Vignette Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/10" />
+                        <div className="absolute inset-0 ring-1 ring-inset ring-white/10" />
+                    </motion.div>
+                </AnimatePresence>
+
+                {/* Glassmorphism Info Card */}
+                <div className="absolute bottom-10 left-6 right-6 md:bottom-12 md:left-12 md:right-auto md:max-w-md z-30 pointer-events-none">
+                    <motion.div
+                        key={`info-${idx}`}
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.4, duration: 0.8, type: "spring" }}
+                        className="bg-black/40 backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-[2rem] shadow-2xl"
+                    >
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="w-8 h-[2px] bg-primary rounded-full" />
+                            <span className="text-primary font-heading font-medium text-xs tracking-[0.2em] uppercase">Featured Event</span>
+                        </div>
+                        <h3 className="text-2xl md:text-4xl font-bold font-heading text-white mb-2 leading-tight">
+                            {currentSlide.title}
+                        </h3>
+                        <div className="flex items-center gap-4 text-white/60 text-sm">
+                            <div className="flex items-center gap-2">
+                                <CalendarDays size={14} className="text-primary" />
+                                <span>{formatEventDate(currentSlide.date)}</span>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+
+                {/* Progress Bar (Auto-play indicator) */}
+                <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/10 z-40 overflow-hidden">
+                    {!isHovered && slides.length > 1 && (
+                        <motion.div
+                            key={`progress-${idx}`}
+                            initial={{ width: "0%" }}
+                            animate={{ width: "100%" }}
+                            transition={{ duration: 6, ease: "linear" }}
+                            className="h-full bg-gradient-to-r from-primary/40 via-primary to-primary shadow-[0_0_10px_rgba(var(--primary),0.8)]"
+                        />
+                    )}
+                </div>
+
+                {/* Premium Navigation Controls */}
+                {slides.length > 1 && (
+                    <>
+                        <div className="absolute right-6 bottom-10 md:right-12 md:bottom-12 flex gap-3 z-40">
+                            <button
+                                onClick={(e) => { e.stopPropagation(); paginate(-1); }}
+                                className="w-12 h-12 md:w-14 md:h-14 bg-white/10 hover:bg-white/20 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-white transition-all active:scale-95 group/btn shadow-xl"
+                            >
+                                <ChevronLeft size={24} className="group-hover/btn:-translate-x-1 transition-transform" />
+                            </button>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); paginate(1); }}
+                                className="w-12 h-12 md:w-14 md:h-14 bg-primary hover:bg-primary/90 text-primary-foreground border border-primary/20 rounded-2xl flex items-center justify-center transition-all active:scale-95 group/btn shadow-xl shadow-primary/20"
+                            >
+                                <ChevronRight size={24} className="group-hover/btn:translate-x-1 transition-transform" />
+                            </button>
+                        </div>
+
+                        {/* Slide Indicators (Vertical on desktop) */}
+                        <div className="absolute right-6 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-3 z-40">
+                            {slides.map((_s: GallerySlide, i: number) => (
+                                <button
+                                    key={i}
+                                    onClick={(e) => { e.stopPropagation(); setDirection(i > idx ? 1 : -1); setIdx(i); }}
+                                    className={cn(
+                                        "w-1 transition-all duration-500 rounded-full",
+                                        i === idx ? "h-10 bg-primary shadow-[0_0_15px_rgba(var(--primary),0.6)]" : "h-4 bg-white/30 hover:bg-white/60"
+                                    )}
+                                />
+                            ))}
+                        </div>
+                    </>
+                )}
+            </div>
         </div>
     );
 }
@@ -435,31 +515,7 @@ export function TodaysMenuAndEvents() {
                                             <h3 className="text-xl md:text-2xl font-bold font-heading">Event Gallery</h3>
                                             <div className="w-12 h-0.5 bg-primary mx-auto mt-2 rounded-full" />
                                         </div>
-                                        <ModernEventGallery images={
-                                            events.flatMap(ev => {
-                                                // Collect all valid image URLs from each event
-                                                const urls: string[] = [];
-
-                                                // Add image_urls if they exist and are valid
-                                                if (Array.isArray(ev.image_urls) && ev.image_urls.length > 0) {
-                                                    ev.image_urls.forEach((url: string) => {
-                                                        if (url && typeof url === 'string' && url.trim() !== '') {
-                                                            urls.push(url);
-                                                        }
-                                                    });
-                                                }
-
-                                                // Fallback to poster_url if no image_urls
-                                                if (urls.length === 0 && ev.poster_url && typeof ev.poster_url === 'string' && ev.poster_url.trim() !== '') {
-                                                    urls.push(ev.poster_url);
-                                                }
-
-                                                return urls;
-                                            }).filter((v, i, a) => {
-                                                // Remove duplicates and empty strings
-                                                return v && v.trim() !== '' && a.indexOf(v) === i;
-                                            })
-                                        } />
+                                        <PremiumEventGallery events={events} />
                                     </div>
                                 </>
                             )}
