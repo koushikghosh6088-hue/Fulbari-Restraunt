@@ -124,7 +124,7 @@ function VenueImageSlider({ images, label }: { images: string[], label: string }
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.8 }}
-                    className="aspect-video md:aspect-[3/2] lg:aspect-[4/3] w-full"
+                    className="aspect-[4/3] md:aspect-[3/2] lg:aspect-[4/3] w-full"
                 >
                     <Image
                         src={sanitizeImageUrl(images[currentIndex])}
