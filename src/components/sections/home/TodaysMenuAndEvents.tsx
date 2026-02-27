@@ -231,13 +231,14 @@ export function TodaysMenuAndEvents() {
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        fetch("/api/daily-specials", { cache: 'no-store' })
+        const ts = Date.now();
+        fetch(`/api/daily-specials?t=${ts}`, { cache: 'no-store' })
             .then(r => r.json())
             .then(data => setSpecials(Array.isArray(data) ? data : []))
             .catch(() => setSpecials([]))
             .finally(() => setLoadingMenu(false));
 
-        fetch("/api/events", { cache: 'no-store' })
+        fetch(`/api/events?t=${ts}`, { cache: 'no-store' })
             .then(r => r.json())
             .then(data => setEvents(Array.isArray(data) ? data : []))
             .catch(() => setEvents([]))

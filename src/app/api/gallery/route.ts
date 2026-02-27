@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     try {
         const { data, error } = await supabase
@@ -9,10 +11,21 @@ export async function GET() {
             .order("created_at", { ascending: false });
 
         if (error) throw error;
-        return NextResponse.json(data ?? []);
+        return NextResponse.json(data ?? [], {
+            headers: {
+                "Cache-Control": "no-store, no-cache, must-revalidate",
+                "Pragma": "no-cache",
+            },
+        });
     } catch (error: any) {
         console.error("Gallery GET error:", error);
-        return NextResponse.json([], { status: 200 }); // graceful fallback
+        return NextResponse.json([], {
+            status: 200,
+            headers: {
+                "Cache-Control": "no-store, no-cache, must-revalidate",
+                "Pragma": "no-cache",
+            },
+        });
     }
 }
 

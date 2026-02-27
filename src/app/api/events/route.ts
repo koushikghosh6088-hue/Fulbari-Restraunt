@@ -12,10 +12,21 @@ export async function GET() {
             .order("event_date", { ascending: true });
 
         if (error) throw error;
-        return NextResponse.json(data ?? []);
+        return NextResponse.json(data ?? [], {
+            headers: {
+                "Cache-Control": "no-store, no-cache, must-revalidate",
+                "Pragma": "no-cache",
+            },
+        });
     } catch (error: any) {
         console.error("Events GET error:", error);
-        return NextResponse.json([], { status: 200 }); // graceful fallback
+        return NextResponse.json([], {
+            status: 200,
+            headers: {
+                "Cache-Control": "no-store, no-cache, must-revalidate",
+                "Pragma": "no-cache",
+            },
+        });
     }
 }
 

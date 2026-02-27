@@ -26,24 +26,9 @@ export async function POST(request: Request) {
 
         if (error) {
             console.error("Supabase Storage Upload Error:", error);
-            // Fallback: If 'events' bucket fails, silently try 'menu-images' as it's known to work
-            if (bucket === "events") {
-                console.log("Fallback: Attempting to use menu-images bucket instead...");
-                const { data: fbData, error: fbError } = await supabase.storage
-                    .from("menu-images")
-                    .upload(`events/${fileName}`, arrayBuffer, {
-                        cacheControl: "3600",
-                        upsert: false,
-                        contentType: file.type || 'image/jpeg'
-                    });
-
-                if (!fbError) {
-                    const { data: { publicUrl } } = supabase.storage.from("menu-images").getPublicUrl(`events/${fileName}`);
-                    return NextResponse.json({ success: true, url: publicUrl, note: "Used fallback bucket" });
-                }
-            }
-
-            return NextResponse.json({ error: error.message }, { status: 500 });
+            return NextResponse.json({
+                error: `Upload to '${bucket}' bucket failed: ${error.message}. Ensure the '${bucket}' bucket exists in Supabase Storage and is set to Public with the correct INSERT policy.`
+            }, { status: 500 });
         }
 
         const { data: { publicUrl } } = supabase.storage
