@@ -17,20 +17,15 @@ export function sanitizeImageUrl(url: string | undefined | null) {
         s = s.replace("http://", "https://");
     }
 
-    // 2. Handle Supabase storage URLs - add cache busting and formatting
+    // 2. Handle Supabase storage URLs - add cache busting (don’t add unsplash-specific params)
     if (s.includes("supabase.co")) {
         // Ensure HTTPS
         if (!s.startsWith("https://")) {
             s = "https://" + s.replace(/^https?:\/\//, "");
         }
-        // Add query params for image optimization if not already there
-        const separator = s.includes("?") ? "&" : "?";
-        if (!s.includes("auto=format")) {
-            s = `${s}${separator}auto=format&fit=crop&q=80`;
-        }
         // Add cache buster to prevent stale images
+        const finalSep = s.includes("?") ? "&" : "?";
         if (!s.includes("t=")) {
-            const finalSep = s.includes("?") ? "&" : "?";
             s = `${s}${finalSep}t=${Date.now()}`;
         }
         return s.replace(/ /g, "%20").replace(/\(/g, "%28").replace(/\)/g, "%29");

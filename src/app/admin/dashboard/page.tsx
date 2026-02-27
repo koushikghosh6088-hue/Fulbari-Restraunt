@@ -1106,9 +1106,77 @@ export default function AdminDashboard() {
                                         <span>Event Images <span className="text-xs text-muted-foreground/60">(max 10)</span></span>
                                         <span className="text-[10px] font-bold text-primary">{eventImages.length}/10</span>
                                     </label>
-                                    {/* Thumbnails row */}
+                                    {/* Dropzone styled like menu item upload */}
+                                    <div className="relative group/upload">
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleEventPosterUpload}
+                                            className="hidden"
+                                            id="event-upload"
+                                            disabled={eventImages.length >= 10}
+                                        />
+                                        <label
+                                            htmlFor="event-upload"
+                                            className={cn(
+                                                "flex flex-col items-center justify-center w-full min-h-[140px] rounded-2xl border-2 border-dashed transition-all cursor-pointer relative overflow-hidden",
+                                                eventImages.length > 0
+                                                    ? "border-primary/50 bg-primary/5"
+                                                    : "border-border hover:border-primary/50 bg-accent/30"
+                                            )}
+                                        >
+                                            {eventUploading ? (
+                                                <div className="flex flex-col items-center gap-2">
+                                                    <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                                                    <span className="text-xs font-bold text-primary animate-pulse uppercase tracking-widest">Uploading...</span>
+                                                </div>
+                                            ) : eventImages.length > 0 ? (
+                                                <div className="absolute inset-0 w-full h-full">
+                                                    <img
+                                                        src={sanitizeImageUrl(eventImages[0])}
+                                                        alt="Event cover"
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => {
+                                                            const target = e.target as HTMLImageElement;
+                                                            console.error(`Event cover preview failed: ${target.src}`);
+                                                        }}
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col items-center gap-1 text-center text-muted-foreground px-4">
+                                                    <Upload size={24} />
+                                                    <span className="text-xs">Click to upload or drag file here</span>
+                                                </div>
+                                            )}
+                                        </label>
+                                    </div>
+                                    {/* paste URL input */}
+                                    <div className="flex-1 flex gap-2 pt-2">
+                                        <input
+                                            type="text"
+                                            placeholder="Paste image URL then press Add"
+                                            id="url-input"
+                                            className="flex-1 bg-accent border-transparent rounded-xl p-2.5 text-sm outline-none focus:ring-1 focus:ring-primary"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={(e) => {
+                                                const input = document.getElementById('url-input') as HTMLInputElement;
+                                                if (input.value.trim()) {
+                                                    if (eventImages.length < 10) {
+                                                        setEventImages(prev => [...prev, input.value.trim()]);
+                                                        input.value = '';
+                                                    } else {
+                                                        alert("Max 10 images allowed.");
+                                                    }
+                                                }
+                                            }}
+                                            className="px-3 py-2 bg-accent border border-border rounded-xl text-xs font-medium hover:bg-primary/10 transition whitespace-nowrap"
+                                        >Add</button>
+                                    </div>
+                                    {/* thumbnails strip */}
                                     {eventImages.length > 0 && (
-                                        <div className="flex gap-2 flex-wrap mb-2">
+                                        <div className="flex gap-2 flex-wrap mt-2">
                                             {eventImages.map((url, i) => (
                                                 <div key={i} className="relative w-20 h-14 rounded-xl overflow-hidden border border-border group">
                                                     <img
@@ -1117,7 +1185,7 @@ export default function AdminDashboard() {
                                                         className="w-full h-full object-cover"
                                                         onError={(e) => {
                                                             const target = e.target as HTMLImageElement;
-                                                            console.error(`Admin event form thumbnail failed: ${target.src}`);
+                                                            console.error(`Admin event thumbnail failed: ${target.src}`);
                                                         }}
                                                     />
                                                     <button type="button" onClick={() => removeEventImage(i)}
@@ -1129,35 +1197,6 @@ export default function AdminDashboard() {
                                             ))}
                                         </div>
                                     )}
-                                    <div className="flex gap-2 items-center">
-                                        <label className={cn(
-                                            "flex items-center gap-2 px-4 py-2.5 bg-primary/10 border border-primary/30 text-primary rounded-xl text-sm font-medium cursor-pointer hover:bg-primary/20 transition-all shrink-0",
-                                            eventImages.length >= 10 && "opacity-50 cursor-not-allowed pointer-events-none"
-                                        )}>
-                                            {eventUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
-                                            {eventUploading ? 'Uploading...' : '+ Add Image'}
-                                            <input type="file" accept="image/*" className="hidden" onChange={handleEventPosterUpload} disabled={eventImages.length >= 10} />
-                                        </label>
-                                        <span className="text-xs text-muted-foreground">or</span>
-                                        <div className="flex-1 flex gap-2">
-                                            <input type="text" placeholder="Paste image URL then press Add" id="url-input"
-                                                className="flex-1 bg-accent border-transparent rounded-xl p-2.5 text-sm outline-none focus:ring-1 focus:ring-primary" />
-                                            <button type="button"
-                                                onClick={(e) => {
-                                                    const input = document.getElementById('url-input') as HTMLInputElement;
-                                                    if (input.value.trim()) {
-                                                        if (eventImages.length < 10) {
-                                                            setEventImages(prev => [...prev, input.value.trim()]);
-                                                            input.value = '';
-                                                        } else {
-                                                            alert("Max 10 images allowed.");
-                                                        }
-                                                    }
-                                                }}
-                                                className="px-3 py-2 bg-accent border border-border rounded-xl text-xs font-medium hover:bg-primary/10 transition whitespace-nowrap"
-                                            >Add</button>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div className="md:col-span-2 flex justify-end gap-3">
                                     {isEditingEvent && (
@@ -1170,7 +1209,7 @@ export default function AdminDashboard() {
                                             Cancel
                                         </Button>
                                     )}
-                                    <Button type="submit" disabled={eventSaving} className="px-8 gap-2">
+                                    <Button type="submit" disabled={eventSaving || eventUploading} className="px-8 gap-2">
                                         {eventSaving && <Loader2 size={14} className="animate-spin" />}
                                         {isEditingEvent ? 'Update Event' : 'Add Event'}
                                     </Button>
