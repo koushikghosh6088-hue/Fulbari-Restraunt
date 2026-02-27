@@ -265,7 +265,7 @@ export function ModernEventGallery({ images }: { images: string[] }) {
 
     return (
         <div
-            className="relative w-full max-w-5xl mx-auto aspect-[4/5] md:aspect-[16/9] lg:aspect-[21/9] max-h-[600px] overflow-hidden rounded-3xl shadow-2xl group border border-border/50 select-none bg-card"
+            className="relative w-full max-w-6xl mx-auto aspect-[4/5] md:aspect-video lg:aspect-[16/10] max-h-[700px] overflow-hidden rounded-3xl shadow-2xl group border border-border/50 select-none bg-card"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
