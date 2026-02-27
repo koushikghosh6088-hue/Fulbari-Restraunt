@@ -11,73 +11,9 @@ import { sanitizeImageUrl } from "@/lib/utils";
 interface GalleryItem {
     id: string;
     url: string;
-    category: 'Cafe' | 'Restaurant' | 'Ambience' | 'Food' | 'Other';
+    category: string;
     created_at: string;
 }
-
-const filterTabs = ["All", "Cafe", "Restaurant", "Ambience", "Food", "Other"];
-
-const galleryData: GalleryItem[] = [
-    // --- CAFE ---
-    { id: "cafe-1", url: "/gallery-images/cafe-1.jpg", category: "Cafe", created_at: "2024-01-01T00:00:00Z" },
-    { id: "cafe-2", url: "/gallery-images/cafe-2.jpg", category: "Cafe", created_at: "2024-01-01T00:00:00Z" },
-    { id: "cafe-3", url: "/gallery-images/cafe-3.jpg", category: "Cafe", created_at: "2024-01-01T00:00:00Z" },
-    { id: "cafe-4", url: "/gallery-images/cafe-4.jpg", category: "Cafe", created_at: "2024-01-01T00:00:00Z" },
-    { id: "cafe-5", url: "/gallery-images/cafe-5.jpg", category: "Cafe", created_at: "2024-01-01T00:00:00Z" },
-    { id: "cafe-6", url: "/gallery-images/cafe-6.jpg", category: "Cafe", created_at: "2024-01-01T00:00:00Z" },
-    { id: "cafe-7", url: "/gallery-images/cafe-7.jpg", category: "Cafe", created_at: "2024-01-01T00:00:00Z" },
-    { id: "cafe-8", url: "/gallery-images/cafe-8.jpg", category: "Cafe", created_at: "2024-01-01T00:00:00Z" },
-    { id: "cafe-9", url: "/gallery-images/cafe-9.jpg", category: "Cafe", created_at: "2024-01-01T00:00:00Z" },
-    { id: "cafe-10", url: "/gallery-images/cafe-10.jpg", category: "Cafe", created_at: "2024-01-01T00:00:00Z" },
-
-    // --- RESTAURANT ---
-    { id: "restaurant-1", url: "/gallery-images/restaurant-1.jpg", category: "Restaurant", created_at: "2024-01-01T00:00:00Z" },
-    { id: "restaurant-2", url: "/gallery-images/restaurant-2.jpg", category: "Restaurant", created_at: "2024-01-01T00:00:00Z" },
-    { id: "restaurant-3", url: "/gallery-images/restaurant-3.jpg", category: "Restaurant", created_at: "2024-01-01T00:00:00Z" },
-    { id: "restaurant-4", url: "/gallery-images/restaurant-4.jpg", category: "Restaurant", created_at: "2024-01-01T00:00:00Z" },
-    { id: "restaurant-5", url: "/gallery-images/restaurant-5.jpg", category: "Restaurant", created_at: "2024-01-01T00:00:00Z" },
-    { id: "restaurant-6", url: "/gallery-images/restaurant-6.jpg", category: "Restaurant", created_at: "2024-01-01T00:00:00Z" },
-    { id: "restaurant-7", url: "/gallery-images/restaurant-7.jpg", category: "Restaurant", created_at: "2024-01-01T00:00:00Z" },
-    { id: "restaurant-8", url: "/gallery-images/restaurant-8.jpg", category: "Restaurant", created_at: "2024-01-01T00:00:00Z" },
-    { id: "restaurant-9", url: "/gallery-images/restaurant-9.jpg", category: "Restaurant", created_at: "2024-01-01T00:00:00Z" },
-    { id: "restaurant-10", url: "/gallery-images/restaurant-10.jpg", category: "Restaurant", created_at: "2024-01-01T00:00:00Z" },
-
-    // --- AMBIENCE ---
-    { id: "ambience-1", url: "/gallery-images/ambience-1.jpg", category: "Ambience", created_at: "2024-01-01T00:00:00Z" },
-    { id: "ambience-2", url: "/gallery-images/ambience-2.jpg", category: "Ambience", created_at: "2024-01-01T00:00:00Z" },
-    { id: "ambience-3", url: "/gallery-images/ambience-3.jpg", category: "Ambience", created_at: "2024-01-01T00:00:00Z" },
-    { id: "ambience-4", url: "/gallery-images/ambience-4.jpg", category: "Ambience", created_at: "2024-01-01T00:00:00Z" },
-    { id: "ambience-5", url: "/gallery-images/ambience-5.jpg", category: "Ambience", created_at: "2024-01-01T00:00:00Z" },
-    { id: "ambience-6", url: "/gallery-images/ambience-6.jpg", category: "Ambience", created_at: "2024-01-01T00:00:00Z" },
-    { id: "ambience-7", url: "/gallery-images/ambience-7.jpg", category: "Ambience", created_at: "2024-01-01T00:00:00Z" },
-    { id: "ambience-8", url: "/gallery-images/ambience-8.jpg", category: "Ambience", created_at: "2024-01-01T00:00:00Z" },
-    { id: "ambience-9", url: "/gallery-images/ambience-9.jpg", category: "Ambience", created_at: "2024-01-01T00:00:00Z" },
-    { id: "ambience-10", url: "/gallery-images/ambience-10.jpg", category: "Ambience", created_at: "2024-01-01T00:00:00Z" },
-
-    // --- FOOD ---
-    { id: "food-1", url: "/gallery-images/food-1.jpg", category: "Food", created_at: "2024-01-01T00:00:00Z" },
-    { id: "food-2", url: "/gallery-images/food-2.jpg", category: "Food", created_at: "2024-01-01T00:00:00Z" },
-    { id: "food-3", url: "/gallery-images/food-3.jpg", category: "Food", created_at: "2024-01-01T00:00:00Z" },
-    { id: "food-4", url: "/gallery-images/food-4.jpg", category: "Food", created_at: "2024-01-01T00:00:00Z" },
-    { id: "food-5", url: "/gallery-images/food-5.jpg", category: "Food", created_at: "2024-01-01T00:00:00Z" },
-    { id: "food-6", url: "/gallery-images/food-6.jpg", category: "Food", created_at: "2024-01-01T00:00:00Z" },
-    { id: "food-7", url: "/gallery-images/food-7.jpg", category: "Food", created_at: "2024-01-01T00:00:00Z" },
-    { id: "food-8", url: "/gallery-images/food-8.jpg", category: "Food", created_at: "2024-01-01T00:00:00Z" },
-    { id: "food-9", url: "/gallery-images/food-9.jpg", category: "Food", created_at: "2024-01-01T00:00:00Z" },
-    { id: "food-10", url: "/gallery-images/food-10.jpg", category: "Food", created_at: "2024-01-01T00:00:00Z" },
-
-    // --- OTHER ---
-    { id: "other-1", url: "/gallery-images/other-1.jpg", category: "Other", created_at: "2024-01-01T00:00:00Z" },
-    { id: "other-2", url: "/gallery-images/other-2.jpg", category: "Other", created_at: "2024-01-01T00:00:00Z" },
-    { id: "other-3", url: "/gallery-images/other-3.jpg", category: "Other", created_at: "2024-01-01T00:00:00Z" },
-    { id: "other-4", url: "/gallery-images/other-4.jpg", category: "Other", created_at: "2024-01-01T00:00:00Z" },
-    { id: "other-5", url: "/gallery-images/other-5.jpg", category: "Other", created_at: "2024-01-01T00:00:00Z" },
-    { id: "other-6", url: "/gallery-images/other-6.jpg", category: "Other", created_at: "2024-01-01T00:00:00Z" },
-    { id: "other-7", url: "/gallery-images/other-7.jpg", category: "Other", created_at: "2024-01-01T00:00:00Z" },
-    { id: "other-8", url: "/gallery-images/other-8.jpg", category: "Other", created_at: "2024-01-01T00:00:00Z" },
-    { id: "other-9", url: "/gallery-images/other-9.jpg", category: "Other", created_at: "2024-01-01T00:00:00Z" },
-    { id: "other-10", url: "/gallery-images/other-10.jpg", category: "Other", created_at: "2024-01-01T00:00:00Z" }
-];
 
 import { supabase } from "@/lib/supabase";
 
@@ -105,6 +41,8 @@ export default function GalleryPage() {
 
         fetchGallery();
     }, []);
+
+    const filterTabs = ["All", ...Array.from(new Set(galleryItems.map(img => img.category)))];
 
     const filteredImages = activeFilter === "All"
         ? galleryItems
