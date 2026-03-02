@@ -744,11 +744,14 @@ export default function AdminDashboard() {
                                 <div className="space-y-3 md:col-span-2 lg:col-span-1">
                                     <label className="text-sm font-medium text-muted-foreground flex items-center justify-between">
                                         <span>Item Image</span>
-                                        {newItem.image && (
+                                        {(newItem.image || menuLocalPreview) && (
                                             <button
                                                 type="button"
-                                                onClick={() => setNewItem({ ...newItem, image: "" })}
-                                                className="text-[10px] text-red-500 hover:underline"
+                                                onClick={() => {
+                                                    setNewItem({ ...newItem, image: "" });
+                                                    setMenuLocalPreview("");
+                                                }}
+                                                className="text-[10px] font-bold text-red-500 hover:underline bg-red-500/10 px-2 py-1 rounded transition-colors"
                                             >
                                                 Clear Image
                                             </button>
@@ -766,19 +769,29 @@ export default function AdminDashboard() {
                                                         alt="Preview"
                                                         className="w-full h-full object-cover"
                                                     />
-                                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover/upload:opacity-100 transition-opacity">
+                                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 md:group-hover/upload:opacity-100 transition-opacity pointer-events-none md:pointer-events-auto">
                                                         <button
                                                             type="button"
                                                             onClick={() => {
                                                                 setNewItem({ ...newItem, image: "" });
                                                                 setMenuLocalPreview("");
                                                             }}
-                                                            className="flex flex-col items-center gap-1"
+                                                            className="flex flex-col items-center gap-1 cursor-pointer pointer-events-auto"
                                                         >
                                                             <Trash2 size={20} className="text-white" />
                                                             <span className="text-[10px] text-white font-bold uppercase tracking-widest">Remove Image</span>
                                                         </button>
                                                     </div>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setNewItem({ ...newItem, image: "" });
+                                                            setMenuLocalPreview("");
+                                                        }}
+                                                        className="md:hidden absolute top-2 right-2 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white shadow-lg z-10"
+                                                    >
+                                                        <Trash2 size={14} />
+                                                    </button>
                                                 </div>
                                             ) : (
                                                 <UploadDropzone
@@ -1079,8 +1092,8 @@ export default function AdminDashboard() {
                                                             }}
                                                         />
                                                         <button type="button" onClick={() => removeEventImage(i)}
-                                                            className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                                            <X size={9} />
+                                                            className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white md:opacity-0 md:group-hover:opacity-100 transition-opacity shadow-md">
+                                                            <X size={12} />
                                                         </button>
                                                         {i === 0 && <span className="absolute bottom-0.5 left-0.5 text-[8px] bg-primary text-primary-foreground px-1 rounded">Cover</span>}
                                                     </div>
@@ -1264,16 +1277,22 @@ export default function AdminDashboard() {
                                                 alt={item.category}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             />
-                                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 gap-3 backdrop-blur-sm">
+                                            <div className="absolute inset-0 bg-black/60 opacity-0 md:group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 gap-3 backdrop-blur-sm pointer-events-none md:pointer-events-auto">
                                                 <span className="text-white font-bold text-[10px] tracking-widest uppercase px-3 py-1 bg-white/20 border border-white/30 rounded-full">{item.category}</span>
                                                 <button
                                                     onClick={() => handleDeleteGalleryItem(item.id)}
-                                                    className="w-10 h-10 rounded-full bg-red-500/90 hover:bg-red-500 text-white flex items-center justify-center transition-colors shadow-xl"
+                                                    className="w-10 h-10 rounded-full bg-red-500/90 hover:bg-red-500 text-white flex items-center justify-center transition-colors shadow-xl pointer-events-auto"
                                                     title="Delete Image"
                                                 >
                                                     <Trash2 size={16} />
                                                 </button>
                                             </div>
+                                            <button
+                                                onClick={() => handleDeleteGalleryItem(item.id)}
+                                                className="md:hidden absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center shadow-lg pointer-events-auto"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
                                         </div>
                                     ))}
                                 </div>
