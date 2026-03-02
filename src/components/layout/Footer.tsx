@@ -57,8 +57,10 @@ export function Footer() {
                             <li className="flex items-start gap-3 text-muted-foreground">
                                 <MapPin className="shrink-0 text-primary mt-1" size={18} />
                                 <div className="flex flex-col gap-1.5">
-                                    <span className="text-sm">Old Delhi Road, Rajyadharpur,<br />Serampore, Hooghly, West Bengal</span>
-                                    <span className="text-primary/70 font-bengali text-[13px] font-semibold tracking-wide">ওল্ড দিল্লি রোড, রাজ্যাধরপুর, শ্রীরামপুর, পশ্চিমবঙ্গ</span>
+                                    <a href="https://maps.app.goo.gl/kqhpLDput5X6aHDr6" target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all">
+                                        <span className="text-sm block">Old Delhi Road, Rajyadharpur,<br />Serampore, Hooghly, West Bengal</span>
+                                        <span className="text-primary/70 font-bengali text-[13px] font-semibold tracking-wide block mt-1">ওল্ড দিল্লি রোড, রাজ্যাধরপুর, শ্রীরামপুর, পশ্চিমবঙ্গ</span>
+                                    </a>
                                 </div>
                             </li>
                             <li className="flex flex-col gap-3 text-muted-foreground">

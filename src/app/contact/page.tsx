@@ -83,8 +83,17 @@ export default function ContactPage() {
                                             <item.icon size={22} className="group-hover:scale-110 transition-transform" />
                                         </div>
                                         <h3 className="font-heading font-black text-xs uppercase tracking-widest text-primary mb-1">{item.title}</h3>
-                                        <p className="text-foreground font-bold text-sm md:text-base leading-tight mb-1">{item.content}</p>
-                                        <p className="text-muted-foreground text-[10px] md:text-xs font-medium italic">{item.sub}</p>
+                                        {item.title === "Location" ? (
+                                            <a href="https://maps.app.goo.gl/kqhpLDput5X6aHDr6" target="_blank" rel="noopener noreferrer" className="block hover:opacity-80 transition-opacity">
+                                                <p className="text-foreground font-bold text-sm md:text-base leading-tight mb-1 cursor-pointer hover:underline decoration-primary underline-offset-4">{item.content}</p>
+                                                <p className="text-muted-foreground text-[10px] md:text-xs font-medium italic">{item.sub}</p>
+                                            </a>
+                                        ) : (
+                                            <>
+                                                <p className="text-foreground font-bold text-sm md:text-base leading-tight mb-1">{item.content}</p>
+                                                <p className="text-muted-foreground text-[10px] md:text-xs font-medium italic">{item.sub}</p>
+                                            </>
+                                        )}
                                     </motion.div>
                                 ))}
                             </div>
@@ -124,25 +133,33 @@ export default function ContactPage() {
                             <div className="absolute -inset-4 bg-primary/5 rounded-[3rem] blur-2xl group-hover:bg-primary/10 transition-colors duration-700" />
 
                             <div className="relative h-full w-full rounded-[2.5rem] overflow-hidden border border-white/5 shadow-2xl bg-card">
-                                <div className="absolute inset-0 z-10 pointer-events-none border-[12px] border-primary/5 rounded-[2.5rem]" />
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14725.7533604856!2d88.3392435!3d22.7523178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f89a8342407995%3A0x6b6851610e7fc95e!2sSerampore%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1716300000000!5m2!1sen!2sin"
-                                    width="100%"
-                                    height="100%"
-                                    style={{ border: 0 }}
-                                    allowFullScreen={true}
-                                    loading="lazy"
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                    className="grayscale hover:grayscale-0 transition-all duration-1000 opacity-80 hover:opacity-100 scale-105"
+                                <a
+                                    href="https://maps.app.goo.gl/kqhpLDput5X6aHDr6"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="absolute inset-0 z-10 pointer-events-none border-[12px] border-primary/5 rounded-[2.5rem]"
                                 />
+                                <a href="https://maps.app.goo.gl/kqhpLDput5X6aHDr6" target="_blank" rel="noopener noreferrer" className="block w-full h-full relative cursor-pointer">
+                                    <div className="absolute inset-0 z-20 hover:bg-black/5 transition-colors duration-300" />
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14725.7533604856!2d88.3392435!3d22.7523178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f89a8342407995%3A0x6b6851610e7fc95e!2sSerampore%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1716300000000!5m2!1sen!2sin"
+                                        width="100%"
+                                        height="100%"
+                                        style={{ border: 0 }}
+                                        allowFullScreen={true}
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        className="grayscale hover:grayscale-0 transition-all duration-1000 opacity-80 hover:opacity-100 scale-105 pointer-events-none"
+                                    />
+                                </a>
 
                                 {/* Corner Label */}
-                                <div className="absolute bottom-6 left-6 z-20 px-4 py-2 bg-background/80 backdrop-blur-md rounded-xl border border-white/10 shadow-lg">
+                                <a href="https://maps.app.goo.gl/kqhpLDput5X6aHDr6" target="_blank" rel="noopener noreferrer" className="absolute bottom-6 left-6 z-30 px-4 py-2 bg-background/80 backdrop-blur-md rounded-xl border border-white/10 shadow-lg hover:bg-background/95 transition-colors cursor-pointer group/label">
                                     <div className="flex items-center gap-2">
-                                        <MapPin size={14} className="text-primary" />
-                                        <span className="text-[10px] font-black uppercase tracking-widest">Hooghly, West Bengal</span>
+                                        <MapPin size={14} className="text-primary group-hover/label:scale-110 transition-transform" />
+                                        <span className="text-[10px] font-black uppercase tracking-widest group-hover/label:text-primary transition-colors">Hooghly, West Bengal</span>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </motion.div>
                     </div>

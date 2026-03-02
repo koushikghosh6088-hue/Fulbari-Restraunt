@@ -25,10 +25,10 @@ export function SocialLinksBar() {
         {
             name: "Google Maps",
             icon: Star,
-            href: "https://search.google.com/local/writereview?placeid=ChIJc16FaACF-DkRxbOmYTvrkAY",
+            href: "https://maps.app.goo.gl/kqhpLDput5X6aHDr6",
             color: "hover:text-[#F4B400]",
-            label: "Review our Flavors",
-            count: "4.5★"
+            label: "Visit Our Location",
+            count: "Map"
         }
     ];
 
