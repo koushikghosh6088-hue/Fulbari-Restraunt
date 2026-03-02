@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, Leaf, Utensils, Loader2, ArrowLeft } from "lucide-react";
 import { cn, sanitizeImageUrl } from "@/lib/utils";
 import { GoogleReviewModal } from "@/components/common/GoogleReviewModal";
+import MenuSection from "@/components/menu/MenuSection";
 
 export default function MenuPage() {
     const [menuItems, setMenuItems] = useState<any[]>([]);
@@ -180,147 +181,108 @@ export default function MenuPage() {
                 </motion.div>
             </div>
 
-            {/* Controls Section */}
-            <section className="sticky top-[56px] md:top-[72px] z-40 bg-background/95 backdrop-blur-md py-4 border-b border-border">
-                <div className="container mx-auto px-4 flex flex-col md:flex-row gap-4 justify-between items-center">
-                    {/* Category Tabs */}
-                    <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat}
-                                onClick={() => setActiveCategory(cat)}
-                                className={`px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm font-medium ${activeCategory === cat
-                                    ? "bg-primary text-primary-foreground shadow-md"
-                                    : "bg-accent text-muted-foreground hover:bg-accent/80 hover:text-foreground"
-                                    }`}
-                            >
-                                {cat}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Search Bar */}
-                    <div className="relative w-full md:w-64">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
-                        <input
-                            type="text"
-                            placeholder="Search dishes..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 rounded-full bg-accent border-transparent focus:border-primary focus:ring-1 focus:ring-primary text-foreground placeholder:text-muted-foreground outline-none transition-all"
-                        />
-                    </div>
-                </div>
-            </section>
-
-            {/* Menu Grid */}
-            <section className="flex-grow py-12 px-4 container mx-auto">
-                {loading ? (
-                    <div className="flex flex-col items-center justify-center py-20">
-                        <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
-                        <p className="text-muted-foreground animate-pulse">Loading our delicious menu...</p>
-                    </div>
-                ) : filteredItems.length === 0 ? (
-                    <div className="text-center py-20">
-                        <p className="text-muted-foreground text-xl">No dishes found matching your search.</p>
-                        <Button variant="link" onClick={() => { setActiveCategory("All"); setSearchQuery(""); }}>
-                            Clear Filters
-                        </Button>
-                    </div>
+            {/* New Dynamic Menu Section */}
+            <section className="flex-grow bg-zinc-950/20 py-8">
+                {activeMenuTab === "RESTAURANT" ? (
+                    <MenuSection />
                 ) : (
-                    <motion.div
-                        layout
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-                    >
-                        <AnimatePresence mode="popLayout">
-                            {filteredItems.map((item, idx) => (
-                                <motion.div
-                                    key={item.id}
-                                    layout
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ duration: 0.3 }}
-                                    whileHover={{ y: -6 }}
-                                    className="group bg-card rounded-2xl overflow-hidden shadow-lg border border-border/50 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all flex flex-col"
-                                >
-                                    {/* Image */}
-                                    <div className="relative h-48 overflow-hidden">
-                                        <img
-                                            src={sanitizeImageUrl(item.image)}
-                                            alt={`${item.name} at Fulbari Restaurant`}
-                                            loading={idx < 4 ? "eager" : "lazy"}
-                                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                            onError={(e) => {
-                                                const target = e.target as HTMLImageElement;
-                                                console.error(`Menu item image failed: ${target.src}`);
-                                                target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
-                                            }}
-                                        />
-                                        {/* Simple Price Tag (if no variants) */}
-                                        {!item.variant_prices && (
-                                            <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm text-white text-sm font-bold px-3 py-1 rounded-full border border-white/20">
-                                                ₹{item.price}
-                                            </div>
-                                        )}
+                    <div className="container mx-auto px-4">
+                        {loading ? (
+                            <div className="flex flex-col items-center justify-center py-20">
+                                <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+                                <p className="text-muted-foreground animate-pulse">Loading our delicious cafe menu...</p>
+                            </div>
+                        ) : filteredItems.length === 0 ? (
+                            <div className="text-center py-20">
+                                <p className="text-muted-foreground text-xl">No dishes found matching your search.</p>
+                                <Button variant="link" onClick={() => { setActiveCategory("All"); setSearchQuery(""); }}>
+                                    Clear Filters
+                                </Button>
+                            </div>
+                        ) : (
+                            <>
+                                {/* Legacy Controls for Cafe (if still needed) */}
+                                <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-12 bg-card/30 p-4 rounded-2xl border border-border/50">
+                                    <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar">
+                                        {categories.map((cat) => (
+                                            <button
+                                                key={cat}
+                                                onClick={() => setActiveCategory(cat)}
+                                                className={`px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm font-medium ${activeCategory === cat
+                                                    ? "bg-primary text-primary-foreground"
+                                                    : "bg-accent text-muted-foreground hover:bg-accent/80"
+                                                    }`}
+                                            >
+                                                {cat}
+                                            </button>
+                                        ))}
                                     </div>
-
-                                    {/* Content */}
-                                    <div className="p-4 flex-grow flex flex-col">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <h3 className="font-heading font-bold text-lg text-foreground group-hover:text-primary transition-colors pr-2">
-                                                {item.name}
-                                            </h3>
-                                            {item.isVeg ? (
-                                                <span title="Vegetarian">
-                                                    <Leaf size={16} className="text-green-500 shrink-0 mt-1" />
-                                                </span>
-                                            ) : (
-                                                <div className="w-4 h-4 border border-red-500 flex items-center justify-center shrink-0 mt-1" title="Non-Veg">
-                                                    <div className="w-2 h-2 rounded-full bg-red-500" />
+                                    <div className="relative w-full md:w-64">
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+                                        <input
+                                            type="text"
+                                            placeholder="Search cafe items..."
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-2 rounded-full bg-accent border-transparent outline-none"
+                                        />
+                                    </div>
+                                </div>
+                                <motion.div
+                                    layout
+                                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                                >
+                                    <AnimatePresence mode="popLayout">
+                                        {filteredItems.map((item, idx) => (
+                                            <motion.div
+                                                key={item.id}
+                                                layout
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                exit={{ opacity: 0, scale: 0.9 }}
+                                                transition={{ duration: 0.3 }}
+                                                whileHover={{ y: -6 }}
+                                                className="group bg-card rounded-2xl overflow-hidden shadow-lg border border-border/50 hover:border-primary/50 transition-all flex flex-col"
+                                            >
+                                                <div className="relative h-48 overflow-hidden">
+                                                    <img
+                                                        src={sanitizeImageUrl(item.image)}
+                                                        alt={item.name}
+                                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                    />
+                                                    {!item.variant_prices && (
+                                                        <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm text-white text-sm font-bold px-3 py-1 rounded-full border border-white/20">
+                                                            ₹{item.price}
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            )}
-                                        </div>
-                                        <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2 mb-4">
-                                            {item.description}
-                                        </p>
-
-                                        {/* Complex Pricing Display */}
-                                        <div className="mt-auto pt-4 border-t border-border/40">
-                                            {item.variant_prices && Object.keys(item.variant_prices).length > 0 ? (
-                                                <div className="space-y-2">
-                                                    <div className="flex flex-wrap gap-2">
-                                                        {Object.entries(item.variant_prices as Record<string, number>).map(([key, value]) => (
-                                                            <div key={key} className="flex flex-col bg-accent/30 px-3 py-1.5 rounded-lg border border-border/50">
-                                                                <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-tighter">{key}</span>
-                                                                <span className="text-sm font-black text-foreground">₹{value}</span>
+                                                <div className="p-4 flex-grow flex flex-col">
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <h3 className="font-heading font-bold text-lg text-foreground group-hover:text-primary transition-colors pr-2">
+                                                            {item.name}
+                                                        </h3>
+                                                        {item.isVeg ? <Leaf size={16} className="text-green-500 mt-1" /> : <div className="w-4 h-4 border border-red-500 flex items-center justify-center shrink-0 mt-1"><div className="w-2 h-2 rounded-full bg-red-500" /></div>}
+                                                    </div>
+                                                    <p className="text-muted-foreground text-xs line-clamp-2 mb-4">
+                                                        {item.description}
+                                                    </p>
+                                                    <div className="mt-auto pt-4 border-t border-border/40">
+                                                        {item.variant_prices && Object.entries(item.variant_prices).map(([k, v]: any) => (
+                                                            <div key={k} className="flex justify-between text-sm mb-1">
+                                                                <span className="text-muted-foreground uppercase text-[10px] font-bold">{k}</span>
+                                                                <span className="font-black text-primary">₹{v}</span>
                                                             </div>
                                                         ))}
+                                                        {!item.variant_prices && <div className="text-right font-black text-xl text-primary">₹{item.price}</div>}
                                                     </div>
                                                 </div>
-                                            ) : item.price_options && Array.isArray(item.price_options) && item.price_options.length > 0 ? (
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-tighter">Options:</span>
-                                                    <div className="flex gap-2">
-                                                        {item.price_options.map((p: number, idx: number) => (
-                                                            <span key={idx} className="text-sm font-black text-foreground">
-                                                                ₹{p}{idx < (item.price_options as number[]).length - 1 ? " |" : ""}
-                                                            </span>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div className="flex items-center justify-between group-hover:bg-primary/5 transition-colors p-1 rounded-lg">
-                                                    <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Price</span>
-                                                    <span className="text-xl font-black text-primary">₹{item.price}</span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
+                                            </motion.div>
+                                        ))}
+                                    </AnimatePresence>
                                 </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </motion.div>
+                            </>
+                        )}
+                    </div>
                 )}
             </section>
 
