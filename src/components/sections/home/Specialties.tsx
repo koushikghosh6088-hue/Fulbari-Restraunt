@@ -22,7 +22,7 @@ const categoryConfig = [
         icon: Coffee,
         label: "Breakfast",
         image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?q=80&w=400&auto=format&fit=crop",
-        menuCategories: ["breakfast"] as Category[],
+        menuCategories: ["Breakfast"] as Category[],
         menuType: "CAFE",
     },
     {
