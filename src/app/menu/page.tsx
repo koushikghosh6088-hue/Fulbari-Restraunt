@@ -73,7 +73,7 @@ export default function MenuPage() {
 
     // Derive categories dynamically from data based on active menu tab
     const filteredByMenuType = menuItems.filter(item => (item.menu_type || "RESTAURANT") === activeMenuTab);
-    const categories = ["All", ...Array.from(new Set(filteredByMenuType.map(item => item.category)))];
+    const categories = ["All", ...Array.from(new Set(filteredByMenuType.map(item => `${item.category} ${item.isVeg ? '(Veg)' : '(Non-Veg)'}`))).sort()];
 
     // Reset sub-category if it doesn't exist in the new menu type
     useEffect(() => {
@@ -82,10 +82,10 @@ export default function MenuPage() {
         }
     }, [activeMenuTab, categories, activeCategory]);
 
-    // Filter logic - Only show available items
     const filteredItems = filteredByMenuType.filter((item) => {
         const isAvailable = item.available !== false;
-        const matchesCategory = activeCategory === "All" || item.category === activeCategory;
+        const itemCategoryLabel = `${item.category} ${item.isVeg ? '(Veg)' : '(Non-Veg)'}`;
+        const matchesCategory = activeCategory === "All" || itemCategoryLabel === activeCategory;
         const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             item.description.toLowerCase().includes(searchQuery.toLowerCase());
         return isAvailable && matchesCategory && matchesSearch;

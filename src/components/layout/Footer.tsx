@@ -74,7 +74,7 @@ export function Footer() {
                             </li>
                             <li className="flex items-center gap-3 text-muted-foreground">
                                 <Mail className="shrink-0 text-primary" size={18} />
-                                <span>info@fulbarirestaurant.com</span>
+                                <span>fulbarirestaurant25@gmail.com</span>
                             </li>
                         </ul>
                     </div>

@@ -10,7 +10,7 @@ import { MapPin, Phone, Mail, Clock, Send, ArrowRight } from "lucide-react";
 export default function ContactPage() {
     const contactInfo = [
         { icon: Phone, title: "Phone", content: "+91 84206 80650", sub: "Mon-Sun from 11am", delay: 0.1 },
-        { icon: Mail, title: "Email", content: "info@fulbarirestaurant.com", sub: "Online support", delay: 0.2 },
+        { icon: Mail, title: "Email", content: "fulbarirestaurant25@gmail.com", sub: "Online support", delay: 0.2 },
         { icon: MapPin, title: "Location", content: "Serampore, Hooghly", sub: "West Bengal 712201", delay: 0.3 },
         { icon: Clock, title: "Hours", content: "11:00 AM - 10:00 PM", sub: "Open Every Day", delay: 0.4 },
     ];

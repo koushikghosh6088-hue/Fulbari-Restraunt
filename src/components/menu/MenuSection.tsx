@@ -26,12 +26,18 @@ const MenuSection = () => {
     }, []);
 
     const categories = useMemo(() => {
-        return ['All', ...Array.from(new Set(menuItems.map(item => item.category)))];
+        const cats = new Set<string>();
+        menuItems.forEach(item => {
+            const suffix = item.isVeg ? '(Veg)' : '(Non-Veg)';
+            cats.add(`${item.category} ${suffix}`);
+        });
+        return ['All', ...Array.from(cats).sort()];
     }, [menuItems]);
 
     const filteredItems = useMemo(() => {
         return menuItems.filter(item => {
-            const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
+            const itemCategoryLabel = `${item.category} ${item.isVeg ? '(Veg)' : '(Non-Veg)'}`;
+            const matchesCategory = activeCategory === 'All' || itemCategoryLabel === activeCategory;
             const matchesSearch =
                 item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 (item.description || '').toLowerCase().includes(searchQuery.toLowerCase());
@@ -58,8 +64,8 @@ const MenuSection = () => {
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
                             className={`px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm font-medium ${activeCategory === cat
-                                    ? 'bg-primary text-primary-foreground'
-                                    : 'bg-accent text-muted-foreground hover:bg-accent/80'
+                                ? 'bg-primary text-primary-foreground'
+                                : 'bg-accent text-muted-foreground hover:bg-accent/80'
                                 }`}
                         >
                             {cat}
