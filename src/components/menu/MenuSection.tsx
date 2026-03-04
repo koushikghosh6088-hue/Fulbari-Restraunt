@@ -1,125 +1,164 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import restaurantData from '@/data/restaurant_menu.json';
-import VegToggle from './VegToggle';
-import CategoryToggle from './CategoryToggle';
-import CategorySection from './CategorySection';
-
-type FilterType = 'All' | 'Veg' | 'Non-Veg';
+import React, { useState, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Leaf, Loader2, Search } from 'lucide-react';
+import { sanitizeImageUrl } from '@/lib/utils';
 
 const MenuSection = () => {
-    const [selectedCategory, setSelectedCategory] = useState<string>('All');
+    const [menuItems, setMenuItems] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [activeCategory, setActiveCategory] = useState('All');
+    const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        fetch('/api/menu')
+            .then(res => res.json())
+            .then(data => {
+                // Filter only RESTAURANT type items that are available
+                const restaurantItems = Array.isArray(data)
+                    ? data.filter((item: any) => item.menu_type === 'RESTAURANT' && item.available !== false)
+                    : [];
+                setMenuItems(restaurantItems);
+                setLoading(false);
+            })
+            .catch(() => setLoading(false));
+    }, []);
 
     const categories = useMemo(() => {
-        return restaurantData.menu.map(c => c.category);
-    }, []);
+        return ['All', ...Array.from(new Set(menuItems.map(item => item.category)))];
+    }, [menuItems]);
 
-    const processedMenu = useMemo(() => {
-        return restaurantData.menu.map(category => {
-            const vegItems: any[] = [];
-            const nonVegItems: any[] = [];
+    const filteredItems = useMemo(() => {
+        return menuItems.filter(item => {
+            const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
+            const matchesSearch =
+                item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (item.description || '').toLowerCase().includes(searchQuery.toLowerCase());
+            return matchesCategory && matchesSearch;
+        });
+    }, [menuItems, activeCategory, searchQuery]);
 
-            category.items.forEach((item: any) => {
-                const name = item.name.toLowerCase();
-                const isMeatRelated = name.includes('chicken') || name.includes('mutton') || name.includes('fish') || name.includes('prawn') || name.includes('egg');
-
-                // Handle Multi-Price Splitting (Soups/Noodles)
-                if (item.veg !== undefined) {
-                    vegItems.push({ ...item, displayedPrice: item.veg, forcedType: 'Veg' });
-                }
-                if (item.nonVeg !== undefined) {
-                    nonVegItems.push({ ...item, displayedPrice: item.nonVeg, forcedType: 'Non-Veg' });
-                }
-
-                // Handle Variants like Egg/Chicken/Mixed in Noodles
-                if (item.egg !== undefined || item.eggChicken !== undefined || item.mixed !== undefined) {
-                    const nonVegVariants: any = {};
-                    if (item.egg) nonVegVariants.egg = item.egg;
-                    if (item.eggChicken) nonVegVariants.eggChicken = item.eggChicken;
-                    if (item.mixed) nonVegVariants.mixed = item.mixed;
-                    nonVegItems.push({ ...item, displayedVariants: nonVegVariants, forcedType: 'Non-Veg' });
-                }
-
-                // Handle Fish & Prawns special (basa/bhetki)
-                if (item.basa !== undefined) {
-                    nonVegItems.push({ ...item, displayedVariants: { basa: item.basa, bhetki: item.bhetki }, forcedType: 'Non-Veg' });
-                }
-
-                // Handle Fixed Price items
-                if (item.price !== undefined) {
-                    const categoryName = category.category.toLowerCase();
-                    const isNonVegCategory = categoryName.includes('(non-veg)') || categoryName.includes('mutton') || categoryName.includes('egg') || categoryName === 'biryani';
-
-                    if (isMeatRelated || isNonVegCategory) {
-                        nonVegItems.push({ ...item, displayedPrice: item.price, forcedType: 'Non-Veg' });
-                    } else {
-                        vegItems.push({ ...item, displayedPrice: item.price, forcedType: 'Veg' });
-                    }
-                }
-            });
-
-            return {
-                category: category.category,
-                vegItems,
-                nonVegItems
-            };
-        }).filter(category => category.vegItems.length > 0 || category.nonVegItems.length > 0);
-    }, []);
-
-    const filteredMenu = useMemo(() => {
-        return processedMenu
-            .filter(category => selectedCategory === 'All' || category.category === selectedCategory);
-    }, [processedMenu, selectedCategory]);
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center py-20">
+                <Loader2 className="w-12 h-12 text-primary animate-spin mb-4" />
+                <p className="text-muted-foreground animate-pulse">Loading our restaurant menu...</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="text-center mb-12">
-                <h1 className="text-4xl sm:text-6xl font-black text-zinc-100 mb-4 tracking-tight">
-                    Exquisite <span className="text-amber-500 text-glow">Restaurant Menu</span>
-                </h1>
-                <p className="text-zinc-400 text-lg max-w-2xl mx-auto font-light italic">
-                    Indulge in our curated selection of fine dining delicacies, crafted with passion and the freshest ingredients.
-                </p>
-            </div>
-
-            <div className="mb-12">
-                <CategoryToggle
-                    categories={categories}
-                    selectedCategory={selectedCategory}
-                    onCategoryChange={setSelectedCategory}
-                />
-            </div>
-
-            <div className="space-y-4">
-                {filteredMenu.length > 0 ? (
-                    filteredMenu.map((category, idx) => (
-                        <CategorySection
-                            key={idx}
-                            category={category.category}
-                            vegItems={category.vegItems}
-                            nonVegItems={category.nonVegItems}
-                            filter="All"
-                        />
-                    ))
-                ) : (
-                    <div className="text-center py-20 bg-zinc-900/20 rounded-3xl border border-zinc-800 border-dashed">
-                        <p className="text-zinc-500 text-xl font-medium">No items found matching this category.</p>
+        <div className="container mx-auto px-4">
+            {/* Controls */}
+            <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-10 bg-card/30 p-4 rounded-2xl border border-border/50">
+                <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar">
+                    {categories.map((cat) => (
                         <button
-                            onClick={() => setSelectedCategory('All')}
-                            className="mt-4 text-amber-500 hover:underline transition-all"
+                            key={cat}
+                            onClick={() => setActiveCategory(cat)}
+                            className={`px-4 py-2 rounded-full whitespace-nowrap transition-all text-sm font-medium ${activeCategory === cat
+                                    ? 'bg-primary text-primary-foreground'
+                                    : 'bg-accent text-muted-foreground hover:bg-accent/80'
+                                }`}
                         >
-                            Reset Filters
+                            {cat}
                         </button>
-                    </div>
-                )}
+                    ))}
+                </div>
+                <div className="relative w-full md:w-64">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+                    <input
+                        type="text"
+                        placeholder="Search restaurant items..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2 rounded-full bg-accent border-transparent outline-none"
+                    />
+                </div>
             </div>
 
-            <style jsx>{`
-        .text-glow {
-          text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
-        }
-      `}</style>
+            {/* Menu Grid */}
+            {filteredItems.length === 0 ? (
+                <div className="text-center py-20">
+                    <p className="text-muted-foreground text-xl">No dishes found matching your search.</p>
+                    <button
+                        onClick={() => { setActiveCategory('All'); setSearchQuery(''); }}
+                        className="mt-4 text-primary hover:underline transition-all"
+                    >
+                        Clear Filters
+                    </button>
+                </div>
+            ) : (
+                <motion.div
+                    layout
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                >
+                    <AnimatePresence mode="popLayout">
+                        {filteredItems.map((item) => (
+                            <motion.div
+                                key={item.id}
+                                layout
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                transition={{ duration: 0.3 }}
+                                whileHover={{ y: -6 }}
+                                className="group bg-card rounded-2xl overflow-hidden shadow-lg border border-border/50 hover:border-primary/50 transition-all flex flex-col"
+                            >
+                                {/* Image */}
+                                <div className="relative h-48 overflow-hidden">
+                                    <img
+                                        src={sanitizeImageUrl(item.image)}
+                                        alt={item.name}
+                                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        onError={(e) => {
+                                            (e.target as HTMLImageElement).src =
+                                                'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
+                                        }}
+                                    />
+                                    {/* Price badge */}
+                                    {!item.variant_prices && (
+                                        <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm text-white text-sm font-bold px-3 py-1 rounded-full border border-white/20">
+                                            ₹{item.price}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Content */}
+                                <div className="p-4 flex-grow flex flex-col">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h3 className="font-heading font-bold text-lg text-foreground group-hover:text-primary transition-colors pr-2">
+                                            {item.name}
+                                        </h3>
+                                        {item.isVeg ? (
+                                            <Leaf size={16} className="text-green-500 mt-1 shrink-0" />
+                                        ) : (
+                                            <div className="w-4 h-4 border border-red-500 flex items-center justify-center shrink-0 mt-1">
+                                                <div className="w-2 h-2 rounded-full bg-red-500" />
+                                            </div>
+                                        )}
+                                    </div>
+                                    <p className="text-muted-foreground text-xs line-clamp-2 mb-4">
+                                        {item.description || 'A delicious dish crafted with care.'}
+                                    </p>
+                                    <div className="mt-auto pt-4 border-t border-border/40">
+                                        {item.variant_prices && Object.entries(item.variant_prices).map(([k, v]: any) => (
+                                            <div key={k} className="flex justify-between text-sm mb-1">
+                                                <span className="text-muted-foreground uppercase text-[10px] font-bold">{k}</span>
+                                                <span className="font-black text-primary">₹{v}</span>
+                                            </div>
+                                        ))}
+                                        {!item.variant_prices && (
+                                            <div className="text-right font-black text-xl text-primary">₹{item.price}</div>
+                                        )}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </motion.div>
+            )}
         </div>
     );
 };
