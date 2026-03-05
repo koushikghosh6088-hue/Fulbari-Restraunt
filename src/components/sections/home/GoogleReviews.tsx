@@ -196,9 +196,36 @@ export function GoogleReviews() {
     const [sortBy, setSortBy] = useState("newest");
     const [currentPage, setCurrentPage] = useState(1);
     const sectionRef = useRef<HTMLElement>(null);
+    const [reviews, setReviews] = useState(ALL_REVIEWS);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const res = await fetch('/api/cron/reviews');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.success && data.data) {
+                        // Ensure dates are parsed back to Date objects
+                        const parsedData = data.data.map((r: any) => ({
+                            ...r,
+                            date: r.date ? new Date(r.date) : new Date()
+                        }));
+                        setReviews(parsedData);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch Google reviews:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchReviews();
+    }, []);
 
     const filteredAndSortedReviews = useMemo(() => {
-        let result = [...ALL_REVIEWS];
+        let result = [...reviews];
 
         // Filter
         if (filter !== "All") {
