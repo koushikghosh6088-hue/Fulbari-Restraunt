@@ -65,7 +65,7 @@ export function GoogleReviews() {
         });
 
         return result;
-    }, [filter, sortBy]);
+    }, [filter, sortBy, reviews]);
 
     const totalPages = Math.ceil(filteredAndSortedReviews.length / REVIEWS_PER_PAGE);
     const paginatedReviews = filteredAndSortedReviews.slice(
