@@ -140,6 +140,12 @@ export default function AdminDashboard() {
     const [variantInput, setVariantInput] = useState("");
     const [priceOptionsInput, setPriceOptionsInput] = useState("");
 
+    // Helper to check if a category is variant eligible
+    const isVariantCategory = (cat: string) => {
+        const lower = cat.toLowerCase();
+        return lower.includes("noodle") || lower.includes("rice");
+    };
+
     // ── Menu Search & Filters ──
     const [menuSearch, setMenuSearch] = useState("");
     const [menuTypeFilter, setMenuTypeFilter] = useState<"ALL" | "RESTAURANT" | "CAFE">("ALL");
@@ -682,7 +688,7 @@ export default function AdminDashboard() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-muted-foreground">Price (₹)</label>
+                                    <label className="text-sm font-medium text-muted-foreground">{isVariantCategory(newItem.category) ? "Base Price (₹)" : "Price (₹)"}</label>
                                     <input
                                         type="number"
                                         placeholder="0"
@@ -692,7 +698,7 @@ export default function AdminDashboard() {
                                             const val = e.target.value;
                                             setNewItem({ ...newItem, price: val === "" ? "" as any : Number(val) });
                                         }}
-                                        required
+                                        required={!isVariantCategory(newItem.category)}
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -858,7 +864,7 @@ export default function AdminDashboard() {
                                     />
                                 </div>
 
-                                {newItem.menu_type === "CAFE" && (
+                                {newItem.menu_type === "CAFE" && !isVariantCategory(newItem.category) && (
                                     <>
                                         <div className="space-y-2 md:col-span-1">
                                             <label className="text-sm font-medium text-muted-foreground">Variant Prices (JSON)</label>
@@ -891,6 +897,67 @@ export default function AdminDashboard() {
                                             />
                                         </div>
                                     </>
+                                )}
+
+                                {/* Specific Variant Pricing for Noodles & Rice */}
+                                {isVariantCategory(newItem.category) && (
+                                    <div className="md:col-span-2 lg:col-span-3 space-y-3 bg-accent/20 p-4 rounded-2xl border border-border/50">
+                                        <h3 className="text-sm font-bold text-primary">Noodles & Rice Variant Pricing</h3>
+                                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-medium text-muted-foreground">Veg Price (₹)</label>
+                                                <input
+                                                    type="number"
+                                                    placeholder="0"
+                                                    className="w-full bg-background border-transparent rounded-lg p-2 text-sm outline-none focus:ring-1 focus:ring-primary"
+                                                    value={newItem.variant_prices?.veg === undefined ? "" : newItem.variant_prices?.veg}
+                                                    onChange={(e) => setNewItem({
+                                                        ...newItem,
+                                                        variant_prices: { ...newItem.variant_prices, veg: e.target.value === "" ? (undefined as any) : Number(e.target.value) }
+                                                    })}
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-medium text-muted-foreground">Egg Price (₹)</label>
+                                                <input
+                                                    type="number"
+                                                    placeholder="0"
+                                                    className="w-full bg-background border-transparent rounded-lg p-2 text-sm outline-none focus:ring-1 focus:ring-primary"
+                                                    value={newItem.variant_prices?.egg === undefined ? "" : newItem.variant_prices?.egg}
+                                                    onChange={(e) => setNewItem({
+                                                        ...newItem,
+                                                        variant_prices: { ...newItem.variant_prices, egg: e.target.value === "" ? (undefined as any) : Number(e.target.value) }
+                                                    })}
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-medium text-muted-foreground">Egg-Chicken Price (₹)</label>
+                                                <input
+                                                    type="number"
+                                                    placeholder="0"
+                                                    className="w-full bg-background border-transparent rounded-lg p-2 text-sm outline-none focus:ring-1 focus:ring-primary"
+                                                    value={newItem.variant_prices?.eggChicken === undefined ? "" : newItem.variant_prices?.eggChicken}
+                                                    onChange={(e) => setNewItem({
+                                                        ...newItem,
+                                                        variant_prices: { ...newItem.variant_prices, eggChicken: e.target.value === "" ? (undefined as any) : Number(e.target.value) }
+                                                    })}
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-medium text-muted-foreground">Mixed Price (₹)</label>
+                                                <input
+                                                    type="number"
+                                                    placeholder="0"
+                                                    className="w-full bg-background border-transparent rounded-lg p-2 text-sm outline-none focus:ring-1 focus:ring-primary"
+                                                    value={newItem.variant_prices?.mixed === undefined ? "" : newItem.variant_prices?.mixed}
+                                                    onChange={(e) => setNewItem({
+                                                        ...newItem,
+                                                        variant_prices: { ...newItem.variant_prices, mixed: e.target.value === "" ? (undefined as any) : Number(e.target.value) }
+                                                    })}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
                                 )}
                                 <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start lg:items-center col-span-1 md:col-span-2 lg:col-span-3 pt-2">
                                     <div className="flex flex-wrap gap-x-6 gap-y-3 items-center w-full lg:w-auto">

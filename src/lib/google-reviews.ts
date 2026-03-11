@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+// Global fetch is used natively in Next.js
 
 // Helper to get a date relative to today
 const daysAgo = (days: number) => {

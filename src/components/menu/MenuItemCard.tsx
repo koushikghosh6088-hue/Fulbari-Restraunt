@@ -32,11 +32,11 @@ const MenuItemCard = ({ item }: { item: any }) => {
     }, [item]);
 
     // Check if there are exact prices or variant prices
-    const hasMultiplePrices = item.veg !== undefined || item.nonVeg !== undefined || item.egg !== undefined || item.eggChicken !== undefined || item.mixed !== undefined || item.basa !== undefined || item.bhetki !== undefined;
+    const hasMultiplePrices = item.variant_prices && Object.keys(item.variant_prices).length > 0;
 
     const priceEntries = useMemo(() => {
         if (!hasMultiplePrices) return [];
-        return Object.entries(item).filter(([k]) => k !== 'name' && k !== 'price');
+        return Object.entries(item.variant_prices).filter(([k]) => k !== 'name' && k !== 'price');
     }, [item, hasMultiplePrices]);
 
     return (
