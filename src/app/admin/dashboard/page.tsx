@@ -148,7 +148,7 @@ export default function AdminDashboard() {
 
     const isFishCategory = (cat: string) => {
         const lower = cat.toLowerCase();
-        return lower.includes("fish") || lower.includes("prawn");
+        return lower === "fish & prawns" || lower.includes("fish") || lower.includes("prawn");
     };
 
     // ── Menu Search & Filters ──
@@ -359,8 +359,12 @@ export default function AdminDashboard() {
 
     // Derive categories from existing items
     const existingCategories = useMemo(() => {
-        if (!Array.isArray(menuItems)) return [];
-        return Array.from(new Set(menuItems.map(item => item.category)));
+        if (!Array.isArray(menuItems)) return ["Fish & Prawns"];
+        const cats = Array.from(new Set(menuItems.map(item => item.category)));
+        if (!cats.includes("Fish & Prawns")) {
+            cats.push("Fish & Prawns");
+        }
+        return cats.sort();
     }, [menuItems]);
 
     // ── Filtered Menu Items ──
@@ -969,8 +973,8 @@ export default function AdminDashboard() {
 
                                 {/* Specific Variant Pricing for Fish & Prawns */}
                                 {isFishCategory(newItem.category) && (
-                                    <div className="md:col-span-2 lg:col-span-3 space-y-3 bg-blue-100/30 p-4 rounded-2xl border border-blue-200">
-                                        <h3 className="text-sm font-bold text-blue-700">Fish & Prawns Variant Pricing</h3>
+                                    <div className="md:col-span-2 lg:col-span-3 space-y-3 bg-accent/20 p-4 rounded-2xl border border-border/50">
+                                        <h3 className="text-sm font-bold text-primary">Fish & Prawns Variant Pricing</h3>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="space-y-2">
                                                 <label className="text-xs font-medium text-muted-foreground">Basa Price (₹)</label>
