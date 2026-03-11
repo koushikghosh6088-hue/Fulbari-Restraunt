@@ -146,6 +146,11 @@ export default function AdminDashboard() {
         return lower.includes("noodle") || lower.includes("rice");
     };
 
+    const isFishCategory = (cat: string) => {
+        const lower = cat.toLowerCase();
+        return lower.includes("fish") || lower.includes("prawn");
+    };
+
     // ── Menu Search & Filters ──
     const [menuSearch, setMenuSearch] = useState("");
     const [menuTypeFilter, setMenuTypeFilter] = useState<"ALL" | "RESTAURANT" | "CAFE">("ALL");
@@ -688,7 +693,9 @@ export default function AdminDashboard() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-muted-foreground">{isVariantCategory(newItem.category) ? "Base Price (₹)" : "Price (₹)"}</label>
+                                    <label className="text-sm font-medium text-muted-foreground">
+                                        {(isVariantCategory(newItem.category) || isFishCategory(newItem.category)) ? "Base Price (₹)" : "Price (₹)"}
+                                    </label>
                                     <input
                                         type="number"
                                         placeholder="0"
@@ -698,7 +705,7 @@ export default function AdminDashboard() {
                                             const val = e.target.value;
                                             setNewItem({ ...newItem, price: val === "" ? "" as any : Number(val) });
                                         }}
-                                        required={!isVariantCategory(newItem.category)}
+                                        required={!(isVariantCategory(newItem.category) || isFishCategory(newItem.category))}
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -953,6 +960,41 @@ export default function AdminDashboard() {
                                                     onChange={(e) => setNewItem({
                                                         ...newItem,
                                                         variant_prices: { ...newItem.variant_prices, mixed: e.target.value === "" ? (undefined as any) : Number(e.target.value) }
+                                                    })}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Specific Variant Pricing for Fish & Prawns */}
+                                {isFishCategory(newItem.category) && (
+                                    <div className="md:col-span-2 lg:col-span-3 space-y-3 bg-blue-100/30 p-4 rounded-2xl border border-blue-200">
+                                        <h3 className="text-sm font-bold text-blue-700">Fish & Prawns Variant Pricing</h3>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-medium text-muted-foreground">Basa Price (₹)</label>
+                                                <input
+                                                    type="number"
+                                                    placeholder="0"
+                                                    className="w-full bg-background border-transparent rounded-lg p-2 text-sm outline-none focus:ring-1 focus:ring-primary"
+                                                    value={newItem.variant_prices?.basa === undefined ? "" : newItem.variant_prices?.basa}
+                                                    onChange={(e) => setNewItem({
+                                                        ...newItem,
+                                                        variant_prices: { ...newItem.variant_prices, basa: e.target.value === "" ? (undefined as any) : Number(e.target.value) }
+                                                    })}
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-xs font-medium text-muted-foreground">Bhetki Price (₹)</label>
+                                                <input
+                                                    type="number"
+                                                    placeholder="0"
+                                                    className="w-full bg-background border-transparent rounded-lg p-2 text-sm outline-none focus:ring-1 focus:ring-primary"
+                                                    value={newItem.variant_prices?.bhetki === undefined ? "" : newItem.variant_prices?.bhetki}
+                                                    onChange={(e) => setNewItem({
+                                                        ...newItem,
+                                                        variant_prices: { ...newItem.variant_prices, bhetki: e.target.value === "" ? (undefined as any) : Number(e.target.value) }
                                                     })}
                                                 />
                                             </div>
