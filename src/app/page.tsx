@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Last Deploy: 2026-04-08
 
 import dynamic from "next/dynamic";
 import { Navbar } from "@/components/layout/Navbar";
