@@ -1,0 +1,404 @@
+﻿[dotenv@17.3.1] injecting env (3) from .env.local -- tip: ΓÜÖ∩╕Å  enable debug logging with { debug: true }
+[
+  {
+    name: 'Chana Masala',
+    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbf?q=80&w=2070'
+  },
+  {
+    name: 'Palak Paneer',
+    image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=2070'
+  },
+  {
+    name: 'Paneer Butter Masala',
+    image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?q=80&w=1974'
+  },
+  {
+    name: 'Prawn Masala',
+    image: 'https://images.unsplash.com/photo-1628102422003-887630790182?q=80&w=2070'
+  },
+  {
+    name: 'Veg Kolapuri',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Mushroom Masala',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Motor Paneer',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Paneer Makhani',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Fried Rice',
+    image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=800'
+  },
+  {
+    name: 'Hong Kong Rice',
+    image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=800'
+  },
+  {
+    name: 'Singapore Rice',
+    image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=800'
+  },
+  {
+    name: 'Brown Garlic Rice',
+    image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=800'
+  },
+  {
+    name: 'Chicken Curry (4pc)',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=2070'
+  },
+  {
+    name: 'Hyderabadi Chicken',
+    image: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=2070'
+  },
+  {
+    name: 'Katla Kaliya',
+    image: 'https://images.unsplash.com/photo-1626776876729-bab4369a5a5a?q=80&w=2074'
+  },
+  {
+    name: 'Ilish Bhapa',
+    image: 'https://images.unsplash.com/photo-1626776876729-bab4369a5a5a?q=80&w=2074'
+  },
+  {
+    name: 'Chilli Garlic Rice',
+    image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=800'
+  },
+  {
+    name: 'Chicken Kasha (4pc)',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Chicken Do Pyaza (4pc)',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Kadhai Chicken (4pc)',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Chicken Reshmi Butter Masala (6pc)',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Tandoor Chicken Butter Masala (4pc)',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Mughlai Chicken (4pc)',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Chicken Bharta',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Chicken Tawa Kolhapuri',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Mutton Kasha (4pc)',
+    image: 'https://images.unsplash.com/photo-1545247181-516773cae754?q=80&w=800'
+  },
+  {
+    name: 'Mutton Do Pyaza (4pc)',
+    image: 'https://images.unsplash.com/photo-1545247181-516773cae754?q=80&w=800'
+  },
+  {
+    name: 'Mutton Handi (4pc)',
+    image: 'https://images.unsplash.com/photo-1545247181-516773cae754?q=80&w=800'
+  },
+  {
+    name: 'Kadhai Mutton (4pc)',
+    image: 'https://images.unsplash.com/photo-1545247181-516773cae754?q=80&w=800'
+  },
+  {
+    name: 'Mutton Keema Masala',
+    image: 'https://images.unsplash.com/photo-1545247181-516773cae754?q=80&w=800'
+  },
+  {
+    name: 'Fulbari Spl Rara Mutton (4pc)',
+    image: 'https://images.unsplash.com/photo-1545247181-516773cae754?q=80&w=800'
+  },
+  {
+    name: 'Dahi Katla',
+    image: 'https://images.unsplash.com/photo-1626776876729-bab4369a5a5a?q=80&w=800'
+  },
+  {
+    name: 'Parshe Jhal',
+    image: 'https://images.unsplash.com/photo-1626776876729-bab4369a5a5a?q=80&w=800'
+  },
+  {
+    name: 'Pomfret Masala',
+    image: 'https://images.unsplash.com/photo-1626776876729-bab4369a5a5a?q=80&w=800'
+  },
+  {
+    name: 'Chingri Malaikari',
+    image: 'https://images.unsplash.com/photo-1628102422003-887630790182?q=80&w=2070'
+  },
+  {
+    name: 'Chilli Fish (6pc)',
+    image: 'https://images.unsplash.com/photo-1604135307399-86c6ce0aba8e?q=80&w=1974'
+  },
+  {
+    name: 'Chicken Handi (4pc)',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=2070'
+  },
+  {
+    name: 'Chicken Tikka Butter Masala (6pc)',
+    image: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=2070'
+  },
+  {
+    name: 'Fulbari Special Murg Musallam (8pc)',
+    image: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=2070'
+  },
+  {
+    name: 'Mutton Curry (4pc)',
+    image: 'https://images.unsplash.com/photo-1545247181-516773cae754?q=80&w=2080'
+  },
+  {
+    name: 'Mutton Rezala (4pc)',
+    image: 'https://images.unsplash.com/photo-1545247181-516773cae754?q=80&w=2080'
+  },
+  {
+    name: 'French Fry',
+    image: 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZnJlbmNoJTIwZnJpZXN8ZW58MHx8MHx8fDA%3D'
+  },
+  {
+    name: 'Honey Chilli Potato',
+    image: 'https://recipes.timesofindia.com/thumb/52532656.cms?width=1200&height=900'
+  },
+  {
+    name: 'Paneer Pakora (6pc)',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfdnQnkZCuReE7RTjpEEosfWF_Tc-eGP2uQg&s'
+  },
+  {
+    name: 'Dry Chilli Paneer (8pc)',
+    image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=2070'
+  },
+  {
+    name: 'Honey Garlic Chicken (8pc)',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=1970'
+  },
+  {
+    name: 'Dragon Chicken (8pc)',
+    image: 'https://www.indianhealthyrecipes.com/wp-content/uploads/2025/02/dragon-chicken-recipe.jpg'
+  },
+  {
+    name: 'Clear Soup',
+    image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=2071'
+  },
+  {
+    name: 'Sweet Corn Soup',
+    image: 'https://images.unsplash.com/photo-1682235286008-89e1735e4d20?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  },
+  {
+    name: 'Hot & Sour Soup',
+    image: 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?q=80&w=2040'
+  },
+  {
+    name: 'Manchow Soup',
+    image: 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?q=80&w=1974'
+  },
+  {
+    name: 'Noodles Soup',
+    image: 'https://images.unsplash.com/photo-1616030846238-c3a8877bc961?q=80&w=1974'
+  },
+  {
+    name: 'Crispy Chilli Babycorn',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Chilli Mushroom Dry',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Mushroom Salt And Pepper',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Chicken Drums of Heaven (6pc)',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'BBQ Chicken (6pc)',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Crispy Chicken',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Chicken 65 (8pc)',
+    image: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=1974'
+  },
+  {
+    name: 'Dry Chilli Chicken (8pc)',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Chicken Salt and Pepper',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Fish Finger (6pc)',
+    image: 'https://images.unsplash.com/photo-1626776876729-bab4369a5a5a?q=80&w=2074'
+  },
+  {
+    name: 'Dry Chilli Prawns (6pc)',
+    image: 'https://deliciouslyindian.net/wp-content/uploads/2025/09/IMG_8488-scaled.jpg'
+  },
+  {
+    name: 'Golden Fried Prawns (6pc)',
+    image: 'https://images.unsplash.com/photo-1628102422003-887630790182?q=80&w=2070'
+  },
+  {
+    name: 'Hakka Noodles',
+    image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=1984'
+  },
+  {
+    name: 'Lo Mein Noodles',
+    image: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=2070'
+  },
+  {
+    name: 'Shanghai Noodles',
+    image: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=2070'
+  },
+  {
+    name: 'Schezwan Noodles',
+    image: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?q=80&w=1974'
+  },
+  {
+    name: 'Dal Makhani',
+    image: 'https://images.unsplash.com/photo-1546833999-b9f58160280b?q=80&w=2072'
+  },
+  {
+    name: 'Chicken Pakora (8pc)',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Chilli Fish Dry (6pc)',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Fish Salt and Pepper (6pc)',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Fish Fry (1pc)',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Hong Kong Noodles',
+    image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=800'
+  },
+  {
+    name: 'Korean Kimchi Noodles',
+    image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=800'
+  },
+  {
+    name: 'Cantonese Gravy Noodles',
+    image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=800'
+  },
+  {
+    name: 'Chilli Garlic Noodles',
+    image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=800'
+  },
+  {
+    name: 'American Chop Suey',
+    image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=800'
+  },
+  {
+    name: 'Rajasthani Dal Fry',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Jodhpuri Mix Veg',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Egg Curry (2pc)',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Omelette (Double)',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800'
+  },
+  {
+    name: 'Veg Pulao',
+    image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=800'
+  },
+  {
+    name: 'Peas Pulao',
+    image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=800'
+  },
+  {
+    name: 'Kashmiri Pulao',
+    image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=800'
+  },
+  {
+    name: 'Basanti Pulao',
+    image: 'https://images.unsplash.com/photo-1516684732162-798a0062be99?q=80&w=800'
+  },
+  {
+    name: 'Green Salad',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Onion Salad',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Cucumber Salad',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Chinese Vegetables Salad',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Chinese Chicken Salad',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Plain Curd',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Plain Raita',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Mixed Raita',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Pineapple Raita',
+    image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=800'
+  },
+  {
+    name: 'Chicken Tikka Kabab (6pc)',
+    image: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?q=80&w=800'
+  },
+  {
+    name: 'Chicken Reshmi Kabab (6pc)',
+    image: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?q=80&w=800'
+  },
+  {
+    name: 'Chicken Hariyali Kabab (6pc)',
+    image: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?q=80&w=800'
+  },
+  {
+    name: 'Chicken Malai Kabab (6pc)',
+    image: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?q=80&w=800'
+  },
+  {
+    name: 'Fish Tikka Kabab (6pc)',
+    image: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?q=80&w=800'
+  },
+  ... 72 more items
+]

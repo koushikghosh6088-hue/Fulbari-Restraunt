@@ -1,0 +1,14 @@
+Checking for 'Fish', 'Prawns', and 'Dessert' items...
+Available Categories in DB: Appetizers, Noodles, Rice, Bread, Breakfast, Chinese Main Course, Fish & Prawns, Tea & Coffee, Snacks, Beverages, Indian Main Course, Burgers & Sandwiches, Maggi & Pasta, Momos, Soups, Biryani, Tandoori, Desserts
+
+--- Fish & Prawn Items ---
+- Schezwan Fish (Fish & Prawns) | Available: true | Type: RESTAURANT | Veg: false
+- Hot Garlic Fish(6pcs) (Fish & Prawns) | Available: true | Type: RESTAURANT | Veg: false
+- Chilli Fish (6pc) (Fish & Prawns) | Available: true | Type: RESTAURANT | Veg: false
+- Fish cutlet (Fish & Prawns) | Available: true | Type: CAFE | Veg: false
+
+--- Dessert Items ---
+- Butterscotch Ice cream (Desserts) | Available: true | Type: RESTAURANT | Veg: true
+- Chocolate Ice cream (Desserts) | Available: true | Type: RESTAURANT | Veg: true
+- Mango Ice cream (Desserts) | Available: true | Type: RESTAURANT | Veg: true
+- Vanilla Ice cream (Desserts) | Available: true | Type: RESTAURANT | Veg: true

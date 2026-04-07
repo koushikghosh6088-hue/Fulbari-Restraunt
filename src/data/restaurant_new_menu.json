@@ -1,0 +1,816 @@
+{
+  "restaurant": "Fulbari Restaurant",
+  "menu": [
+    {
+      "category": "Chinese Soup",
+      "items": [
+        {
+          "name": "Clear Soup",
+          "veg": 130,
+          "nonVeg": 160
+        },
+        {
+          "name": "Sweet Corn Soup",
+          "veg": 140,
+          "nonVeg": 170
+        },
+        {
+          "name": "Hot & Sour Soup",
+          "veg": 140,
+          "nonVeg": 170
+        },
+        {
+          "name": "Manchow Soup",
+          "veg": 150,
+          "nonVeg": 180
+        },
+        {
+          "name": "Noodles Soup",
+          "veg": 140,
+          "nonVeg": 170
+        }
+      ]
+    },
+    {
+      "category": "Appetizer (Veg)",
+      "items": [
+        {
+          "name": "French Fry",
+          "price": 119
+        },
+        {
+          "name": "Honey Chilli Potato",
+          "price": 129
+        },
+        {
+          "name": "Paneer Pakora (6pc)",
+          "price": 209
+        },
+        {
+          "name": "Dry Chilli Paneer (8pc)",
+          "price": 259
+        },
+        {
+          "name": "Crispy Chilli Babycorn",
+          "price": 209
+        },
+        {
+          "name": "Chilli Mushroom Dry",
+          "price": 209
+        },
+        {
+          "name": "Mushroom Salt And Pepper",
+          "price": 219
+        }
+      ]
+    },
+    {
+      "category": "Appetizer (Non-Veg)",
+      "items": [
+        {
+          "name": "Chicken Drums of Heaven (6pc)",
+          "price": 239
+        },
+        {
+          "name": "BBQ Chicken (6pc)",
+          "price": 249
+        },
+        {
+          "name": "Crispy Chicken",
+          "price": 219
+        },
+        {
+          "name": "Honey Garlic Chicken (8pc)",
+          "price": 249
+        },
+        {
+          "name": "Dragon Chicken (8pc)",
+          "price": 259
+        },
+        {
+          "name": "Chicken 65 (8pc)",
+          "price": 249
+        },
+        {
+          "name": "Dry Chilli Chicken (8pc)",
+          "price": 249
+        },
+        {
+          "name": "Chicken Salt and Pepper",
+          "price": 239
+        },
+        {
+          "name": "Chicken Pakora (8pc)",
+          "price": 229
+        },
+        {
+          "name": "Chilli Fish Dry (6pc)",
+          "price": 319
+        },
+        {
+          "name": "Fish Salt and Pepper (6pc)",
+          "price": 319
+        },
+        {
+          "name": "Fish Finger (6pc)",
+          "price": 319
+        },
+        {
+          "name": "Fish Fry (1pc)",
+          "price": 149
+        },
+        {
+          "name": "Dry Chilli Prawns (6pc)",
+          "price": 249
+        },
+        {
+          "name": "Golden Fried Prawns (6pc)",
+          "price": 349
+        }
+      ]
+    },
+    {
+      "category": "Chinese Noodles",
+      "items": [
+        {
+          "name": "Hakka Noodles",
+          "veg": 139,
+          "egg": 159,
+          "eggChicken": 189,
+          "mixed": 219
+        },
+        {
+          "name": "Lo Mein Noodles",
+          "veg": 149,
+          "egg": 169,
+          "eggChicken": 199,
+          "mixed": 229
+        },
+        {
+          "name": "Shanghai Noodles",
+          "veg": 159,
+          "egg": 179,
+          "eggChicken": 209,
+          "mixed": 239
+        },
+        {
+          "name": "Hong Kong Noodles",
+          "veg": 159,
+          "egg": 179,
+          "eggChicken": 209,
+          "mixed": 239
+        },
+        {
+          "name": "Korean Kimchi Noodles",
+          "veg": 159,
+          "egg": 179,
+          "eggChicken": 209,
+          "mixed": 239
+        },
+        {
+          "name": "Schezwan Noodles",
+          "veg": 149,
+          "egg": 169,
+          "eggChicken": 199,
+          "mixed": 229
+        },
+        {
+          "name": "Cantonese Gravy Noodles",
+          "veg": 159,
+          "egg": 179,
+          "eggChicken": 209,
+          "mixed": 239
+        },
+        {
+          "name": "Chilli Garlic Noodles",
+          "veg": 149,
+          "egg": 169,
+          "eggChicken": 199,
+          "mixed": 229
+        },
+        {
+          "name": "American Chop Suey",
+          "veg": 159,
+          "egg": 179,
+          "eggChicken": 209,
+          "mixed": 239
+        }
+      ]
+    },
+    {
+      "category": "Indian Main Course (Veg)",
+      "items": [
+        {
+          "name": "Rajasthani Dal Fry",
+          "price": 99
+        },
+        {
+          "name": "Dal Makhani",
+          "price": 159
+        },
+        {
+          "name": "Jodhpuri Mix Veg",
+          "price": 189
+        },
+        {
+          "name": "Veg Kolapuri",
+          "price": 189
+        },
+        {
+          "name": "Chana Masala",
+          "price": 169
+        },
+        {
+          "name": "Mushroom Masala",
+          "price": 189
+        },
+        {
+          "name": "Motor Paneer",
+          "price": 209
+        },
+        {
+          "name": "Palak Paneer",
+          "price": 249
+        },
+        {
+          "name": "Paneer Makhani",
+          "price": 249
+        },
+        {
+          "name": "Paneer Butter Masala",
+          "price": 259
+        }
+      ]
+    },
+    {
+      "category": "Chinese Rice",
+      "items": [
+        {
+          "name": "Fried Rice",
+          "veg": 149,
+          "egg": 169,
+          "eggChicken": 199,
+          "mixed": 229
+        },
+        {
+          "name": "Hong Kong Rice",
+          "veg": 159,
+          "egg": 179,
+          "eggChicken": 209,
+          "mixed": 239
+        },
+        {
+          "name": "Singapore Rice",
+          "veg": 159,
+          "egg": 179,
+          "eggChicken": 209,
+          "mixed": 239
+        },
+        {
+          "name": "Brown Garlic Rice",
+          "veg": 159,
+          "egg": 179,
+          "eggChicken": 209,
+          "mixed": 239
+        },
+        {
+          "name": "Chilli Garlic Rice",
+          "veg": 159,
+          "egg": 179,
+          "eggChicken": 209,
+          "mixed": 239
+        }
+      ]
+    },
+    {
+      "category": "Indian Main Course (Non-Veg - Chicken)",
+      "items": [
+        {
+          "name": "Chicken Curry (4pc)",
+          "price": 219
+        },
+        {
+          "name": "Chicken Kasha (4pc)",
+          "price": 219
+        },
+        {
+          "name": "Chicken Do Pyaza (4pc)",
+          "price": 239
+        },
+        {
+          "name": "Chicken Handi (4pc)",
+          "price": 259
+        },
+        {
+          "name": "Kadhai Chicken (4pc)",
+          "price": 259
+        },
+        {
+          "name": "Chicken Tikka Butter Masala (6pc)",
+          "price": 299
+        },
+        {
+          "name": "Chicken Reshmi Butter Masala (6pc)",
+          "price": 299
+        },
+        {
+          "name": "Tandoor Chicken Butter Masala (4pc)",
+          "price": 319
+        },
+        {
+          "name": "Mughlai Chicken (4pc)",
+          "price": 319
+        },
+        {
+          "name": "Chicken Bharta",
+          "price": 279
+        },
+        {
+          "name": "Chicken Tawa Kolhapuri",
+          "price": 279
+        },
+        {
+          "name": "Hyderabadi Chicken",
+          "price": 279
+        },
+        {
+          "name": "Fulbari Special Murg Musallam (8pc)",
+          "price": 459
+        }
+      ]
+    },
+    {
+      "category": "Mutton",
+      "items": [
+        {
+          "name": "Mutton Kasha (4pc)",
+          "price": 419
+        },
+        {
+          "name": "Mutton Curry (4pc)",
+          "price": 419
+        },
+        {
+          "name": "Mutton Do Pyaza (4pc)",
+          "price": 429
+        },
+        {
+          "name": "Mutton Handi (4pc)",
+          "price": 429
+        },
+        {
+          "name": "Kadhai Mutton (4pc)",
+          "price": 429
+        },
+        {
+          "name": "Mutton Rezala (4pc)",
+          "price": 429
+        },
+        {
+          "name": "Mutton Keema Masala",
+          "price": 429
+        },
+        {
+          "name": "Fulbari Spl Rara Mutton (4pc)",
+          "price": 559
+        }
+      ]
+    },
+    {
+      "category": "Fish & Prawns (Indian)",
+      "items": [
+        {
+          "name": "Katla Kaliya",
+          "price": 220
+        },
+        {
+          "name": "Dahi Katla",
+          "price": 250
+        },
+        {
+          "name": "Ilish Bhapa",
+          "price": 350
+        },
+        {
+          "name": "Parshe Jhal",
+          "price": 200
+        },
+        {
+          "name": "Pomfret Masala",
+          "price": 300
+        },
+        {
+          "name": "Chingri Malaikari",
+          "price": 350
+        },
+        {
+          "name": "Prawn Masala",
+          "price": 350
+        }
+      ]
+    },
+    {
+      "category": "Egg",
+      "items": [
+        {
+          "name": "Egg Curry (2pc)",
+          "price": 60
+        },
+        {
+          "name": "Omelette (Double)",
+          "price": 50
+        }
+      ]
+    },
+    {
+      "category": "Indian Rice",
+      "items": [
+        {
+          "name": "Steam Rice",
+          "price": 79
+        },
+        {
+          "name": "Jeera Rice",
+          "price": 119
+        },
+        {
+          "name": "Veg Pulao",
+          "price": 149
+        },
+        {
+          "name": "Peas Pulao",
+          "price": 149
+        },
+        {
+          "name": "Kashmiri Pulao",
+          "price": 169
+        },
+        {
+          "name": "Basanti Pulao",
+          "price": 159
+        }
+      ]
+    },
+    {
+      "category": "Biryani",
+      "items": [
+        {
+          "name": "Chicken Kacchi Biryani",
+          "price": 179
+        },
+        {
+          "name": "Mutton Kacchi Biryani",
+          "price": 219
+        }
+      ]
+    },
+    {
+      "category": "Salads",
+      "items": [
+        {
+          "name": "Green Salad",
+          "price": 79
+        },
+        {
+          "name": "Onion Salad",
+          "price": 59
+        },
+        {
+          "name": "Cucumber Salad",
+          "price": 59
+        },
+        {
+          "name": "Chinese Vegetables Salad",
+          "price": 149
+        },
+        {
+          "name": "Chinese Chicken Salad",
+          "price": 219
+        }
+      ]
+    },
+    {
+      "category": "Raita",
+      "items": [
+        {
+          "name": "Plain Curd",
+          "price": 59
+        },
+        {
+          "name": "Plain Raita",
+          "price": 79
+        },
+        {
+          "name": "Mixed Raita",
+          "price": 99
+        },
+        {
+          "name": "Pineapple Raita",
+          "price": 119
+        }
+      ]
+    },
+    {
+      "category": "Tandoori Starter",
+      "items": [
+        {
+          "name": "Paneer Tikka (6pc)",
+          "price": 299
+        },
+        {
+          "name": "Tandoor Chicken (Full)",
+          "price": 449
+        },
+        {
+          "name": "Tandoor Chicken (Half)",
+          "price": 259
+        },
+        {
+          "name": "Chicken Tikka Kabab (6pc)",
+          "price": 289
+        },
+        {
+          "name": "Chicken Reshmi Kabab (6pc)",
+          "price": 299
+        },
+        {
+          "name": "Chicken Hariyali Kabab (6pc)",
+          "price": 299
+        },
+        {
+          "name": "Chicken Malai Kabab (6pc)",
+          "price": 349
+        },
+        {
+          "name": "Chicken Tangdi Kabab (Full)",
+          "price": 419
+        },
+        {
+          "name": "Chicken Tangdi Kabab (Half)",
+          "price": 219
+        },
+        {
+          "name": "Fish Tikka Kabab (6pc)",
+          "price": 399
+        }
+      ]
+    },
+    {
+      "category": "Chinese Main Course (Veg)",
+      "items": [
+        {
+          "name": "Chilli Paneer (8pc)",
+          "price": 239
+        },
+        {
+          "name": "Paneer Manchurian (8pc)",
+          "price": 239
+        },
+        {
+          "name": "Schezwan Paneer (8pc)",
+          "price": 249
+        },
+        {
+          "name": "Paneer in Oyster Sauce (8pc)",
+          "price": 249
+        },
+        {
+          "name": "Veg Manchurian (8pc)",
+          "price": 199
+        },
+        {
+          "name": "Baby Corn Manchurian",
+          "price": 199
+        },
+        {
+          "name": "Chilli Mushroom",
+          "price": 199
+        }
+      ]
+    },
+    {
+      "category": "Chinese Main Course (Non-Veg - Chicken)",
+      "items": [
+        {
+          "name": "Chilli Chicken (8pc)",
+          "price": 239
+        },
+        {
+          "name": "Chicken Manchurian (8pc)",
+          "price": 239
+        },
+        {
+          "name": "Shanghai Chicken (8pc)",
+          "price": 259
+        },
+        {
+          "name": "Schezwan Chicken (8pc)",
+          "price": 249
+        },
+        {
+          "name": "Hong Kong Chicken (8pc)",
+          "price": 249
+        },
+        {
+          "name": "Hot Garlic Chicken (8pc)",
+          "price": 249
+        },
+        {
+          "name": "Butter Garlic Chicken (8pc)",
+          "price": 259
+        },
+        {
+          "name": "Lemon Garlic Chicken (8pc)",
+          "price": 259
+        },
+        {
+          "name": "Chicken Sweet and Sour (8pc)",
+          "price": 259
+        }
+      ]
+    },
+    {
+      "category": "Chinese Main Course (Fish & Prawns)",
+      "items": [
+        {
+          "name": "Chilli Fish (6pc)",
+          "basa": 299,
+          "bhetki": 349
+        },
+        {
+          "name": "Schezwan Fish (6pc)",
+          "basa": 309,
+          "bhetki": 359
+        },
+        {
+          "name": "Hot Garlic Fish (6pc)",
+          "basa": 319,
+          "bhetki": 369
+        },
+        {
+          "name": "Butter Garlic Fish (6pc)",
+          "basa": 329,
+          "bhetki": 379
+        },
+        {
+          "name": "Chilli Prawns (6pc)",
+          "basa": 319,
+          "bhetki": 369
+        },
+        {
+          "name": "Schezwan Prawns (6pc)",
+          "basa": 319,
+          "bhetki": 369
+        },
+        {
+          "name": "Sweet and Sour Prawns (6pc)",
+          "basa": 319,
+          "bhetki": 369
+        }
+      ]
+    },
+    {
+      "category": "Bread",
+      "items": [
+        {
+          "name": "Plain Roti",
+          "price": 10
+        },
+        {
+          "name": "Tandoori Roti",
+          "price": 25
+        },
+        {
+          "name": "Tandoori Butter Roti",
+          "price": 35
+        },
+        {
+          "name": "Plain Naan",
+          "price": 45
+        },
+        {
+          "name": "Butter Naan",
+          "price": 55
+        },
+        {
+          "name": "Garlic Naan",
+          "price": 59
+        },
+        {
+          "name": "Masala Kulcha",
+          "price": 69
+        }
+      ]
+    },
+    {
+      "category": "Mocktail",
+      "items": [
+        {
+          "name": "Cold Drink",
+          "price": 39
+        },
+        {
+          "name": "Dahi Lassi",
+          "price": 59
+        },
+        {
+          "name": "Milk Shake",
+          "price": 129
+        },
+        {
+          "name": "Milk Shake (Mango)",
+          "price": 139
+        },
+        {
+          "name": "Milk Shake (Oreo)",
+          "price": 149
+        },
+        {
+          "name": "Milk Shake (Strawberry)",
+          "price": 149
+        },
+        {
+          "name": "Fresh Lime Soda",
+          "price": 79
+        },
+        {
+          "name": "Masala Cola",
+          "price": 79
+        },
+        {
+          "name": "Blue Lagoon",
+          "price": 99
+        },
+        {
+          "name": "Virgin Mojito",
+          "price": 119
+        },
+        {
+          "name": "Black Currant",
+          "price": 119
+        },
+        {
+          "name": "Mango Delight",
+          "price": 129
+        },
+        {
+          "name": "American Sign",
+          "price": 129
+        },
+        {
+          "name": "Rainbow",
+          "price": 139
+        },
+        {
+          "name": "Sunrise",
+          "price": 129
+        },
+        {
+          "name": "Green Ice Land",
+          "price": 129
+        },
+        {
+          "name": "German Passion",
+          "price": 139
+        },
+        {
+          "name": "Indian Passion",
+          "price": 139
+        },
+        {
+          "name": "Blue Sky",
+          "price": 129
+        },
+        {
+          "name": "Cold Coffee",
+          "price": 149
+        },
+        {
+          "name": "Pina Colada",
+          "price": 129
+        }
+      ]
+    },
+    {
+      "category": "Ice Cream",
+      "items": [
+        {
+          "name": "Vanilla",
+          "price": 59
+        },
+        {
+          "name": "Chocolate",
+          "price": 69
+        },
+        {
+          "name": "Mango",
+          "price": 69
+        },
+        {
+          "name": "Butterscotch",
+          "price": 69
+        }
+      ]
+    }
+  ]
+}
